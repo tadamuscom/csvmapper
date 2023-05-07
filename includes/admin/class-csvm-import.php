@@ -53,7 +53,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return void
 		 */
-		public function create( array $file ): void
+		public function process( array $file ): void
 		{
 			$this->id           = $this->generate_id();
 			$this->file_path    = $file['file'];

@@ -23,7 +23,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				) );
 
 				$import = new CSVM_Import();
-				$import->create($file);
+				$import->process($file);
 				$import->save();
 
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&import_id=' . $import->id );
