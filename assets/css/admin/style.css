@@ -26,6 +26,10 @@
     border-color: #f5c6cb;
 }
 
+.csvm-form-group{
+    margin-bottom: 10px;
+}
+
 .csvm-form-group label{
     display:block;
     margin-bottom: 10px;
@@ -37,9 +41,33 @@
 
 .csvm-button{
     display: block;
-    margin-top:10px !important;
+    margin-top:15px !important;
 }
 
 .csvm-d-none{
     display:none;
+}
+
+.csvm-map-group{
+    display:flex;
+    border: 1px dotted #000;
+    padding: 0 10px;
+    width:80%;
+}
+
+.csvm-map-cell{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 33.3;
+    width: 100%;
+}
+
+.csvm-map-cell:last-child{
+    flex: 20;
+}
+
+.csvm-inline-form-group{
+    display:flex;
+    align-items: center;
 }

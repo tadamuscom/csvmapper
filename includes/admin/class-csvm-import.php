@@ -3,9 +3,11 @@
 if( ! class_exists( 'CSVM_Import' ) ){
 
 	/**
-	 * @property mixed|string $file_path
+	 * @property mixed|string     $file_path
 	 * @property int|mixed|string $id
-	 * @property mixed|string $file_url
+	 * @property mixed|string     $file_url
+	 * @property array|false      $headers
+	 * @property string           $type
 	 */
 	class CSVM_Import{
 		/**
@@ -58,6 +60,12 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			$this->id           = $this->generate_id();
 			$this->file_path    = $file['file'];
 			$this->file_url     = $file['url'];
+
+			$file = fopen( $this->file_path, 'r' );
+			$csv = fgetcsv ( $file );
+			fclose($file);
+
+			$this->headers = $csv;
 		}
 
 		/**
@@ -74,6 +82,29 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			}
 
 			return $this;
+		}
+
+		/**
+		 * Returns the array of headers for that import
+		 *
+		 * @sice 1.0
+		 *
+		 * @return array
+		 */
+		public function get_headers(): array
+		{
+			return $this->headers;
+		}
+
+		public function get_headers_slug_list(): string
+		{
+			$returnable = array();
+
+			foreach($this->headers as $header){
+				$returnable[] = csvm_convert_to_slug($header);
+			}
+
+			return json_encode($returnable);
 		}
 
 		/**
@@ -109,8 +140,10 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		{
 			$data = array(
 				'id'        => $this->id,
-				'file_path' => $this->file_path,
-				'file_url'  => $this->file_url
+				'file_path'  => $this->file_path,
+				'file_url'   => $this->file_url,
+				'type'      => $this->type,
+				'headers'   => $this->headers
 			);
 
 			return serialize( $data );
@@ -143,9 +176,11 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 */
 		private function validation(): bool
 		{
-			if( empty( $this->id ) || ! is_string( $this->id ) )                return false;
-			if( empty( $this->file_path ) || ! is_string( $this->file_path ) )  return false;
-			if( empty( $this->file_url ) || ! is_string( $this->file_url ) )    return false;
+			if( empty( $this->id ) || ! is_string( $this->id ) )               return false;
+			if( empty( $this->file_path ) || ! is_string( $this->file_path ) )   return false;
+			if( empty( $this->file_url ) || ! is_string( $this->file_url ) )     return false;
+			if( empty( $this->type ) || ! is_string( $this->type ) )           return false;
+			if( empty( $this->headers ) || ! is_array( $this->headers ) )      return false;
 
 			return true;
 		}
@@ -178,9 +213,11 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		{
 			$import = unserialize( $option );
 
-			$this->id           = $import['id'];
+			$this->id          = $import['id'];
 			$this->file_path    = $import['file_path'];
 			$this->file_url     = $import['file_url'];
+			$this->type        = $import['type'];
+			$this->headers     = $import['headers'];
 		}
 
 		/**
@@ -192,9 +229,11 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 */
 		private function new(): void
 		{
-			$this->id          = 0;
+			$this->id         = 0;
 			$this->file_path   = '';
 			$this->file_url    = '';
+			$this->type       = '';
+			$this->headers    = array();
 		}
 	}
 }

@@ -26,7 +26,7 @@ if( ! class_exists( 'CSVM_Settings' ) ){
 
 			$this->set_defaults();
 
-			add_or_update_option( $this->option_name, $this->json() );
+			csvm_add_or_update_option( $this->option_name, $this->json() );
 		}
 
 		/**
