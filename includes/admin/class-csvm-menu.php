@@ -27,6 +27,8 @@ if( ! class_exists( 'CSVM_Menu' ) ){
 		 */
 		public function main_callback(): void
 		{
+			wp_enqueue_script('csvmapper-mapping', CSVM_JS . '/admin/mapping.js', array(), CSVM_VERSION_NUMBER, true);
+
 			new CSVM_View('admin/main_page');
 		}
 	}

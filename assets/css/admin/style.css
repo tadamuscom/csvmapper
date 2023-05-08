@@ -71,3 +71,15 @@
     display:flex;
     align-items: center;
 }
+
+.csvm-field-list{
+    background-color: #b1e8ac;
+    padding:5px 15px;
+    width:80%
+}
+
+.csvm-field-list p{
+    margin: 10px 0;
+    border: 1px solid red;
+    padding: 2px 3px;
+}
