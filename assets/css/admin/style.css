@@ -39,6 +39,14 @@
     display:block;
 }
 
+.csvm-form-group input[type='checkbox']{
+    display:inline-block;
+}
+
+.csvm-inline-label{
+    display:inline !important;
+}
+
 .csvm-button{
     display: block;
     margin-top:15px !important;

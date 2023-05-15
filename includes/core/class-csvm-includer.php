@@ -15,10 +15,19 @@ if( ! class_exists( 'CSVM_Includer' ) ) {
 		 *
 		 */
 		public function __construct() {
+			$this->register_scripts();
 			$this->require_child_files_once( CSVM_INC_CORE );
 
 			if( is_admin() ){
 				$this->require_child_files_once( CSVM_INC_ADMIN );
+			}
+		}
+
+		private function register_scripts(): void
+		{
+			if( is_admin() ){
+				wp_register_script( 'csvmapper-first-step', CSVM_JS . '/admin/first-step.js', array(), CSVM_VERSION_NUMBER, true );
+				wp_register_script( 'csvmapper-mapping', CSVM_JS . '/admin/mapping.js', array(), CSVM_VERSION_NUMBER, true );
 			}
 		}
 
@@ -32,7 +41,8 @@ if( ! class_exists( 'CSVM_Includer' ) ) {
 		 * @return void
 		 *
 		 */
-		private function require_child_files_once( $dir ): void {
+		private function require_child_files_once( $dir ): void
+		{
 			foreach ( $this->get_files( $dir ) as $file ) {
 				require_once $file;
 			}
@@ -48,7 +58,8 @@ if( ! class_exists( 'CSVM_Includer' ) ) {
 		 * @return array
 		 *
 		 */
-		private function get_files( $dir ): array {
+		private function get_files( $dir ): array
+		{
 			$dir_object = new \DirectoryIterator( $dir );
 			$returnable = array();
 
