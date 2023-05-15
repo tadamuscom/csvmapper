@@ -140,8 +140,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		{
 			$data = array(
 				'id'        => $this->id,
-				'file_path'  => $this->file_path,
-				'file_url'   => $this->file_url,
+				'file_path' => $this->file_path,
+				'file_url'  => $this->file_url,
 				'type'      => $this->type,
 				'headers'   => $this->headers
 			);
@@ -177,8 +177,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		private function validation(): bool
 		{
 			if( empty( $this->id ) || ! is_string( $this->id ) )               return false;
-			if( empty( $this->file_path ) || ! is_string( $this->file_path ) )   return false;
-			if( empty( $this->file_url ) || ! is_string( $this->file_url ) )     return false;
+			if( empty( $this->file_path ) || ! is_string( $this->file_path ) ) return false;
+			if( empty( $this->file_url ) || ! is_string( $this->file_url ) )   return false;
 			if( empty( $this->type ) || ! is_string( $this->type ) )           return false;
 			if( empty( $this->headers ) || ! is_array( $this->headers ) )      return false;
 
@@ -214,8 +214,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			$import = unserialize( $option );
 
 			$this->id          = $import['id'];
-			$this->file_path    = $import['file_path'];
-			$this->file_url     = $import['file_url'];
+			$this->file_path   = $import['file_path'];
+			$this->file_url    = $import['file_url'];
 			$this->type        = $import['type'];
 			$this->headers     = $import['headers'];
 		}
@@ -230,8 +230,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		private function new(): void
 		{
 			$this->id         = 0;
-			$this->file_path   = '';
-			$this->file_url    = '';
+			$this->file_path  = '';
+			$this->file_url   = '';
 			$this->type       = '';
 			$this->headers    = array();
 		}
