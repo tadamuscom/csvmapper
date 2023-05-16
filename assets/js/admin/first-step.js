@@ -32,7 +32,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
             if( typeSelect.value === 'post-meta' )      showElement(postMetaWrap);
             if( typeSelect.value === 'user-meta' )      showElement(userMetaWrap);
-            if( typeSelect.value === 'post' )           showElement(postWrap);
+            if( typeSelect.value === 'posts' )           showElement(postWrap);
             if( typeSelect.value === 'custom-table' )   showElement(customTableWrap);
         } );
     }

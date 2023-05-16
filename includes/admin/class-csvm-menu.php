@@ -15,7 +15,7 @@ if( ! class_exists( 'CSVM_Menu' ) ){
 		 */
 		public function pages(): void
 		{
-			add_menu_page('CSV Mapper', 'CSV Mapper', 'manage_options', 'csvmapper', array($this, 'main_callback'));
+			add_menu_page( 'CSV Mapper', 'CSV Mapper', 'manage_options', 'csvmapper', array( $this, 'main_callback' ) );
 		}
 
 		/**
@@ -27,7 +27,7 @@ if( ! class_exists( 'CSVM_Menu' ) ){
 		 */
 		public function main_callback(): void
 		{
-			new CSVM_View('admin/main_page');
+			new CSVM_View( 'admin/main_page' );
 		}
 	}
 

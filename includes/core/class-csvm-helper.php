@@ -62,7 +62,7 @@ if( ! class_exists( 'CSVM_Helper' ) ){
 		{
 			$string = strtolower( $string );
 
-			return str_replace(' ', '-', $string);
+			return str_replace( ' ', '-', $string );
 		}
 	}
 }

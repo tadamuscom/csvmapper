@@ -10,4 +10,5 @@ if( ! isset( $_GET['import_id'] ) ){
 
 	$import  = new CSVM_Import( $_GET['import_id'] );
 
+	new CSVM_View('partials/admin/step-2/layout', compact('import'));
 }

@@ -38,7 +38,7 @@ final class CSVMapper{
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wp-fusion' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheating huh?', 'csvmapper' ), '1.6' );
 	}
 
 	/**
@@ -50,7 +50,7 @@ final class CSVMapper{
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wp-fusion' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheating huh?', 'csvmapper' ), '1.6' );
 	}
 
 	/**

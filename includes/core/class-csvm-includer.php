@@ -15,19 +15,12 @@ if( ! class_exists( 'CSVM_Includer' ) ) {
 		 *
 		 */
 		public function __construct() {
-			$this->register_scripts();
+			add_action('wp_enqueue_scripts', array( $this, 'register_scripts' ));
+
 			$this->require_child_files_once( CSVM_INC_CORE );
 
 			if( is_admin() ){
 				$this->require_child_files_once( CSVM_INC_ADMIN );
-			}
-		}
-
-		private function register_scripts(): void
-		{
-			if( is_admin() ){
-				wp_register_script( 'csvmapper-first-step', CSVM_JS . '/admin/first-step.js', array(), CSVM_VERSION_NUMBER, true );
-				wp_register_script( 'csvmapper-mapping', CSVM_JS . '/admin/mapping.js', array(), CSVM_VERSION_NUMBER, true );
 			}
 		}
 

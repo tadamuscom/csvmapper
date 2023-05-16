@@ -3,11 +3,14 @@
 if( ! class_exists( 'CSVM_Import' ) ){
 
 	/**
-	 * @property mixed|string     $file_path
-	 * @property int|mixed|string $id
-	 * @property mixed|string     $file_url
-	 * @property array|false      $headers
-	 * @property string           $type
+	 * @property mixed|string     $file_path    required
+	 * @property int|mixed|string $id           required
+	 * @property mixed|string     $file_url     required
+	 * @property array|false      $headers      required
+	 * @property string           $type         required
+	 * @property array            $ids
+	 * @property string           $table
+	 * @property string           $post_type
 	 */
 	class CSVM_Import{
 		/**
@@ -21,7 +24,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			'Post Meta',
 			'User Meta',
 			'Custom Table',
-			'Post'
+			'Posts'
 		);
 
 		/**
@@ -35,7 +38,9 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 */
 		public static function exists( string $id ): bool
 		{
-			if( get_option('csvm-import-' . $id ) ) return true;
+			if( get_option('csvm-import-' . $id ) ){
+				return true;
+			}
 
 			return false;
 		}
@@ -83,19 +88,17 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		}
 
 		/**
-		 * Saves the current Import if the data is correct and if there isn't one already with the same ID
+		 * Takes the IDs string and saves it as array
 		 *
 		 * @since 1.0
 		 *
-		 * @return $this
+		 * @param string $ids
+		 *
+		 * @return void
 		 */
-		public function save(): self
+		public function set_ids( string $ids ): void
 		{
-			if( $this->validation() && ! self::exists( $this->id ) ){
-				add_option( 'csvm-import-' . $this->id, $this->serialized() );
-			}
-
-			return $this;
+			$this->ids = explode( ',', trim( $ids ) );
 		}
 
 		/**
@@ -114,11 +117,45 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		{
 			$returnable = array();
 
-			foreach($this->headers as $header){
+			foreach( $this->headers as $header ){
 				$returnable[] = csvm_convert_to_slug($header);
 			}
 
 			return json_encode($returnable);
+		}
+
+		public function get_db_table_columns( string $table_name ): array
+		{
+			global $wpdb;
+
+			$result = $wpdb->get_results( 'DESCRIBE ' . $wpdb->prefix . $table_name );
+			$columns = array();
+
+			foreach( $result as $column ){
+				if( $column->Field === 'ID' ){
+					continue;
+				}
+
+				$columns[] = $column->Field;
+			}
+
+			return $columns;
+		}
+
+		/**
+		 * Saves the current Import if the data is correct and if there isn't one already with the same ID
+		 *
+		 * @since 1.0
+		 *
+		 * @return $this
+		 */
+		public function save(): self
+		{
+			if( $this->validation() && ! self::exists( $this->id ) ){
+				add_option( 'csvm-import-' . $this->id, $this->serialized() );
+			}
+
+			return $this;
 		}
 
 		/**
@@ -134,7 +171,9 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		{
 			$id = uniqid();
 
-			if( $prefix ) $id = uniqid( $prefix );
+			if( $prefix ) {
+				$id = uniqid( $prefix );
+			}
 
 			if( self::exists( $id ) ){
 				$this->generate_id( $prefix );
@@ -153,12 +192,24 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		private function serialized(): string
 		{
 			$data = array(
-				'id'       => $this->id,
+				'id'        => $this->id,
 				'file_path' => $this->file_path,
 				'file_url'  => $this->file_url,
-				'type'     => $this->type,
-				'headers'  => $this->headers
+				'type'      => $this->type,
+				'headers'   => $this->headers
 			);
+
+			if( ! empty( $this->ids ) ){
+				$data['ids'] = $this->ids;
+			}
+
+			if( ! empty( $this->post_type ) ){
+				$data['post_type'] = $this->post_type;
+			}
+
+			if( ! empty( $this->table ) ){
+				$data['table'] = $this->table;
+			}
 
 			return serialize( $data );
 		}
@@ -190,12 +241,41 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 */
 		private function validation(): bool
 		{
-			if( empty( $this->id ) || ! is_string( $this->id ) )             return false;
-			if( empty( $this->file_path ) || ! is_string( $this->file_path ) ) return false;
-			if( empty( $this->file_url ) || ! is_string( $this->file_url ) )   return false;
-			if( empty( $this->type ) || ! is_string( $this->type ) )         return false;
-			if( ! in_array( $this->type, self::$allowed_types ) )            return false;
-			if( empty( $this->headers ) || ! is_array( $this->headers ) )    return false;
+			if( empty( $this->id ) || ! is_string( $this->id ) ) {
+				return false;
+			}
+
+			if( empty( $this->file_path ) || ! is_string( $this->file_path ) ){
+				return false;
+			}
+
+			if( empty( $this->file_url ) || ! is_string( $this->file_url ) ){
+				return false;
+			}
+
+			if( empty( $this->type ) || ! is_string( $this->type ) ) {
+				return false;
+			}
+
+			if( ! empty( $this->table ) && ! is_string( $this->table ) ) {
+				return false;
+			}
+
+			if( ! empty( $this->post_type ) && ! is_string( $this->post_type ) ) {
+				return false;
+			}
+
+			if( ! in_array( $this->type, array_map( 'csvm_convert_to_slug', self::$allowed_types ) ) ){
+				return false;
+			}
+
+			if( empty( $this->headers ) || ! is_array( $this->headers ) ){
+				return false;
+			}
+
+			if( ! empty( $this->ids ) && ! is_array( $this->ids ) ) {
+				return false;
+			}
 
 			return true;
 		}
@@ -229,10 +309,22 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			$import = unserialize( $option );
 
 			$this->id         = $import['id'];
-			$this->file_path   = $import['file_path'];
-			$this->file_url    = $import['file_url'];
+			$this->file_path  = $import['file_path'];
+			$this->file_url   = $import['file_url'];
 			$this->type       = $import['type'];
 			$this->headers    = $import['headers'];
+
+			if( ! empty( $import['ids'] ) ){
+				$this->ids = $import['ids'];
+			}
+
+			if( ! empty( $import['post_type'] ) ){
+				$this->post_type = $import['post_type'];
+			}
+
+			if( ! empty( $import['table'] ) ){
+				$this->table = $import['table'];
+			}
 		}
 
 		/**
@@ -245,8 +337,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		private function new(): void
 		{
 			$this->id        = 0;
-			$this->file_path  = '';
-			$this->file_url   = '';
+			$this->file_path = '';
+			$this->file_url  = '';
 			$this->type      = '';
 			$this->headers   = array();
 		}

@@ -6,12 +6,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
         listSelectors.forEach( ( element ) => {
             element.addEventListener( 'click' , ( e ) => {
                 const group = element.getAttribute( 'group' );
-                let type;
 
-                if( element.getAttribute( 'group-type' ) === 'meta-name' )  type = 'name';
-                if( element.getAttribute( 'group-type' ) === 'meta-value' ) type = 'value';
-
-                const list = document.querySelector( '#csvm-' + type + '-field-list-' + group );
+                const list = document.querySelector( '#csvm-field-list-' + group );
 
                 list.classList.toggle( 'csvm-d-none' );
             } );
@@ -24,15 +20,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
                 const group = element.getAttribute( 'group' );
                 const mappingValue = element.getAttribute( 'mapping-value' );
 
-                let type;
-
-                if( element.getAttribute( 'group-type' ) === 'meta-name' )  type = 'name';
-                if( element.getAttribute( 'group-type' ) === 'meta-value' ) type = 'value';
-
-                const field = document.querySelector( '#meta-' + type + '-' + group );
+                const field = document.querySelector( '#value-' + group );
 
                 field.value += mappingValue;
-                element.classList.add('csvm-d-none');
+                element.classList.add( 'csvm-d-none' );
             } );
         });
     }
