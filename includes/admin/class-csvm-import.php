@@ -3,11 +3,12 @@
 if( ! class_exists( 'CSVM_Import' ) ){
 
 	/**
-	 * @property mixed|string     $file_path    required
+	 * @property mixed|string     $file_path     required
 	 * @property int|mixed|string $id           required
-	 * @property mixed|string     $file_url     required
+	 * @property mixed|string     $file_url      required
 	 * @property array|false      $headers      required
 	 * @property string           $type         required
+	 * @property array            $fields
 	 * @property array            $ids
 	 * @property string           $table
 	 * @property string           $post_type
@@ -147,15 +148,17 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @since 1.0
 		 *
-		 * @return $this
+		 * @return $this|bool
 		 */
-		public function save(): self
+		public function save(): self|bool
 		{
-			if( $this->validation() && ! self::exists( $this->id ) ){
-				add_option( 'csvm-import-' . $this->id, $this->serialized() );
+			if( $this->validation() ){
+				csvm_add_or_update_option( 'csvm-import-' . $this->id, $this->serialized() );
+
+				return $this;
 			}
 
-			return $this;
+			return false;
 		}
 
 		/**
@@ -201,6 +204,10 @@ if( ! class_exists( 'CSVM_Import' ) ){
 
 			if( ! empty( $this->ids ) ){
 				$data['ids'] = $this->ids;
+			}
+
+			if( ! empty( $this->fields ) ){
+				$data['fields'] = $this->fields;
 			}
 
 			if( ! empty( $this->post_type ) ){
@@ -277,6 +284,10 @@ if( ! class_exists( 'CSVM_Import' ) ){
 				return false;
 			}
 
+			if( ! empty( $this->fields ) && ! is_array( $this->fields ) ) {
+				return false;
+			}
+
 			return true;
 		}
 
@@ -316,6 +327,10 @@ if( ! class_exists( 'CSVM_Import' ) ){
 
 			if( ! empty( $import['ids'] ) ){
 				$this->ids = $import['ids'];
+			}
+
+			if( ! empty( $import['fields'] ) ){
+				$this->fields = $import['fields'];
 			}
 
 			if( ! empty( $import['post_type'] ) ){

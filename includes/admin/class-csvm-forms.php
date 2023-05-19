@@ -37,7 +37,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 
 					$import->save();
 
-					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&import_id=' . $import->id );
+					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $import->id );
 				}else{
 					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('The only files allowed are CSV files', 'csvmapper' ) );
 				}
@@ -49,9 +49,20 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 		public function table_map_callback(): void
 		{
 			if( !empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-table-mapping' ) ){
-				echo '<pre>';
-				var_dump($_POST);
-				echo '</pre>';
+				$fields = array();
+
+				foreach( $_POST as $key => $post ){
+					if( str_contains( $key, 'value-' ) ){
+						$new_key = substr($key, 6);
+						$fields[$new_key] = $post;
+					}
+				}
+
+				$import = new CSVM_Import($_POST['import_id']);
+				$import->fields = $fields;
+				$import->save();
+
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id );
 			}
 		}
 
