@@ -8,7 +8,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 	 * @property mixed|string     $file_url      required
 	 * @property array|false      $headers      required
 	 * @property string           $type         required
-	 * @property array            $fields
+	 * @property array            $template
 	 * @property array            $ids
 	 * @property string           $table
 	 * @property string           $post_type
@@ -206,8 +206,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 				$data['ids'] = $this->ids;
 			}
 
-			if( ! empty( $this->fields ) ){
-				$data['fields'] = $this->fields;
+			if( ! empty( $this->template ) ){
+				$data['template'] = $this->template;
 			}
 
 			if( ! empty( $this->post_type ) ){
@@ -284,7 +284,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 				return false;
 			}
 
-			if( ! empty( $this->fields ) && ! is_array( $this->fields ) ) {
+			if( ! empty( $this->template ) && ! is_array( $this->template ) ) {
 				return false;
 			}
 
@@ -329,8 +329,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 				$this->ids = $import['ids'];
 			}
 
-			if( ! empty( $import['fields'] ) ){
-				$this->fields = $import['fields'];
+			if( ! empty( $import['template'] ) ){
+				$this->template = $import['template'];
 			}
 
 			if( ! empty( $import['post_type'] ) ){

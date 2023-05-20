@@ -15,8 +15,6 @@ if( ! class_exists( 'CSVM_Includer' ) ) {
 		 *
 		 */
 		public function __construct() {
-			add_action('wp_enqueue_scripts', array( $this, 'register_scripts' ));
-
 			$this->require_child_files_once( CSVM_INC_CORE );
 
 			if( is_admin() ){

@@ -59,7 +59,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				}
 
 				$import = new CSVM_Import($_POST['import_id']);
-				$import->fields = $fields;
+				$import->template = $fields;
 				$import->save();
 
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id );

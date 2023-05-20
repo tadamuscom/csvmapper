@@ -16,11 +16,11 @@
 	<?php new CSVM_View( 'partials/admin/step-1/user-meta' ); ?>
 	<?php new CSVM_View( 'partials/admin/step-1/posts' ); ?>
 	<?php new CSVM_View( 'partials/admin/step-1/custom-table' ); ?>
-	<div class="csvm-form-group">
-		<input type="checkbox" name="enable-batched-rows" id="csvm-enable-batched-rows">
-		<label class="csvm-inline-label" for="csvm-enable-batched-rows"><?php echo __( 'Enable Batched Rows', 'csvmapper' ); ?></label>
-	</div>
-	<?php new CSVM_View( 'partials/admin/step-1/batched-rows' ) ?>
+<!--	<div class="csvm-form-group">-->
+<!--		<input type="checkbox" name="enable-batched-rows" id="csvm-enable-batched-rows">-->
+<!--		<label class="csvm-inline-label" for="csvm-enable-batched-rows">--><?php //echo __( 'Enable Batched Rows', 'csvmapper' ); ?><!--</label>-->
+<!--	</div>-->
+<!--	--><?php //new CSVM_View( 'partials/admin/step-1/batched-rows' ) ?>
 	<div class="csvm-form-group">
 		<label for="csv-upload"><?php echo __( 'Upload your CSV file:', 'csvmapper' ); ?></label>
 		<input type="file" name="csv-upload" id="csv-upload">

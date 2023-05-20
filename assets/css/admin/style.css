@@ -91,3 +91,25 @@
     border: 1px solid red;
     padding: 2px 3px;
 }
+
+.csvm-meta-map-wrap{
+    max-width: 250px;
+}
+
+.csvm-meta-boxes-controls{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.csvm-meta-boxes-controls p{
+    font-size:30px;
+    margin: 0;
+    line-height: 1;
+    cursor:pointer;
+}
+
+.csvm-meta-box{
+    border: 1px solid #000;
+    padding:10px;
+    border-radius: 5px;
+}
