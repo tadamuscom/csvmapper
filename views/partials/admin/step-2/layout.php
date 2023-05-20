@@ -3,16 +3,13 @@
 	switch ( $import->type ){
 		case 'posts':
 		case 'custom-table':
-			$headers = $import->get_headers();
-			$columns = $import->get_db_table_columns( $import->table );
-
-			new CSVM_View( 'partials/admin/step-2/step-2-table-map', compact( array( 'headers', 'columns' ) ) );
+			new CSVM_View( 'partials/admin/step-2/step-2-table-map', compact( 'import' ) );
 
 			break;
 		case 'user-meta':
 		case 'post-meta':
-			$headers = $import->get_headers();
+			wp_enqueue_script('csvmapper-meta-map');
 
-			new CSVM_View( 'partials/admin/step-2/step-2-meta-map', compact( array( 'import' ) ) );
+			new CSVM_View( 'partials/admin/step-2/step-2-meta-map', compact( 'import' ) );
 	}
 ?>

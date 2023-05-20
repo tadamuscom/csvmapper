@@ -32,14 +32,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
             if( typeSelect.value === 'post-meta' )      showElement(postMetaWrap);
             if( typeSelect.value === 'user-meta' )      showElement(userMetaWrap);
-            if( typeSelect.value === 'posts' )           showElement(postWrap);
+            if( typeSelect.value === 'posts' )          showElement(postWrap);
             if( typeSelect.value === 'custom-table' )   showElement(customTableWrap);
         } );
     }
 
-    if( batchCheck ){
-        batchCheck.addEventListener('change' , (e) => {
-            batchedRowsWrap.classList.toggle('csvm-d-none');
-        } )
-    }
+    // if( batchCheck ){
+    //     batchCheck.addEventListener('change' , (e) => {
+    //         batchedRowsWrap.classList.toggle('csvm-d-none');
+    //     } )
+    // }
 } );

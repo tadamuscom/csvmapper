@@ -56,6 +56,10 @@
     display:none;
 }
 
+.csvm-table-map-wrap{
+    max-width: 600px;
+}
+
 .csvm-map-group{
     display:flex;
     border: 1px dotted #000;
