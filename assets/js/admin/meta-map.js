@@ -1,5 +1,7 @@
 document.addEventListener( 'DOMContentLoaded', () => {
     const boxesWrap = document.getElementById( 'csvm-meta-boxes' );
+    let plusSigns = document.querySelectorAll( '.csv-controls-plus' );
+    let minusSigns = document.querySelectorAll( '.csv-controls-minus' );
 
     let boxesCount = 0;
 
@@ -52,10 +54,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
         const plusSign = document.createElement( 'p' );
         plusSign.innerText = '+'
+        plusSign.classList.add('csvm-controls-plus');
         returnable.appendChild( plusSign );
 
         const minusSign = document.createElement( 'p' );
         minusSign.innerText = '-'
+        minusSign.classList.add('csvm-controls-minus');
         returnable.appendChild( minusSign );
 
         return returnable;
@@ -104,7 +108,23 @@ document.addEventListener( 'DOMContentLoaded', () => {
         wrap.appendChild( controls );
 
         boxesWrap.appendChild( wrap );
+
+        const event = new Event( 'csvm-box-created' );
+        window.dispatchEvent( event );
     }
 
+    window.addEventListener( 'csvm-box-created', () => {
+        plusSigns = document.querySelectorAll( '.csv-controls-plus' );
+        minusSigns = document.querySelectorAll( '.csv-controls-minus' );
+
+        console.log(plusSigns);
+    } );
+
     createBox();
+
+    plusSigns.forEach( ( element => {
+        element.addEventListener( 'click', () => {
+            createBox();
+        } );
+    }) );
 } );
