@@ -105,7 +105,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		/**
 		 * Returns the array of headers for that import
 		 *
-		 * @sice 1.0
+		 * @since 1.0
 		 *
 		 * @return array
 		 */
@@ -114,7 +114,14 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			return $this->headers;
 		}
 
-		public function get_headers_slug_list(): string
+		/**
+		 * Returns a JSON string with the header slugs
+		 *
+		 * @since 1.0
+		 *
+		 * @return string
+		 */
+		public function get_headers_slugs_json(): string
 		{
 			$returnable = array();
 
@@ -122,7 +129,25 @@ if( ! class_exists( 'CSVM_Import' ) ){
 				$returnable[] = csvm_convert_to_slug($header);
 			}
 
-			return json_encode($returnable);
+			return json_encode( $returnable );
+		}
+
+		/**
+		 * Returns a JSON string with the headers
+		 *
+		 * @since 1.0
+		 *
+		 * @return string
+		 */
+		public function get_headers_json(): string
+		{
+			$returnable = array();
+
+			foreach( $this->headers as $header ){
+				$returnable[] = $header;
+			}
+
+			return json_encode( $returnable );
 		}
 
 		public function get_db_table_columns( string $table_name ): array

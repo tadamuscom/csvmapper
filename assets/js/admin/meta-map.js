@@ -2,6 +2,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
     const boxesWrap = document.getElementById( 'csvm-meta-boxes' );
     const plusSign = document.getElementById( 'csvm-controls-plus' );
     const minusSign = document.getElementById( 'csvm-controls-minus' );
+    const headersElement = document.getElementById( 'csvm-headers-list' );
+    const headersSlugElement = document.getElementById( 'csvm-headers-slug-list' );
+    const headers = JSON.parse( headersElement.value );
+    const headersSlug = JSON.parse( headersSlugElement.value );
 
     let boxesCount = 0;
 
@@ -42,8 +46,32 @@ document.addEventListener( 'DOMContentLoaded', () => {
         returnable.classList.add( 'csvm-open-field-list' );
 
         const innerSpan = document.createElement( 'span' );
-        innerSpan.innerTest = '{$}';
+        innerSpan.innerText = '{$}';
         returnable.appendChild( innerSpan );
+
+        return returnable;
+    }
+
+    const createHeadersList = ( type ) => {
+        const returnable = document.createElement( 'div' );
+        returnable.id = 'csvm-field-list-' + boxesCount;
+        returnable.classList.add( 'csvm-field-list' );
+        returnable.classList.add( 'csvm-d-none' );
+
+        headers.forEach( ( element, index ) => {
+            const paragraph = document.createElement( 'p' );
+            returnable.appendChild( paragraph );
+
+            const link = document.createElement( 'a' );
+            link.setAttribute( 'href', 'javascript:void(0)' );
+            link.setAttribute( 'csvm-slug', headersSlug[index] );
+            link.setAttribute( 'mapping-value', headersSlug[index] );
+            link.setAttribute( 'group', 'meta-' + type + '-' + boxesCount );
+            link.classList.add( 'csvm-field-list-link' );
+            link.innerText = element;
+
+            paragraph.appendChild( link );
+        } );
 
         return returnable;
     }
@@ -72,6 +100,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
         const nameHeadersToggle = createHeadersToggle();
         firstInnerFormGroup.appendChild( nameHeadersToggle );
+
+        const nameHeadersList = createHeadersList( 'name' );
+        firstFormGroup.appendChild( nameHeadersList );
 
         const secondFormGroup = createFormGroup();
         wrap.appendChild( secondFormGroup );
