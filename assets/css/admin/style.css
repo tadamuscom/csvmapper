@@ -97,7 +97,7 @@
 }
 
 .csvm-meta-map-wrap{
-    max-width: 250px;
+    max-width: 210px;
 }
 
 .csvm-meta-boxes-controls{
@@ -116,4 +116,9 @@
     border: 1px solid #000;
     padding:10px;
     border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.csvm-meta-box:last-child{
+    margin-bottom: 0;
 }

@@ -5,7 +5,7 @@
 
 <div class="csvm-table-map-wrap">
 	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
-		<input type="hidden" name="import_id" value="<?php echo $_GET['import_id'] ?>">
+		<input type="hidden" name="import_id" value="<?php echo $import->id; ?>">
 		<input type="hidden" name="action" value="csvm-table-mapping">
 		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('csvm-table-mapping'); ?>">
 

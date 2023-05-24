@@ -1,7 +1,7 @@
 document.addEventListener( 'DOMContentLoaded', () => {
     const boxesWrap = document.getElementById( 'csvm-meta-boxes' );
-    let plusSigns = document.querySelectorAll( '.csv-controls-plus' );
-    let minusSigns = document.querySelectorAll( '.csv-controls-minus' );
+    const plusSign = document.getElementById( 'csvm-controls-plus' );
+    const minusSign = document.getElementById( 'csvm-controls-minus' );
 
     let boxesCount = 0;
 
@@ -48,23 +48,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
         return returnable;
     }
 
-    const createControls = () => {
-        const returnable = document.createElement( 'div' );
-        returnable.classList.add( 'csvm-meta-boxes-controls' );
-
-        const plusSign = document.createElement( 'p' );
-        plusSign.innerText = '+'
-        plusSign.classList.add('csvm-controls-plus');
-        returnable.appendChild( plusSign );
-
-        const minusSign = document.createElement( 'p' );
-        minusSign.innerText = '-'
-        minusSign.classList.add('csvm-controls-minus');
-        returnable.appendChild( minusSign );
-
-        return returnable;
-    }
-
     const createBox = () => {
         boxesCount = ++boxesCount;
 
@@ -73,6 +56,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
         const wrap = document.createElement( 'div' );
         wrap.classList.add( 'csvm-meta-box' );
+        wrap.id = 'csvm-meta-box-' + boxesCount
 
         const firstFormGroup = createFormGroup();
         wrap.appendChild( firstFormGroup );
@@ -104,27 +88,26 @@ document.addEventListener( 'DOMContentLoaded', () => {
         const valueHeadersToggle = createHeadersToggle();
         secondInnerFormGroup.appendChild( valueHeadersToggle );
 
-        const controls = createControls();
-        wrap.appendChild( controls );
-
         boxesWrap.appendChild( wrap );
 
         const event = new Event( 'csvm-box-created' );
         window.dispatchEvent( event );
     }
 
-    window.addEventListener( 'csvm-box-created', () => {
-        plusSigns = document.querySelectorAll( '.csv-controls-plus' );
-        minusSigns = document.querySelectorAll( '.csv-controls-minus' );
+    const deleteBox = () => {
+        const lastBox = document.getElementById( 'csvm-meta-box-' + boxesCount );
+        --boxesCount;
 
-        console.log(plusSigns);
-    } );
+        lastBox.remove();
+    }
 
     createBox();
 
-    plusSigns.forEach( ( element => {
-        element.addEventListener( 'click', () => {
-            createBox();
-        } );
-    }) );
+    plusSign.addEventListener( 'click', () => {
+        createBox();
+    } );
+
+    minusSign.addEventListener( 'click', () => {
+        deleteBox();
+    } );
 } );
