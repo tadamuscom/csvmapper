@@ -19,6 +19,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	    {
 			if( !empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-file-upload' ) ){
 				if( $_FILES['csv-upload']['type'] === 'text/csv' ){
+
 					$file = wp_handle_upload( $_FILES['csv-upload'], array(
 						'test_form' => false,
 						'test_size' => true,

@@ -99,7 +99,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 */
 		public function set_ids( string $ids ): void
 		{
-			$this->ids = explode( ',', trim( $ids ) );
+			$this->ids = array_unique( explode( ',', trim( $ids ) ) );
 		}
 
 		/**
