@@ -20,7 +20,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
                 const group = element.getAttribute( 'group' );
                 const mappingValue = element.getAttribute( 'mapping-value' );
 
-                const field = document.querySelector( '#' + group );
+                const field = document.getElementById( group );
+
+                console.log(field)
 
                 field.value += '{' + mappingValue + '}';
                 element.parentNode.classList.add( 'csvm-d-none' );
