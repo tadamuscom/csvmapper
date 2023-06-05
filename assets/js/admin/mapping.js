@@ -2,29 +2,44 @@ document.addEventListener( 'DOMContentLoaded', () => {
     const listSelectors = document.querySelectorAll( '.csvm-open-field-list' );
     const listItems = document.querySelectorAll( '.csvm-field-list-link' );
 
-    if( listSelectors ){
-        listSelectors.forEach( ( element ) => {
-            element.addEventListener( 'click' , ( e ) => {
-                const group = element.getAttribute( 'group' );
+    const handleNewBoxes = () => {
+        const newSelectors = document.querySelectorAll( '.csvm-open-field-list' );
+        const newLists = document.querySelectorAll( '.csvm-field-list-link' );
 
-                const list = document.querySelector( '#csvm-field-list-' + group );
+        newSelectors.forEach( (element) => {
+            const newElement = element.cloneNode( true );
+            element.replaceWith( newElement );
 
-                list.classList.toggle( 'csvm-d-none' );
-            } );
+            newElement.addEventListener('click', () => {
+                handleSelectors(element);
+            });
         } );
-    }
 
-    if( listItems ){
-        listItems.forEach( ( element ) => {
-            element.addEventListener( 'click', ( e ) => {
+        newLists.forEach( ( element ) => {
+            element.addEventListener( 'click', () => {
                 const group = element.getAttribute( 'group' );
                 const mappingValue = element.getAttribute( 'mapping-value' );
 
-                const field = document.querySelector( '#value-' + group );
+                const field = document.querySelector( '#' + group );
 
-                field.value += mappingValue;
-                element.classList.add( 'csvm-d-none' );
+                field.value += '{' + mappingValue + '}';
+                element.parentNode.classList.add( 'csvm-d-none' );
             } );
         });
+    }
+
+    const handleSelectors = ( element ) => {
+            const group = element.getAttribute( 'group' );
+            const list = document.querySelector( '#csvm-field-list-' + group );
+
+            list.classList.toggle( 'csvm-d-none' );
+    }
+
+    window.addEventListener( 'csvm-box-created', handleNewBoxes );
+
+    window.addEventListener( 'csvm-box-removed', handleNewBoxes);
+
+    if( listSelectors || listItems ){
+        handleNewBoxes();
     }
 }, false );

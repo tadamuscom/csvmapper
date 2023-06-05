@@ -40,10 +40,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
         return returnable;
     };
 
-    const createHeadersToggle = () => {
+    const createHeadersToggle = ( type ) => {
         const returnable = document.createElement( 'a' );
         returnable.setAttribute( 'href', 'javascript:void(0)' );
         returnable.classList.add( 'csvm-open-field-list' );
+        returnable.setAttribute( 'group', 'meta-' + type + '-' + boxesCount );
 
         const innerSpan = document.createElement( 'span' );
         innerSpan.innerText = '{$}';
@@ -54,7 +55,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
     const createHeadersList = ( type ) => {
         const returnable = document.createElement( 'div' );
-        returnable.id = 'csvm-field-list-' + boxesCount;
+        returnable.id = 'csvm-field-list-meta-' + type + '-' + boxesCount;
         returnable.classList.add( 'csvm-field-list' );
         returnable.classList.add( 'csvm-d-none' );
 
@@ -98,7 +99,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
         const nameInput = createInput( 'text', nameID, nameID  );
         firstInnerFormGroup.appendChild( nameInput );
 
-        const nameHeadersToggle = createHeadersToggle();
+        const nameHeadersToggle = createHeadersToggle( 'name' );
         firstInnerFormGroup.appendChild( nameHeadersToggle );
 
         const nameHeadersList = createHeadersList( 'name' );
@@ -116,8 +117,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
         const valueInput = createInput( 'text', valueID, valueID );
         secondInnerFormGroup.appendChild( valueInput );
 
-        const valueHeadersToggle = createHeadersToggle();
+        const valueHeadersToggle = createHeadersToggle( 'value' );
         secondInnerFormGroup.appendChild( valueHeadersToggle );
+
+        const valueHeadersList = createHeadersList( 'value' );
+        secondFormGroup.appendChild( valueHeadersList );
 
         boxesWrap.appendChild( wrap );
 
@@ -126,10 +130,17 @@ document.addEventListener( 'DOMContentLoaded', () => {
     }
 
     const deleteBox = () => {
+        if( boxesCount <= 1 ) {
+            return;
+        }
+
         const lastBox = document.getElementById( 'csvm-meta-box-' + boxesCount );
         --boxesCount;
 
         lastBox.remove();
+
+        const event = new Event( 'csvm-box-removed' );
+        window.dispatchEvent( event );
     }
 
     createBox();
