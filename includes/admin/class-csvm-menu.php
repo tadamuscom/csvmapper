@@ -27,7 +27,7 @@ if( ! class_exists( 'CSVM_Menu' ) ){
 		 */
 		public function main_callback(): void
 		{
-			new CSVM_View( 'admin/main_page' );
+			new CSVM_View( 'admin/main_page', false, false );
 		}
 	}
 

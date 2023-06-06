@@ -4,14 +4,17 @@ if( ! class_exists('CSVM_View' ) ){
 	class CSVM_View{
 		private string $view;
 		private mixed $with;
+		private bool $notifications;
 
-		public function __construct( string $view, $with = false )
+		public function __construct( string $view, $with = false, $notifications = true )
 		{
 			$this->view = $view;
 
 			if( $with ){
 				$this->with = $with;
 			}
+
+			$this->notifications = $notifications;
 
 			if( is_admin() ) wp_enqueue_style( 'csvmapper-admin-stylesheet', CSVM_CSS . '/admin/style.css', array(), CSVM_VERSION_NUMBER );
 
@@ -27,11 +30,13 @@ if( ! class_exists('CSVM_View' ) ){
 		 */
 		private function add_notifications(): void
 		{
-			if( isset( $_COOKIE['csvm_redirect_type'] ) && isset( $_COOKIE['csvm_redirect_message'] ) ){
-				$type = $this->generate_message_class( $_COOKIE['csvm_redirect_type'] );
-				$message = $_COOKIE['csvm_redirect_message'];
+			if( $this->notifications ) {
+				if ( isset( $_COOKIE['csvm_redirect_type'] ) && isset( $_COOKIE['csvm_redirect_message'] ) ) {
+					$type    = $this->generate_message_class( $_COOKIE['csvm_redirect_type'] );
+					$message = $_COOKIE['csvm_redirect_message'];
 
-				$this->show_redirect_message( $type, $message );
+					$this->show_redirect_message( $type, $message );
+				}
 			}
 		}
 
@@ -86,7 +91,7 @@ if( ! class_exists('CSVM_View' ) ){
 		 *
 		 * @since 1.0
 		 */
-		private function render()
+		private function render(): void
 		{
 			$this->add_notifications();
 
@@ -96,7 +101,7 @@ if( ! class_exists('CSVM_View' ) ){
 				}
 			}
 
-			return require_once CSVM_VIEW . '/' . $this->view . '.php';
+			require_once CSVM_VIEW . '/' . $this->view . '.php';
 		}
 	}
 }

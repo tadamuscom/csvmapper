@@ -6,6 +6,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
         {
             add_action( 'admin_post_csvm-file-upload', array( $this, 'upload_form_callback' ) );
 			add_action( 'admin_post_csvm-table-mapping', array( $this, 'table_map_callback' ) );
+	        add_action( 'admin_post_csvm-meta-mapping', array( $this, 'meta_map_callback' ) );
         }
 
 	    /**
@@ -47,6 +48,13 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 			}
 		}
 
+	    /**
+	     * Callback for the table map form
+	     *
+	     * @since 1.0
+	     *
+	     * @return void
+	     */
 		public function table_map_callback(): void
 		{
 			if( !empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-table-mapping' ) ){
@@ -66,6 +74,52 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id );
 			}
 		}
+
+	    /**
+	     * Callback for the meta map form
+	     *
+	     * @since 1.0
+	     *
+	     * @return void
+	     */
+	    public function meta_map_callback(): void
+	    {
+		    if( !empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-meta-mapping' ) ){
+				$fields = array();
+			    $name_fields = array();
+				$value_fields = array();
+				$name_prefix = 'meta-name-';
+				$value_prefix = 'meta-value-';
+
+			    foreach( $_POST as $key => $post ){
+				    if( str_contains( $key, $name_prefix ) ){
+					    $new_key = substr( $key, strlen( $name_prefix ) );
+					    $name_fields[ $new_key ] = $post;
+				    }
+
+				    if( str_contains( $key, $value_prefix ) ){
+					    $new_key = substr( $key, strlen( $value_prefix ) );
+					    $value_fields[ $new_key ] = $post;
+				    }
+			    }
+
+				foreach( $name_fields as $key => $name ){
+					if( empty( $name ) || empty( $value_fields[ $key ] ) ){
+						csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $_POST[ 'import_id' ], 'error' , __( 'Please make sure all the fields are filled', 'csvmapper' ) );
+
+						return;
+					}
+
+					$fields[ $name ] = $value_fields[ $key ];
+				}
+
+			    $import = new CSVM_Import( $_POST[ 'import_id' ] );
+			    $import->template = $fields;
+			    $import->save();
+
+			    csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id );
+		    }
+	    }
 
 	    /**
 	     * Adds the required data to the import object if type is post-meta

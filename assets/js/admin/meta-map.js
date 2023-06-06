@@ -36,6 +36,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
         returnable.setAttribute( 'type', type );
         returnable.setAttribute( 'id', id );
         returnable.setAttribute( 'name', name );
+        returnable.setAttribute( 'required', '' );
 
         return returnable;
     };
