@@ -16,8 +16,6 @@ if( ! class_exists('CSVM_View' ) ){
 
 			$this->notifications = $notifications;
 
-			if( is_admin() ) wp_enqueue_style( 'csvmapper-admin-stylesheet', CSVM_CSS . '/admin/style.css', array(), CSVM_VERSION_NUMBER );
-
 			$this->render();
 		}
 

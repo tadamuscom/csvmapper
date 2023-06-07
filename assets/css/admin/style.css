@@ -122,3 +122,33 @@
 .csvm-meta-box:last-child{
     margin-bottom: 0;
 }
+
+.csvm-step-three-wrap{
+    width:450px;
+}
+
+.csvm-summary{
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.csvm-summary-row{
+    margin-bottom: 5px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+}
+
+.csvm-summary-row p, .csvm-summary-row ul{
+    margin:0;
+}
+
+.csvm-summary-subtitle{
+    margin-bottom:5px !important;
+}
+
+.csvm-summary-template-row{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
