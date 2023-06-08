@@ -12,6 +12,8 @@ if( ! isset( $_GET['import_id'] ) ){
 
 	new CSVM_View('partials/admin/step-2/layout', compact('import'), false);
 }else if (! empty ( $_GET['step'] == 3 )){
+	wp_enqueue_script( 'csvmapper-third-step' );
+
 	$import  = new CSVM_Import( $_GET['import_id'] );
 
 	new CSVM_View('partials/admin/step-3/layout', compact('import'), false);

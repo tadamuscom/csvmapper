@@ -58,7 +58,7 @@
 	</div>
 	<div class="csvm-step-three-form-wrap">
 		<h3>Last Settings</h3>
-		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
+		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" id="csvm-step-three-form">
 			<div class="csvm-form-group">
 				<label for="csvm-execution-type"><?php echo __( 'Execution Type', 'csvmapper' ); ?></label>
 				<select name="csvm-execution-type" id="csvm-execution-type">
@@ -66,6 +66,18 @@
 					<option value="ajax"><?php echo __( 'Migrate through AJAX', 'csvmapper' ); ?></option>
 					<option value="php"><?php echo __( 'Migrate through PHP', 'csvmapper' ); ?></option>
 					<option value="wp-cron"><?php echo __( 'Migrate through WP-CRON', 'csvmapper' ); ?></option>
+				</select>
+			</div>
+			<div class="csvm-form-group csvm-d-none" id="csvm-number-of-rows">
+				<label for="csvm-number-of-rows-select"><?php echo __( 'Number of rows per process', 'csvmapper' ); ?></label>
+				<select name="csvm-number-of-rows" id="csvm-number-of-process-select">
+					<option disabled selected><?php echo __( 'Select the number of rows', 'csvmapper' ); ?></option>
+					<option value="1"><?php echo __( '1', 'csvmapper' ); ?></option>
+					<option value="5"><?php echo __( '5', 'csvmapper' ); ?></option>
+					<option value="10"><?php echo __( '10', 'csvmapper' ); ?></option>
+					<option value="50"><?php echo __( '50', 'csvmapper' ); ?></option>
+					<option value="100"><?php echo __( '100', 'csvmapper' ); ?></option>
+					<option value="500"><?php echo __( '500', 'csvmapper' ); ?></option>
 				</select>
 			</div>
 			<div class="csvm-form-group">
