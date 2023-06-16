@@ -94,6 +94,22 @@ final class CSVMapper{
 			define( 'CSVM_INC_ADMIN', CSVM_INCLUDES . '/admin' );
 		}
 
+		if ( ! defined( 'CSVM_INC_INTERFACES' ) ) {
+			define( 'CSVM_INC_INTERFACES', CSVM_INCLUDES . '/interfaces' );
+		}
+
+		if ( ! defined( 'CSVM_INC_ABSTRACTS' ) ) {
+			define( 'CSVM_INC_ABSTRACTS', CSVM_INCLUDES . '/abstracts' );
+		}
+
+		if ( ! defined( 'CSVM_INC_MODELS' ) ) {
+			define( 'CSVM_INC_MODELS', CSVM_INCLUDES . '/models' );
+		}
+
+		if ( ! defined( 'CSVM_INC_IMPORTS' ) ) {
+			define( 'CSVM_INC_IMPORTS', CSVM_INCLUDES . '/imports' );
+		}
+
 		if ( ! defined( 'CSVM_URL' ) ) {
 			define( 'CSVM_URL', plugin_dir_url( __FILE__ ) );
 		}
@@ -108,6 +124,10 @@ final class CSVMapper{
 
 		if ( ! defined( 'CSVM_JS' ) ) {
 			define( 'CSVM_JS', CSVM_ASSETS . '/js' );
+		}
+
+		if ( ! defined( 'CSVM_TIME_FORMAT' ) ) {
+			define( 'CSVM_TIME_FORMAT', 'Y-m-d H:i:s' );
 		}
 	}
 

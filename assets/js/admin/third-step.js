@@ -11,9 +11,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
     switcher.addEventListener( 'change', () => {
         if( switcher.value === 'ajax' || switcher.value === 'wp-cron' ){
-            numberOfRows.classList.toggle( 'csvm-d-none' );
+            if( numberOfRows.classList.contains( 'csvm-d-none' ) ){
+                numberOfRows.classList.remove( 'csvm-d-none' );
+            }
         }else{
-            numberOfRows.classList.toggle( 'csvm-d-none' );
+            if( ! numberOfRows.classList.contains( 'csvm-d-none' ) ){
+                numberOfRows.classList.add( 'csvm-d-none' );
+            }
         }
     } );
 } );

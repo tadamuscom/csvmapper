@@ -7,6 +7,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
             add_action( 'admin_post_csvm-file-upload', array( $this, 'upload_form_callback' ) );
 			add_action( 'admin_post_csvm-table-mapping', array( $this, 'table_map_callback' ) );
 	        add_action( 'admin_post_csvm-meta-mapping', array( $this, 'meta_map_callback' ) );
+			add_action( 'admin_post_csvm-last-step', array( $this, 'last_step_callback' ) );
         }
 
 	    /**
@@ -106,8 +107,6 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				foreach( $name_fields as $key => $name ){
 					if( empty( $name ) || empty( $value_fields[ $key ] ) ){
 						csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $_POST[ 'import_id' ], 'error' , __( 'Please make sure all the fields are filled', 'csvmapper' ) );
-
-						return;
 					}
 
 					$fields[ $name ] = $value_fields[ $key ];
@@ -120,6 +119,31 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 			    csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id );
 		    }
 	    }
+
+	    /**
+	     * Callback for the last step of the import form
+	     *
+	     * @since 1.0
+	     *
+	     * @return void
+	     */
+		public function last_step_callback(): void
+		{
+			if( !empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-last-step' ) ){
+				$import = new CSVM_Import( $_POST['import_id'] );
+
+				if( empty( $_POST['csvm-execution-type'] ) ){
+					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select execution type' ) );
+				}
+
+				match ( $_POST['csvm-execution-type'] ){
+					'wp-cron' => $this->handle_wp_cron_import( $import ),
+					'php' => $this->handle_php_import( $import ),
+					'default' => $this->handle_incorrect_import( $import )
+				};
+			}
+
+		}
 
 	    /**
 	     * Adds the required data to the import object if type is post-meta
@@ -177,6 +201,64 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 			$import->table = 'posts';
 			$import->post_type = $_POST['csvm-post-type'];
 		}
+
+	    /**
+	     * Handles the execution if the run type is WP Cron
+	     *
+	     * @since 1.0
+	     *
+	     * @param CSVM_Import $import
+	     *
+	     * @return void
+	     */
+		private function handle_wp_cron_import( CSVM_Import $import ): void
+		{
+			if( empty( $_POST['csvm-number-of-rows'] ) ){
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select a number of rows' ) );
+			}
+
+			$number_of_rows = $_POST['csvm-number-of-rows'];
+
+			return;
+		}
+
+	    /**
+	     * Handles the execution if the run type is PHP
+	     *
+	     * @since 1.0
+	     *
+	     * @param CSVM_Import $import
+	     *
+	     * @return void
+	     */
+	    private function handle_php_import( CSVM_Import $import ): void
+	    {
+			$import->run_type = $_POST['csvm-execution-type'];
+			$import->save();
+
+			$run = new CSVM_PHP_Import( $import );
+		    $run->execute();
+
+			if( $run->is_complete() ){
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'success', __( 'The import has been completed' ) );
+			}else{
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'There was a problem with the import' ) );
+			}
+	    }
+
+	    /**
+	     * Handles the process if the run type is not correct
+	     *
+	     * @since 1.0
+	     *
+	     * @param CSVM_Import $import
+	     *
+	     * @return void
+	     */
+	    private function handle_incorrect_import( CSVM_Import $import ): void
+	    {
+		    csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Run type not supported' ) );
+	    }
     }
 
     new CSVM_Forms();

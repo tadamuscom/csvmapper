@@ -35,18 +35,20 @@ if( ! class_exists( 'CSVM_Helper' ) ){
 		 * @param string|null $type
 		 * @param string|null $message
 		 *
-		 * @return bool
+		 * @return void
 		 */
-		public static function redirect( string $url, string|null $type = null, string|null $message = null ): bool
+		public static function redirect( string $url, string|null $type = null, string|null $message = null ): void
 		{
 			if ( $type != null && $message != null ){
 				setcookie( 'csvm_redirect_type', $type, time() + 3600, '/' );
 				setcookie( 'csvm_redirect_message', $message, time() + 3600, '/' );
 
-				return wp_redirect( $url );
+				wp_redirect( $url );
+				die();
 			}
 
-			return wp_redirect( $url );
+			wp_redirect( $url );
+			die();
 		}
 
 		/**

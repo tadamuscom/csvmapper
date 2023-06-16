@@ -20,6 +20,11 @@ if( ! class_exists( 'CSVM_Includer' ) ) {
 			if( is_admin() ){
 				$this->require_child_files_once( CSVM_INC_ADMIN );
 			}
+
+			$this->require_child_files_once( CSVM_INC_INTERFACES );
+			$this->require_child_files_once( CSVM_INC_ABSTRACTS );
+			$this->require_child_files_once( CSVM_INC_MODELS );
+			$this->require_child_files_once( CSVM_INC_IMPORTS );
 		}
 
 		/**

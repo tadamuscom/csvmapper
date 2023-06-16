@@ -152,3 +152,8 @@
     flex-direction: row;
     justify-content: space-around;
 }
+
+.csvm-summary-template-col{
+    flex: 33.3;
+    text-align: center;
+}

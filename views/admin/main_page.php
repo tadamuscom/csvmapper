@@ -4,7 +4,7 @@
 if( ! isset( $_GET['import_id'] ) ){
 	wp_enqueue_script( 'csvmapper-first-step' );
 
-	new CSVM_View('partials/admin/step-1/layout', false, false);
+	new CSVM_View('partials/admin/step-1/layout', false, true);
 }else if( ! empty( $_GET['step'] == 2 ) ){
 	wp_enqueue_script( 'csvmapper-mapping' );
 
@@ -16,5 +16,5 @@ if( ! isset( $_GET['import_id'] ) ){
 
 	$import  = new CSVM_Import( $_GET['import_id'] );
 
-	new CSVM_View('partials/admin/step-3/layout', compact('import'), false);
+	new CSVM_View('partials/admin/step-3/layout', compact('import'), true);
 }
