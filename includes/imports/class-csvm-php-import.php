@@ -14,6 +14,7 @@ if( ! class_exists( 'CSVM_PHP_Import' ) ){
 			$run->import_id = $import->id;
 			$run->file_path = $import->file_path;
 			$run->status = self::$waiting_status;
+			$run->type = 'php';
 
 			$run->save();
 
@@ -22,7 +23,8 @@ if( ! class_exists( 'CSVM_PHP_Import' ) ){
 
 		public function execute(): void
 		{
-			// TODO: Implement execute() method.
+			$handler = new CSVM_CSV_Handler( $this->run );
+			$handler->start();
 		}
 	}
 }

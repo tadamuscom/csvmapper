@@ -14,9 +14,9 @@ abstract class CSVM_Base_Import_Type{
 	 */
 	public function is_complete(): bool
 	{
-//		if( $this->run->status === self::$complete_status ){
-//			return true;
-//		}
+		if( $this->run->status === self::$complete_status ){
+			return true;
+		}
 
 		return false;
 	}

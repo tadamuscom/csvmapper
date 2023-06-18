@@ -30,7 +30,7 @@ if(!class_exists('CSVM_Base_Model')){
 			if( $this->validation() ){
 				csvm_add_or_update_option( $this->get_option_name(), $this->serialized() );
 
-				return $this;
+				return new static( $this->id );
 			}
 
 			return false;

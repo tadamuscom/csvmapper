@@ -233,9 +233,6 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 	    private function handle_php_import( CSVM_Import $import ): void
 	    {
-			$import->run_type = $_POST['csvm-execution-type'];
-			$import->save();
-
 			$run = new CSVM_PHP_Import( $import );
 		    $run->execute();
 
