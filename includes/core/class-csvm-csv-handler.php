@@ -7,13 +7,19 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 
 		public function __construct( CSVM_Run $run ) {
 			$this->run = $run;
-			echo '<pre>';
-			print_r($run->import);
-			echo '</pre>';
-			die();
-			$this->import = $run->import;
+			$this->import = new CSVM_Import( $run->import_id );
 		}
 
+		/**
+		 * Starts the CSV process
+		 *
+		 * @since 1.0
+		 *
+		 * @param string|bool $start
+		 * @param string|bool $limit
+		 *
+		 * @return void
+		 */
 		public function start( string|bool $start = false, string|bool $limit = false ): void
 		{
 			$file = fopen( $this->import->file_path, 'r' );
@@ -30,13 +36,23 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 			die();
 		}
 
+		/**
+		 * Runs through the whole file and triggers the creation actions
+		 *
+		 * @since 1.0
+		 *
+		 * @param $file
+		 *
+		 * @return void
+		 */
 		private function complete_run( $file ): void
 		{
-			$row = fgetcsv($file);
 
-			while ( $row ) {
+			echo '<pre>';
+			while ( ( $row = fgetcsv( $file ) ) !== false ) {
 				print_r( $row );
 			}
+			echo '</pre>';
 		}
 	}
 }

@@ -20,8 +20,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 
 		protected array $fields = array(
 			'id'                => 'required|string',
-			'file_path'         => 'required|string',
-			'file_url'          => 'required|string',
+			'file_path'          => 'required|string',
+			'file_url'           => 'required|string',
 			'headers'           => 'required|array',
 			'type'              => 'required|string',
 			'template'          => 'string',

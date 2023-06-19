@@ -15,7 +15,7 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		protected array $fields = array(
 			'id'        => 'required|string',
 			'import_id' => 'required|string',
-			'file_path' => 'required|string',
+			'file_path'  => 'required|string',
 			'type'      => 'required|string',
 			'status'    => 'required|string'
 		);
@@ -23,14 +23,6 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		public function __construct( bool|string $id = false )
 		{
 			parent::__construct( $id );
-
-			if( ! empty( $this->import_id ) ){
-				$import = new CSVM_Import( $this->import_id );
-
-				if( $import->exists() ){
-					$this->import = $import;
-				}
-			}
 		}
 	}
 }

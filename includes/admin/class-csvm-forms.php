@@ -20,32 +20,27 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	    public function upload_form_callback(): void
 	    {
 			if( !empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-file-upload' ) ){
-				if( $_FILES['csv-upload']['type'] === 'text/csv' ){
+				$this->upload_form_validation();
 
-					$file = wp_handle_upload( $_FILES['csv-upload'], array(
-						'test_form' => false,
-						'test_size' => true,
-					) );
+				$file = wp_handle_upload( $_FILES['csv-upload'], array(
+					'test_form' => false,
+					'test_size' => true,
+				) );
 
-					$import = new CSVM_Import();
-					$import->process( $file );
-					$import->type = $_POST['csv-import-type'];
+				$import = new CSVM_Import();
+				$import->process( $file );
+				$import->type = $_POST['csv-import-type'];
 
-					match ( $_POST['csv-import-type'] ){
-						'post-meta'     => $this->post_meta_import ($import ),
-						'user-meta'     => $this->user_meta_import( $import ),
-						'custom-table'  => $this->custom_table_import( $import ),
-						'posts'         => $this->posts_import( $import )
-					};
+				match ( $_POST['csv-import-type'] ){
+					'post-meta'     => $this->post_meta_import ($import ),
+					'user-meta'     => $this->user_meta_import( $import ),
+					'custom-table'  => $this->custom_table_import( $import ),
+					'posts'         => $this->posts_import( $import )
+				};
 
-					$import->save();
+				$import->save();
 
-					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $import->id );
-				}else{
-					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('The only files allowed are CSV files', 'csvmapper' ) );
-				}
-
-				return;
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $import->id );
 			}
 		}
 
@@ -143,6 +138,46 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				};
 			}
 
+		}
+
+	    /**
+	     * Validates the data of the upload form
+	     *
+	     * @since 1.0
+	     *
+	     * @return void
+	     */
+		private function upload_form_validation(): void
+		{
+			if( $_FILES['csv-upload']['type'] !== 'text/csv' ) {
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('Please upload a CSV file', 'csvmapper' ) );
+			}
+
+			if( empty( $_POST['csv-import-type'] ) ){
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('There must be an import type', 'csvmapper' ) );
+			}
+
+			if( $_POST['csv-import-type'] === 'post-meta' || $_POST['csv-import-type'] === 'user-meta' ){
+				if( empty( $_POST['csvm-post-ids'] ) ){
+					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('The IDs field must be filled', 'csvmapper' ) );
+				}
+
+				$ids = explode( ',', $_POST['csvm-post-ids'] );
+
+				foreach( $ids as $id ){
+					if( $_POST['csv-import-type'] === 'post-meta' ) {
+						if ( ! get_post( $id ) ) {
+							csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __( 'There is no post with the id of ' . $id, 'csvmapper' ) );
+						}
+					}
+
+					if( $_POST['csv-import-type'] === 'user-meta' ) {
+						if ( ! get_user_by( 'ID', $id ) ) {
+							csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __( 'There is no post with the id of ' . $id, 'csvmapper' ) );
+						}
+					}
+				}
+			}
 		}
 
 	    /**

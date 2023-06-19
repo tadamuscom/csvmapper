@@ -21,6 +21,13 @@ if( ! class_exists( 'CSVM_PHP_Import' ) ){
 			$this->run = $run;
 		}
 
+		/**
+		 * Executes the import
+		 *
+		 * @since 1.0
+		 *
+		 * @return void
+		 */
 		public function execute(): void
 		{
 			$handler = new CSVM_CSV_Handler( $this->run );
