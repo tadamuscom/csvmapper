@@ -13,7 +13,7 @@ if( ! class_exists( 'CSVM_PHP_Import' ) ){
 			$run->id = $import->id . '-' . $import->run_count() + 1;
 			$run->import_id = $import->id;
 			$run->file_path = $import->file_path;
-			$run->status = self::$waiting_status;
+			$run->status = CSVM_Run::$waiting_status;
 			$run->type = 'php';
 
 			$run->save();
