@@ -11,11 +11,49 @@ if( ! class_exists( 'CSVM_Run' ) ){
 	 * @property string $type
 	 */
 	class CSVM_Run extends CSVM_Base_Model {
+		/**
+		 * The waiting status of the model
+		 *
+		 * @static 1.0
+		 *
+		 * @var string
+		 */
 		public static string $waiting_status = 'waiting';
+
+		/**
+		 * The in progress status of the model
+		 *
+		 * @static 1.0
+		 *
+		 * @var string
+		 */
 		public static string $in_progress_status = 'in_progress';
+
+		/**
+		 * The complete status of the model
+		 *
+		 * @static 1.0
+		 *
+		 * @var string
+		 */
 		public static string $complete_status = 'complete';
 
+		/**
+		 * The prefix of the model option
+		 *
+		 * @since 1.0
+		 *
+		 * @var string
+		 */
 		protected string $option_prefix = 'csvm-run';
+
+		/**
+		 * The fields of the model
+		 *
+		 * @since 1.0
+		 *
+		 * @var array|string[]
+		 */
 		protected array $fields = array(
 			'id'        => 'required|string',
 			'import_id' => 'required|string',

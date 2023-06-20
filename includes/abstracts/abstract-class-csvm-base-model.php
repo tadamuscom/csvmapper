@@ -2,8 +2,31 @@
 
 if(!class_exists('CSVM_Base_Model')){
 	abstract class CSVM_Base_Model{
+		/**
+		 * The prefix of the model option
+		 *
+		 * @since 1.0
+		 *
+		 * @var string
+		 */
 		protected string $option_prefix;
+
+		/**
+		 * The fields of the model
+		 *
+		 * @since 1.0
+		 *
+		 * @var array
+		 */
 		protected array $fields;
+
+		/**
+		 * The ID of the model
+		 *
+		 * @since 1.0
+		 *
+		 * @var string
+		 */
 		public string $id;
 
 		public function __construct( string|bool $id = false ){

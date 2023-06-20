@@ -6,7 +6,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if( ! class_exists( 'CSVM_Settings' ) ){
 	class CSVM_Settings{
+		/**
+		 * The name of the option in which the settings will be saved
+		 *
+		 * @since 1.0
+		 *
+		 * @var string
+		 */
 		private string $option_name = 'csvm_settings';
+
+		/**
+		 * The name of the settings
+		 *
+		 * @since 1.0
+		 *
+		 * @var array
+		 */
 		private array $setting_names = array();
 
 		public function __construct() {

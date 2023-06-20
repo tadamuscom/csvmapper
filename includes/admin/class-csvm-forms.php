@@ -306,6 +306,16 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 		    csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Run type not supported', 'csvmapper' ) );
 	    }
 
+	    /**
+	     * Validates the posts table and custom tables based on the SQL schema
+	     *
+	     * @since 1.0
+	     *
+	     * @param CSVM_Import $import
+	     * @param array $fields
+	     *
+	     * @return void
+	     */
 		private function table_validation( CSVM_Import $import, array $fields ): void
 		{
 			global $wpdb;

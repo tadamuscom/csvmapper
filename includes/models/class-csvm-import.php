@@ -16,8 +16,22 @@ if( ! class_exists( 'CSVM_Import' ) ){
 	 * @property array                  $runs
 	 */
 	class CSVM_Import extends CSVM_Base_Model{
+		/**
+		 * The prefix of the model option
+		 *
+		 * @since 1.0
+		 *
+		 * @var string
+		 */
 		protected string $option_prefix = 'csvm-import';
 
+		/**
+		 * The fields of the model
+		 *
+		 * @since 1.0
+		 *
+		 * @var array|string[]
+		 */
 		protected array $fields = array(
 			'id'                => 'required|string',
 			'file_path'          => 'required|string',

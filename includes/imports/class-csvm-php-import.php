@@ -2,7 +2,22 @@
 
 if( ! class_exists( 'CSVM_PHP_Import' ) ){
 	class CSVM_PHP_Import extends CSVM_Base_Import_Type implements CSVM_Import_Type {
+		/**
+		 * The CSVM_Import instance
+		 *
+		 * @since 1.0
+		 *
+		 * @var CSVM_Import
+		 */
 		public CSVM_Import $import;
+
+		/**
+		 * The CSVM_Run instance
+		 *
+		 * @since 1.0
+		 *
+		 * @var CSVM_Run
+		 */
 		public CSVM_Run $run;
 
 		public function __construct( CSVM_Import $import ) {

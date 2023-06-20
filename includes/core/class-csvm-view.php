@@ -2,8 +2,31 @@
 
 if( ! class_exists('CSVM_View' ) ){
 	class CSVM_View{
+		/**
+         * The view name
+         *
+         * @since 1.0
+         *
+		 * @var string
+		 */
 		private string $view;
+
+		/**
+         * The attached values
+         *
+         * @since 1.0
+         *
+		 * @var mixed
+		 */
 		private mixed $with;
+
+		/**
+         * Notifications toggle
+         *
+         * @since 1.0
+         *
+		 * @var bool|mixed
+		 */
 		private bool $notifications;
 
 		public function __construct( string $view, $with = false, $notifications = true )

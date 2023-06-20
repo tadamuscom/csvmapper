@@ -2,10 +2,49 @@
 
 if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 	class CSVM_CSV_Handler{
+		/**
+		 * The CSVM_Run instance
+		 *
+		 * @since 1.0
+		 *
+		 * @var CSVM_Run
+		 */
 		private CSVM_Run $run;
+
+		/**
+		 * The CSVM_Import instance
+		 *
+		 * @since 1.0
+		 *
+		 * @var CSVM_Import
+		 */
 		private CSVM_Import $import;
+
+		/**
+		 * Current row in the looping process
+		 *
+		 * @since 1.0
+		 *
+		 * @var array
+		 */
 		private array $row;
+
+		/**
+		 * The temporary buffer created form the CSV file
+		 *
+		 * @since 1.0
+		 *
+		 * @var array
+		 */
 		private array $buffer;
+
+		/**
+		 * The file buffer
+		 *
+		 * @since 1.0
+		 *
+		 * @var
+		 */
 		private $file;
 
 		public function __construct( CSVM_Run $run ) {
@@ -130,6 +169,13 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 			}
 		}
 
+		/**
+		 * Runs the template for the table types of imports
+		 *
+		 * @since 1.0
+		 *
+		 * @return void
+		 */
 		private function table_template(): void
 		{
 			$this->process_file();
