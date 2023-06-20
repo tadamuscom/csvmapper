@@ -57,6 +57,12 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 				}
 			}
 
+			if( $this->import->type === 'posts' ){
+				$this->table_template();
+
+				die();
+			}
+
 			$this->run->set_complete();
 		}
 
@@ -123,6 +129,24 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 				if( $this->import->type === 'user-meta' ){
 					add_user_meta( $id, $this->format_headers( $key ), $this->format_headers( $value ) );
 				}
+			}
+		}
+
+		private function table_template(): void
+		{
+			$this->process_file();
+
+			global $wpdb;
+
+			foreach( $this->buffer['rows'] as $row ){
+				$this->row = $row;
+				$data = array();
+
+				foreach( $this->import->template as $key => $value ){
+					$data[$key] = $this->format_headers($value);
+				}
+
+				print_r($wpdb->insert( $wpdb->prefix . $this->import->table, $data ));
 			}
 		}
 

@@ -22,10 +22,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
                 const field = document.getElementById( group );
 
-                console.log(field)
-
                 field.value += '{' + mappingValue + '}';
                 element.parentNode.classList.add( 'csvm-d-none' );
+                element.parentNode.parentNode.classList.add( 'csvm-d-none' );
             } );
         });
     }
