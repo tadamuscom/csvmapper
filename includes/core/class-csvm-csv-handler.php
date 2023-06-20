@@ -59,8 +59,6 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 
 			if( $this->import->type === 'posts' ){
 				$this->table_template();
-
-				die();
 			}
 
 			$this->run->set_complete();
@@ -146,7 +144,7 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 					$data[$key] = $this->format_headers($value);
 				}
 
-				print_r($wpdb->insert( $wpdb->prefix . $this->import->table, $data ));
+				$wpdb->insert( $wpdb->prefix . $this->import->table, $data );
 			}
 		}
 

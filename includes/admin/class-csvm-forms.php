@@ -59,11 +59,19 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				foreach( $_POST as $key => $post ){
 					if( str_contains( $key, 'value-' ) ){
 						$new_key = substr($key, 6);
+
+						if( empty( $post ) && $post != 0 ){
+							$post = ' ';
+						}
+
 						$fields[$new_key] = $post;
 					}
 				}
 
 				$import = new CSVM_Import($_POST['import_id']);
+
+				$this->table_validation( $import, $fields );
+
 				$import->template = $fields;
 				$import->save();
 
@@ -255,7 +263,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 		private function handle_wp_cron_import( CSVM_Import $import ): void
 		{
 			if( empty( $_POST['csvm-number-of-rows'] ) ){
-				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select a number of rows' ) );
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select a number of rows', 'csvmapper' ) );
 			}
 
 			$number_of_rows = $_POST['csvm-number-of-rows'];
@@ -280,7 +288,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 			if( $run->is_complete() ){
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'success', __( 'The import has been completed' ) );
 			}else{
-				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'There was a problem with the import' ) );
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'There was a problem with the import', 'csvmapper' ) );
 			}
 	    }
 
@@ -295,8 +303,22 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 	    private function handle_incorrect_import( CSVM_Import $import ): void
 	    {
-		    csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Run type not supported' ) );
+		    csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Run type not supported', 'csvmapper' ) );
 	    }
+
+		private function table_validation( CSVM_Import $import, array $fields ): void
+		{
+			global $wpdb;
+
+			$table_name = $wpdb->prefix . $import->table;
+			$columns = $wpdb->get_results('DESCRIBE ' . $table_name . ';');
+
+			$validator = new CSVM_Table_Validator( $columns, $fields );
+
+			if( $validator->get_error() ){
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $import->id, 'error', __( $validator->get_error(), 'csvmapper' ) );
+			}
+		}
     }
 
     new CSVM_Forms();

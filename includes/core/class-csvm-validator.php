@@ -62,21 +62,39 @@ if(!class_exists('CSVM_Validator')){
 				case 'integer':
 					$this->integer( $this->value );
 					return;
+				case 'numeric':
+					$this->numeric( $this->value );
+					return;
+				case 'float':
+					$this->float( $this->value );
+					return;
 				case 'array':
 					$this->array( $this->value );
 					return;
 				case 'date':
 					$this->date( $this->value );
 					return;
-				default:
-					return;
+			}
+
+			if( str_contains( $option, 'min:' ) ){
+				$limit = (explode( ':', $option ))[1];
+
+				$this->minimum( $this->value, $limit );
+			}
+
+			if( str_contains( $option, 'max:' ) ){
+				$limit = (explode( ':', $option ))[1];
+
+				$this->maximum( $this->value, $limit );
 			}
 		}
 
 		private function required( $value ): void
 		{
-			if( empty( $value ) ){
-				$this->trigger_error( 'must be a string' );
+			if( $value != 0 ){
+				if( empty( $value )  ){
+					$this->trigger_error( 'is required' );
+				}
 			}
 
 		}
@@ -92,23 +110,51 @@ if(!class_exists('CSVM_Validator')){
 		private function integer( $value ): void
 		{
 			if( ! is_integer( $value ) ){
-				$this->trigger_error( 'must be a integer' );
+				$this->trigger_error( 'must be an integer' );
+			}
+		}
+
+		private function numeric( $value ): void
+		{
+			if( ! is_numeric( $value ) ){
+				$this->trigger_error( 'must be a number' );
+			}
+		}
+
+		private function float( $value ): void
+		{
+			if( ! is_float( $value ) ){
+				$this->trigger_error( 'must be a float' );
 			}
 		}
 
 		private function array( $value ): void
 		{
 			if( ! is_array( $value ) ){
-				$this->trigger_error( 'must be a array' );
+				$this->trigger_error( 'must be an array' );
 			}
 		}
 
 		private function date( $value ): void
 		{
-			if( ! DateTime::createFromFormat( CSVM_TIME_FORMAT, $value ) ){
+			if( ! strtotime( $value ) ){
 				$this->trigger_error( 'must be a date' );
 			}
 
+		}
+
+		private function minimum( string $value, int $limit ): void
+		{
+			if( strlen( $value ) < $limit ){
+				$this->trigger_error( 'must have a minimum of ' . $limit . ' characters' );
+			}
+		}
+
+		private function maximum( string $value, int $limit ): void
+		{
+			if( strlen( $value ) > $limit ){
+				$this->trigger_error( 'must have a maximum of ' . $limit . ' characters' );
+			}
 		}
 	}
 }
