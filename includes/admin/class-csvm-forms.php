@@ -157,7 +157,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('There must be an import type', 'csvmapper' ) );
 			}
 
-			if( $_POST['csv-import-type'] === 'post-meta' || $_POST['csv-import-type'] === 'user-meta' ){
+			if( $_POST['csv-import-type'] === 'post-meta' ){
 				if( empty( $_POST['csvm-post-ids'] ) ){
 					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('The IDs field must be filled', 'csvmapper' ) );
 				}
@@ -165,16 +165,22 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 				$ids = explode( ',', $_POST['csvm-post-ids'] );
 
 				foreach( $ids as $id ){
-					if( $_POST['csv-import-type'] === 'post-meta' ) {
-						if ( ! get_post( $id ) ) {
-							csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __( 'There is no post with the id of ' . $id, 'csvmapper' ) );
-						}
+					if ( ! get_post( $id ) ) {
+						csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __( 'There is no post with the id of ' . $id, 'csvmapper' ) );
 					}
+				}
+			}
 
-					if( $_POST['csv-import-type'] === 'user-meta' ) {
-						if ( ! get_user_by( 'ID', $id ) ) {
-							csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __( 'There is no post with the id of ' . $id, 'csvmapper' ) );
-						}
+			if( $_POST['csv-import-type'] === 'user-meta' ){
+				if( empty( $_POST['csvm-user-ids'] ) ){
+					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __('The IDs field must be filled', 'csvmapper' ) );
+				}
+
+				$ids = explode( ',', $_POST['csvm-user-ids'] );
+
+				foreach( $ids as $id ){
+					if ( ! get_user_by( 'ID', $id ) ) {
+						csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'error', __( 'There is no user with the id of ' . $id, 'csvmapper' ) );
 					}
 				}
 			}
