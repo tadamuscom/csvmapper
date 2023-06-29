@@ -57,7 +57,7 @@
 		</div>
 	</div>
 	<div class="csvm-step-three-form-wrap">
-		<h3>Last Settings</h3>
+		<h3 id="csvm-step-three-heading">Last Settings</h3>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" id="csvm-step-three-form">
             <input type="hidden" name="import_id" value="<?php echo $import->id; ?>">
             <input type="hidden" name="action" value="csvm-last-step">
@@ -87,5 +87,8 @@
 				<input type="submit" class="button button-primary csvm-button" value="<?php echo __( 'Start Import', 'csvmapper' ); ?>">
 			</div>
 		</form>
+
+        <?php new CSVM_View( 'partials/admin/loader', false, false ); ?>
+
 	</div>
 </div>

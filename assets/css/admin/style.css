@@ -26,6 +26,7 @@
     border-color: #f5c6cb;
 }
 
+
 .csvm-form-group{
     margin-bottom: 10px;
 }
@@ -53,7 +54,7 @@
 }
 
 .csvm-d-none{
-    display:none;
+    display:none !important;
 }
 
 .csvm-table-map-wrap{
@@ -156,4 +157,61 @@
 .csvm-summary-template-col{
     flex: 33.3;
     text-align: center;
+}
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.csvm-loading-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #00d084;
+    border-radius: 50%;
+    animation: csvm-loading-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #00d084 transparent transparent transparent;
+}
+
+#csvm-loader-wrap{
+    display: flex;
+    justify-content: center;
+    width:100%;
+}
+
+.csvm-loading-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.csvm-loading-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.csvm-loading-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes csvm-loading-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.csvm-error-field{
+    border: 2px solid red;
+    border-color: red !important;
+}
+
+.csvm-error-message{
+    color: red;
+    font-size: 12px;
+    margin-left:10px;
 }
