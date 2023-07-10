@@ -9,6 +9,7 @@ if( ! class_exists( 'CSVM_Run' ) ){
 	 * @property string $file_path
 	 * @property string $status
 	 * @property string $type
+	 * @property numeric $last_row
 	 */
 	class CSVM_Run extends CSVM_Base_Model {
 		/**
@@ -55,16 +56,33 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		 * @var array|string[]
 		 */
 		protected array $fields = array(
-			'id'        => 'required|string',
+			'id'        => 'string',
 			'import_id' => 'required|string',
 			'file_path'  => 'required|string',
 			'type'      => 'required|string',
-			'status'    => 'required|string'
+			'status'    => 'required|string',
+			'last_row'  => 'numeric'
 		);
 
 		public function __construct( bool|string $id = false )
 		{
 			parent::__construct( $id );
+		}
+
+		/**
+		 * Adds the run ID if it isn't set already
+		 *
+		 * @since 1.0
+		 *
+		 * @return bool|self
+		 */
+		public function save(): bool|self
+		{
+			if( empty( $this->id ) ){
+				$this->id = $this->import_id . '-' . ( new CSVM_Import( $this->import_id ) )->run_count() + 1;
+			}
+
+			return parent::save();
 		}
 
 		/**

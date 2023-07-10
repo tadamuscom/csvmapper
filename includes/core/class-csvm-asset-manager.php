@@ -24,6 +24,7 @@ if( ! class_exists( 'CSVM_Asset_Manager' ) ){
 				wp_register_script( 'csvmapper-mapping', CSVM_JS . '/admin/mapping.js', array(), CSVM_VERSION_NUMBER, true );
 				wp_register_script( 'csvmapper-meta-map', CSVM_JS . '/admin/meta-map.js', array(), CSVM_VERSION_NUMBER, true );
 				wp_register_script( 'csvmapper-third-step', CSVM_JS . '/admin/third-step.js', array(), CSVM_VERSION_NUMBER, true );
+				wp_localize_script( 'csvmapper-third-step', 'csvm_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));
 			}
 		}
 	}

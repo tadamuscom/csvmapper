@@ -34,6 +34,10 @@ if( ! class_exists( 'CSVM_Generator' ) ){
 			if( in_array( 'integer', $this->options ) ){
 				return 0;
 			}
+
+			if( in_array( 'numeric', $this->options ) ){
+				return 0;
+			}
 		}
 	}
 }

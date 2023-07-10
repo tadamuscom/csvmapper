@@ -59,9 +59,9 @@
 	<div class="csvm-step-three-form-wrap">
 		<h3 id="csvm-step-three-heading">Last Settings</h3>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" id="csvm-step-three-form">
-            <input type="hidden" name="import_id" value="<?php echo $import->id; ?>">
+            <input id="import_id" type="hidden" name="import_id" value="<?php echo $import->id; ?>">
             <input type="hidden" name="action" value="csvm-last-step">
-            <input type="hidden" name="nonce" value="<?php echo wp_create_nonce('csvm-last-step'); ?>">
+            <input id="form-nonce" type="hidden" name="nonce" value="<?php echo wp_create_nonce('csvm-last-step'); ?>">
 			<div class="csvm-form-group">
 				<label for="csvm-execution-type"><?php echo __( 'Execution Type', 'csvmapper' ); ?></label>
 				<select name="csvm-execution-type" id="csvm-execution-type">
@@ -89,6 +89,8 @@
 		</form>
 
         <?php new CSVM_View( 'partials/admin/loader', false, false ); ?>
+
+        <p id="csvm-progress-logger" class="csvm-d-none"></p>
 
 	</div>
 </div>
