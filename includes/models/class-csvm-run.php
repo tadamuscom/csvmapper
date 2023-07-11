@@ -78,9 +78,14 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		 */
 		public function save(): bool|self
 		{
+			$import = new CSVM_Import( $this->import_id );
+
 			if( empty( $this->id ) ){
-				$this->id = $this->import_id . '-' . ( new CSVM_Import( $this->import_id ) )->run_count() + 1;
+				$this->id = $this->import_id . '-' . $import->run_count() + 1;
 			}
+
+			$import->runs[] = $this->id;
+			$import->save();
 
 			return parent::save();
 		}

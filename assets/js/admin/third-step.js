@@ -62,7 +62,31 @@ document.addEventListener( 'DOMContentLoaded', () => {
                     import_id: importID.value,
                     number_of_rows: numberOfRows.value
                 }, function ( response ) {
-                    console.log(response)
+                    if( response.success ){
+                        const runID = response.data.run_id;
+                        let continueRunning = [true];
+                        let i = 0
+
+                        updateLogger( 'Starting the import batches' );
+
+                        while( i < 2 ){
+                            jQuery.post( csvm_ajax.ajaxurl, {
+                                dataType: 'json',
+                                action: 'csvm_ajax_batch',
+                                nonce: nonce.value,
+                                run: runID
+                            }, function ( response ) {
+                                console.log( response )
+
+                            } );
+
+                            ++i;
+
+                            console.log(continueRunning[0])
+
+                        }
+
+                    }
                 } );
             }
         }

@@ -4,6 +4,7 @@ if( ! class_exists( 'CSVM_AJAX' ) ){
 	class CSVM_AJAX{
 		public function __construct() {
 			add_action( 'wp_ajax_csvm_ajax_verification', array( $this, 'verification' ) );
+			add_action( 'wp_ajax_csvm_ajax_batch', array( $this, 'batch' ) );
 		}
 
 		/**
@@ -26,10 +27,33 @@ if( ! class_exists( 'CSVM_AJAX' ) ){
 				$run->type = 'ajax';
 				$run->status = CSVM_Run::$waiting_status;
 				$run->last_row = 0;
+
 				$run->save();
 
 				wp_send_json_success( array(
 					'run_id' => $run->id
+				) );
+			}else{
+				wp_send_json_error( array(
+					'message' => 'Unauthorized request'
+				) );
+			}
+		}
+
+		/**
+		 * Handles every batch sent by the front end
+		 *
+		 * @since 1.0
+		 *
+		 * @return void
+		 */
+		public function batch(): void
+		{
+			if( wp_doing_ajax() && wp_verify_nonce( $_POST['nonce'], 'csvm-last-step' ) ){
+				$run = new CSVM_Run( $_POST['run'] );
+
+				wp_send_json_success( array(
+					'run' => $run
 				) );
 			}else{
 				wp_send_json_error( array(
