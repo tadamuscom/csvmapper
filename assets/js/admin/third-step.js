@@ -70,19 +70,19 @@ document.addEventListener( 'DOMContentLoaded', () => {
                         updateLogger( 'Starting the import batches' );
 
                         while( i < 2 ){
-                            jQuery.post( csvm_ajax.ajaxurl, {
+                            const call = jQuery.post( csvm_ajax.ajaxurl, {
                                 dataType: 'json',
                                 action: 'csvm_ajax_batch',
                                 nonce: nonce.value,
                                 run: runID
                             }, function ( response ) {
-                                console.log( response )
-
+                                // console.log( response )
+                                return true;
                             } );
 
                             ++i;
 
-                            console.log(continueRunning[0])
+                            console.log(call)
 
                         }
 
