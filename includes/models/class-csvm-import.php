@@ -12,6 +12,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 	 * @property array                  $ids
 	 * @property string                 $table
 	 * @property string                 $post_type
+     * @property integer                $total_rows
 	 * @property integer                $number_of_rows
 	 * @property array                  $runs
 	 */
@@ -42,6 +43,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			'ids'               => 'array',
 			'table'             => 'string',
 			'post_type'         => 'string',
+            'total_rows'        => 'numeric',
 			'number_of_rows'    => 'integer',
 			'runs'              => 'array'
 		);

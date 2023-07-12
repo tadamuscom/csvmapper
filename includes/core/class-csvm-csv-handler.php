@@ -74,6 +74,10 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 				$this->complete_run();
 			}
 
+            if( $start && $limit ){
+                $this->partial_run( $start, $limit );
+            }
+
 			fclose($this->file);
 		}
 
@@ -86,22 +90,34 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 		 */
 		private function complete_run(): void
 		{
-			$this->run->set_in_progress();
-
-			$this->process_file();
-
-			if( $this->import->type === 'post-meta' || $this->import->type === 'user-meta' ) {
-				foreach ( $this->import->ids as $id ) {
-					$this->meta_template( $id );
-				}
-			}
-
-			if( $this->import->type === 'posts' ){
-				$this->table_template();
-			}
-
-			$this->run->set_complete();
+            $this->process_file();
+			$this->run();
 		}
+
+        private function partial_run( int $start, int $end ): void
+        {
+            $this->partial_process_file( $start, $end );
+            $this->run( false );
+        }
+
+        private function run( $complete = true ): void
+        {
+            $this->run->set_in_progress();
+
+            if( $this->import->type === 'post-meta' || $this->import->type === 'user-meta' ) {
+                foreach ( $this->import->ids as $id ) {
+                    $this->meta_template( $id );
+                }
+            }
+
+            if( $this->import->type === 'posts' ){
+                $this->table_template();
+            }
+
+            if( $complete ){
+                $this->run->set_complete();
+            }
+        }
 
 		/**
 		 * Iterates through the whole file and creates a buffer array
@@ -126,6 +142,31 @@ if( ! class_exists( 'CSVM_CSV_Handler' ) ){
 				++$index;
 			}
 		}
+
+        private function partial_process_file( int $start, int $limit ): void
+        {
+            $file_obj = new SplFileObject( $this->import->file_path, 'r' );
+            $file_obj->seek( $start );
+
+            $index = 0;
+            $file_index = $start;
+
+            while ( ( $row = $file_obj->fgetcsv() ) !== false ) {
+                if( $index > $limit ){
+                    break;
+                }
+
+                if( $index === 0 ){
+                    $this->buffer['headers'] = $row;
+                    ++$index;
+                    continue;
+                }
+
+                $this->buffer['rows'][] = $row;
+
+                ++$index;
+            } 
+        }
 
 		/**
 		 * Runs the template for the meta types of imports

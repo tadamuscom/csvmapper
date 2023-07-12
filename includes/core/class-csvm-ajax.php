@@ -27,11 +27,11 @@ if( ! class_exists( 'CSVM_AJAX' ) ){
 				$run->type = 'ajax';
 				$run->status = CSVM_Run::$waiting_status;
 				$run->last_row = 0;
-
 				$run->save();
 
 				wp_send_json_success( array(
-					'run_id' => $run->id
+					'run_id' => $run->id,
+                    'total_rows' => $import->total_rows
 				) );
 			}else{
 				wp_send_json_error( array(
@@ -51,10 +51,22 @@ if( ! class_exists( 'CSVM_AJAX' ) ){
 		{
 			if( wp_doing_ajax() && wp_verify_nonce( $_POST['nonce'], 'csvm-last-step' ) ){
 				$run = new CSVM_Run( $_POST['run'] );
+                $import = new CSVM_Import( $run->import_id );
 
-				wp_send_json_success( array(
-					'run' => $run
-				) );
+                if( $run->last_row < $import->total_rows ){
+                    $first_row = $run->last_row + 1;
+                    $last_row = $first_row + $import->number_of_rows;
+
+                    $handler = new CSVM_CSV_Handler( $run );
+                    $handler->start( $first_row, $last_row );
+
+                    $run->last_row = $last_row;
+                    $run->save();
+                }else{
+                    $run->set_complete();
+                }
+
+				wp_send_json_success();
 			}else{
 				wp_send_json_error( array(
 					'message' => 'Unauthorized request'

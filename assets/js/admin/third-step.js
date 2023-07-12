@@ -39,10 +39,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
         logger.innerText = message;
     }
 
-    const sendRequest = ( data ) => {
-        return jQuery.post( csvm_ajax.ajaxurl, data );
-    }
-
     form.addEventListener( 'submit', ( event ) => {
         if( switcher.value === 'ajax' ){
             event.preventDefault();
@@ -64,26 +60,21 @@ document.addEventListener( 'DOMContentLoaded', () => {
                 }, function ( response ) {
                     if( response.success ){
                         const runID = response.data.run_id;
-                        let continueRunning = [true];
-                        let i = 0
+                        let i = 0;
 
                         updateLogger( 'Starting the import batches' );
 
-                        while( i < 2 ){
-                            const call = jQuery.post( csvm_ajax.ajaxurl, {
+                        while( i <= response.data.total_rows ){
+                            jQuery.post( csvm_ajax.ajaxurl, {
                                 dataType: 'json',
                                 action: 'csvm_ajax_batch',
                                 nonce: nonce.value,
                                 run: runID
-                            }, function ( response ) {
-                                // console.log( response )
-                                return true;
+                            }, function ( response ){
+                                updateLogger( 'Completed batch number ' + (i - 1) );
                             } );
 
                             ++i;
-
-                            console.log(call)
-
                         }
 
                     }

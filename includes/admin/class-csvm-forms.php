@@ -27,7 +27,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 					'test_size' => true,
 				) );
 
-				$import = new CSVM_Import();
+                $import = new CSVM_Import();
 				$import->process( $file );
 				$import->type = $_POST['csv-import-type'];
 
@@ -38,6 +38,10 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 					'posts'         => $this->posts_import( $import )
 				};
 
+                $file_obj = new SplFileObject( $import->file_path, 'r' );
+                $file_obj->seek(PHP_INT_MAX);
+
+                $import->total_rows = $file_obj->key() - 1;
 				$import->save();
 
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $import->id );
