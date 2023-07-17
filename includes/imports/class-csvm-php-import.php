@@ -24,7 +24,6 @@ if( ! class_exists( 'CSVM_PHP_Import' ) ){
 			$this->import = $import;
 
 			$run = new CSVM_Run();
-
 			$run->import_id = $import->id;
 			$run->file_path = $import->file_path;
 			$run->status = CSVM_Run::$waiting_status;

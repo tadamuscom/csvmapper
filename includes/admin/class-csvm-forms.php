@@ -266,13 +266,39 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		private function handle_wp_cron_import( CSVM_Import $import ): void
 		{
-			if( empty( $_POST['csvm-number-of-rows'] ) ){
-				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select a number of rows', 'csvmapper' ) );
-			}
-
 			$number_of_rows = $_POST['csvm-number-of-rows'];
 
-			return;
+			if( empty( $number_of_rows ) ){
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select a number of rows', 'csvmapper' ) );
+
+				die;
+			}
+
+			if( $number_of_rows > 500 ){
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'We cannot process more than 500 rows per run', 'csvmapper' ) );
+
+				die;
+			}
+
+			if( $number_of_rows < 1 ){
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'We cannot process less than 1 row per run', 'csvmapper' ) );
+
+				die;
+			}
+
+			$import->number_of_rows = $number_of_rows;
+			$import->save();
+
+			$run = new CSVM_Run();
+			$run->import_id = $import->id;
+			$run->file_path = $import->file_path;
+			$run->status = CSVM_Run::$waiting_status;
+			$run->type = 'wp-cron';
+			$run->save();
+
+			csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'success', __( 'Import added to WP Cron', 'csvmapper' ) );
+
+			die;
 		}
 
 	    /**
