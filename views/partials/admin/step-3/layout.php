@@ -66,9 +66,9 @@
 				<label for="csvm-execution-type"><?php echo __( 'Execution Type', 'csvmapper' ); ?></label>
 				<select name="csvm-execution-type" id="csvm-execution-type">
 					<option disabled selected><?php echo __( 'Select the execution type', 'csvmapper' ); ?></option>
-					<option value="ajax"><?php echo __( 'Migrate through AJAX', 'csvmapper' ); ?></option>
 					<option value="php"><?php echo __( 'Migrate through PHP', 'csvmapper' ); ?></option>
 					<option value="wp-cron"><?php echo __( 'Migrate through WP-CRON', 'csvmapper' ); ?></option>
+                    <option disabled><?php echo __( 'Migrate through AJAX (Coming Soon)', 'csvmapper' ); ?></option>
 				</select>
 			</div>
 			<div class="csvm-form-group csvm-d-none" id="csvm-number-of-rows">
