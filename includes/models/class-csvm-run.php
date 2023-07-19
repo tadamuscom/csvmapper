@@ -64,6 +64,45 @@ if( ! class_exists( 'CSVM_Run' ) ){
 			'last_row'  => 'numeric'
 		);
 
+		/**
+		 * Retrieve all objects based on status
+		 *
+		 * @since 1.0
+		 *
+		 * @param string $status
+		 *
+		 * @return array
+		 */
+		public static function get_all_by_status( string $status ): array
+		{
+			global $wpdb;
+
+			$returnable = array();
+			$obj = new self();
+			$sql = 'SELECT * FROM ' . $wpdb->prefix . 'options WHERE option_name LIKE "' . $obj->option_prefix . '-%"';
+			$results = $wpdb->get_results( $sql );
+
+			if( empty($results) ){
+				return $results;
+			}
+
+			foreach( $results as $run ){
+				$data = unserialize( $run->option_value );
+
+				if( is_string( $data ) ){
+					$data = unserialize( $data );
+				}
+
+				$run_obj = new self( $data['id'] );
+
+				if( $run_obj->status === $status ){
+					$returnable[] = $run_obj;
+				}
+			}
+
+			return $returnable;
+		}
+
 		public function __construct( bool|string $id = false )
 		{
 			parent::__construct( $id );
