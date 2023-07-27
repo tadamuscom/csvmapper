@@ -20,6 +20,7 @@ if( ! class_exists( 'CSVM_Asset_Manager' ) ){
 				wp_enqueue_style( 'csvmapper-admin-stylesheet', CSVM_CSS . '/admin/style.css', array(), CSVM_VERSION_NUMBER );
 
 				// Scripts
+				wp_register_script( 'csvmapper-settings', CSVM_JS . '/admin/settings.js', array(), CSVM_VERSION_NUMBER, true );
 				wp_register_script( 'csvmapper-first-step', CSVM_JS . '/admin/first-step.js', array(), CSVM_VERSION_NUMBER, true );
 				wp_register_script( 'csvmapper-mapping', CSVM_JS . '/admin/mapping.js', array(), CSVM_VERSION_NUMBER, true );
 				wp_register_script( 'csvmapper-meta-map', CSVM_JS . '/admin/meta-map.js', array(), CSVM_VERSION_NUMBER, true );

@@ -4,11 +4,13 @@ if( ! class_exists('CSVM_Cron') ){
 	class CSVM_Cron{
 		public function __construct()
 		{
-			add_action( 'csvm_import_lookout', array( $this, 'lookout_callback' ) );
-			add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
+			if( get_option( 'csvm_enable_cron_task' ) === 'true' ) {
+				add_action( 'csvm_import_lookout', array( $this, 'lookout_callback' ) );
+				add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
-			if ( ! wp_next_scheduled( 'csvm_import_lookout' ) ) {
-				wp_schedule_event( time(), get_option( 'csvm_cron_interval' ), 'csvm_import_lookout' );
+				if ( ! wp_next_scheduled( 'csvm_import_lookout' ) ) {
+					wp_schedule_event( time(), 'csvm_cron_interval', 'csvm_import_lookout' );
+				}
 			}
 		}
 
@@ -55,9 +57,9 @@ if( ! class_exists('CSVM_Cron') ){
 		 */
 		public function cron_schedules( array $schedules ): array
 		{
-			$schedules['five_seconds'] = array(
-				'interval' => 5,
-				'display'  => esc_html__( 'Every Five Seconds' ), );
+			$schedules['csvm_cron_interval'] = array(
+				'interval' => get_option( 'csvm_cron_interval' ),
+				'display'  => esc_html__( 'CSVMapper Custom Cron Interval' ), );
 
 			return $schedules;
 		}
