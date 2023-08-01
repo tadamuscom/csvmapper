@@ -27,8 +27,14 @@
 }
 
 
-.csvm-form-group{
+.csvm-form-group,
+.csvm-double-field-form-group{
     margin-bottom: 10px;
+}
+
+.csvm-double-field-form-group{
+    display:flex;
+    align-items: center;
 }
 
 .csvm-form-group label{
@@ -42,6 +48,16 @@
 
 .csvm-form-group input[type='checkbox']{
     display:inline-block;
+}
+
+.csvm-double-field-form-group input{
+    width:70px;
+    height:30px;
+}
+
+.csvm-double-field-form-group select{
+    height:30px;
+    width: 100px;
 }
 
 .csvm-inline-label{
@@ -140,7 +156,8 @@
     border-bottom: 1px solid #000;
 }
 
-.csvm-summary-row p, .csvm-summary-row ul{
+.csvm-summary-row p,
+.csvm-summary-row ul{
     margin:0;
 }
 

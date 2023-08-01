@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: CSV Mapper
 Description: Allows you to add posts, WooCommerce Products, Pages, and all kinds of data from CSV files to your website.
@@ -8,9 +7,9 @@ Version: 1.0
 Author: Tadamus
 Author URI: https://tadamus.com/
 Text Domain: csvmapper
-*/
+ */
 
-if( ! defined( 'CSVM_VERSION_NUMBER' ) ){
+if ( ! defined( 'CSVM_VERSION_NUMBER' ) ) {
 	define( 'CSVM_VERSION_NUMBER', 1.0 );
 }
 
