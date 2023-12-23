@@ -4,7 +4,7 @@
 	<div class="csvm-form-group">
 		<label for="csvm-cron-interval-number"><?php echo __( 'WP Cron Interval', 'csvmapper' ); ?></label>
 		<div class="csvm-double-field-form-group">
-			<input type="number" name="csvm-cron-interval-number" id="csvm-cron-interval-number" value="<?php echo ( get_option( 'csvm_cron_interval_number' ) && ! empty( get_option( 'csvm_cron_interval_number' ) ) ) ? get_option( 'csvm_cron_interval_number' ) : '1' ?>" <?php echo ( ! get_option( 'csvm_enable_cron_task' ) || get_option( 'csvm_enable_cron_task' ) === 'false' ) ? 'disabled="true"' : '' ?>>
+			<input type="number" name="csvm-cron-interval-number" id="csvm-cron-interval-number" value="<?php echo ( get_option( 'csvm_cron_interval_number' ) && ! empty( get_option( 'csvm_cron_interval_number' ) ) ) ? esc_attr( get_option( 'csvm_cron_interval_number' ) ) : '1' ?>" <?php echo ( ! get_option( 'csvm_enable_cron_task' ) || get_option( 'csvm_enable_cron_task' ) === 'false' ) ? 'disabled="true"' : '' ?>>
 			<select name="csvm-cron-interval-period" id="csvm-cron-interval-period" <?php echo ( ! get_option( 'csvm_enable_cron_task' ) || get_option( 'csvm_enable_cron_task' ) === 'false' ) ? 'disabled="true"' : '' ?>>
 				<option value="seconds" <?php echo ( get_option( 'csvm_cron_interval_interval' ) === 'seconds' ) ? 'selected' : '' ?>>Seconds</option>
 				<option value="minutes" <?php echo ( get_option( 'csvm_cron_interval_interval' ) === 'minutes' ) ? 'selected' : '' ?>>Minutes</option>

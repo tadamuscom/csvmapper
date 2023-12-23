@@ -20,20 +20,36 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		public function settings_form_callback(): void
 		{
-			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-settings' ) ){
+			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'csvm-settings' ) ){
 				if( ! empty( $_POST['csvm-enable-cron'] ) && $_POST['csvm-enable-cron'] === 'true' ){
 					csvm_add_or_update_option( 'csvm_enable_cron_task', 'true' );
 
 					if( empty( $_POST['csvm-cron-interval-number'] ) || empty( $_POST['csvm-cron-interval-period'] ) ){
 						csvm_redirect( admin_url( 'admin.php?page=csvmapper-settings' ), 'error' , __( 'The WP Cron interval cannot be empty', 'csvmapper' ) );
+
 						die;
 					}
 				}else{
 					csvm_add_or_update_option( 'csvm_enable_cron_task', 'false' );
 				}
 
-				csvm_add_or_update_option( 'csvm_cron_interval_number', $_POST['csvm-cron-interval-number'] );
-				csvm_add_or_update_option( 'csvm_cron_interval_interval', $_POST['csvm-cron-interval-period'] );
+				$interval_number = sanitize_text_field( $_POST['csvm-cron-interval-number'] );
+				$interval_period = sanitize_text_field( $_POST['csvm-cron-interval-period'] );
+
+				if( ! is_numeric( $interval_number ) ){
+					csvm_redirect( admin_url( 'admin.php?page=csvmapper-settings' ), 'error' , __( 'The interval number must be a numeric value', 'csvmapper' ) );
+
+					die;
+				}
+
+				if( ! is_string( $interval_period ) ){
+					csvm_redirect( admin_url( 'admin.php?page=csvmapper-settings' ), 'error' , __( 'The interval period must be a string', 'csvmapper' ) );
+
+					die;
+				}
+
+				csvm_add_or_update_option( 'csvm_cron_interval_number', $interval_number );
+				csvm_add_or_update_option( 'csvm_cron_interval_interval', $interval_period );
 
 				$intervals = array(
 					'seconds' => 1,
@@ -42,7 +58,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 					'days' => 86400
 				);
 
-				csvm_add_or_update_option( 'csvm_cron_interval', $_POST['csvm-cron-interval-number'] * $intervals[$_POST['csvm-cron-interval-period']] );
+				csvm_add_or_update_option( 'csvm_cron_interval', $interval_number * $intervals[$interval_period] );
 
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper-settings' ), 'success' , __( 'Settings saved', 'csvmapper' ) );
 				die;
@@ -58,8 +74,10 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 	    public function upload_form_callback(): void
 	    {
-			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-file-upload' ) ){
+			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'csvm-file-upload' ) ){
 				$this->upload_form_validation();
+
+				$import_type = sanitize_text_field( $_POST['csv-import-type'] );
 
 				$file = wp_handle_upload( $_FILES['csv-upload'], array(
 					'test_form' => false,
@@ -68,9 +86,9 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 
                 $import = new CSVM_Import();
 				$import->process( $file );
-				$import->type = $_POST['csv-import-type'];
+				$import->type = $import_type;
 
-				match ( $_POST['csv-import-type'] ){
+				match ( $import_type ){
 					'post-meta'     => $this->post_meta_import ($import ),
 					'user-meta'     => $this->user_meta_import( $import ),
 					'custom-table'  => $this->custom_table_import( $import ),
@@ -96,8 +114,10 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		public function table_map_callback(): void
 		{
-			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-table-mapping' ) ){
+			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'csvm-table-mapping' ) ){
 				$fields = array();
+
+				$import_id = sanitize_text_field( $_POST['import_id'] );
 
 				foreach( $_POST as $key => $post ){
 					if( str_contains( $key, 'value-' ) ){
@@ -111,7 +131,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 					}
 				}
 
-				$import = new CSVM_Import($_POST['import_id']);
+				$import = new CSVM_Import( $import_id );
 
 				$this->table_validation( $import, $fields );
 
@@ -131,12 +151,14 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 	    public function meta_map_callback(): void
 	    {
-		    if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-meta-mapping' ) ){
+		    if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'csvm-meta-mapping' ) ){
 				$fields = array();
 			    $name_fields = array();
 				$value_fields = array();
 				$name_prefix = 'meta-name-';
 				$value_prefix = 'meta-value-';
+
+			    $import_id = sanitize_text_field( $_POST['import_id'] );
 
 			    foreach( $_POST as $key => $post ){
 				    if( str_contains( $key, $name_prefix ) ){
@@ -158,7 +180,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 					$fields[ $name ] = $value_fields[ $key ];
 				}
 
-			    $import = new CSVM_Import( $_POST[ 'import_id' ] );
+			    $import = new CSVM_Import( $import_id );
 			    $import->template = $fields;
 			    $import->save();
 
@@ -175,8 +197,10 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		public function last_step_callback(): void
 		{
-			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'csvm-last-step' ) ){
-				$import = new CSVM_Import( $_POST['import_id'] );
+			if( ! empty( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'csvm-last-step' ) ){
+				$import_id = sanitize_text_field( $_POST['import_id'] );
+
+				$import = new CSVM_Import( $import_id );
 
 				if( empty( $_POST['csvm-execution-type'] ) ){
 					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select execution type' ) );
@@ -248,7 +272,9 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		private function post_meta_import( CSVM_Import $import ): void
 		{
-			$import->set_ids( $_POST['csvm-post-ids'] );
+			$post_ids = sanitize_text_field( $_POST['csvm-post-ids'] );
+
+			$import->set_ids( $post_ids );
 		}
 
 	    /**
@@ -262,7 +288,9 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 	    private function user_meta_import( CSVM_Import $import ): void
 	    {
-		    $import->set_ids( $_POST['csvm-user-ids'] );
+			$user_ids = sanitize_text_field( $_POST['csvm-user-ids'] );
+
+		    $import->set_ids( $user_ids );
 	    }
 
 	    /**
@@ -276,7 +304,9 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		private function custom_table_import( CSVM_Import $import ): void
 		{
-			$import->table = $_POST['csvm-custom-table'];
+			$custom_table = sanitize_text_field( $_POST['csvm-custom-table'] );
+
+			$import->table = $custom_table;
 		}
 
 	    /**
@@ -290,8 +320,10 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		private function posts_import( CSVM_Import $import ): void
 		{
+			$post_type = sanitize_text_field( $_POST['csvm-post-type'] );
+
 			$import->table = 'posts';
-			$import->post_type = $_POST['csvm-post-type'];
+			$import->post_type = $post_type;
 		}
 
 	    /**
@@ -305,7 +337,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 	     */
 		private function handle_wp_cron_import( CSVM_Import $import ): void
 		{
-			$number_of_rows = $_POST['csvm-number-of-rows'];
+			$number_of_rows = sanitize_text_field( $_POST['csvm-number-of-rows'] );
 
 			if( empty( $number_of_rows ) ){
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select a number of rows', 'csvmapper' ) );
