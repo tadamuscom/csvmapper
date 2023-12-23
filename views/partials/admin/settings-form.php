@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="action" value="csvm-settings">
 	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('csvm-settings'); ?>">

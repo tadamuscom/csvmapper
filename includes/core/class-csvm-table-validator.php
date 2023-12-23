@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if( ! class_exists('CSVM_Table_Validator') ){
 	class CSVM_Table_Validator{
 		/**

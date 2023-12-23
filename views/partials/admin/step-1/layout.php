@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <h2><?php __( 'Step 1 - Import Selection', 'csvmapper' ); ?></h2>
 <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="action" value="csvm-file-upload">
@@ -8,7 +9,7 @@
 			<option value="disabled" disabled selected><?php echo __( 'Select Type', 'csvmapper' ); ?></option>
 			<?php
 			foreach( CSVM_Import::$allowed_types as $type ):?>
-				<option value="<?php echo csvm_convert_to_slug($type); ?>"><?php echo $type; ?></option>
+				<option value="<?php echo csvm_convert_to_slug( $type ); ?>"><?php echo $type; ?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>

@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if( ! class_exists( 'CSVM_Forms' ) ){
     class CSVM_Forms{
         public function __construct()

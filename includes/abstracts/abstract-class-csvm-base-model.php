@@ -1,6 +1,8 @@
 <?php
 
-if(!class_exists('CSVM_Base_Model')){
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+if( ! class_exists( 'CSVM_Base_Model' ) ){
 	abstract class CSVM_Base_Model{
 		/**
 		 * The prefix of the model option

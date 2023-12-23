@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if( ! class_exists( 'CSVM_PHP_Import' ) ){
 	class CSVM_PHP_Import extends CSVM_Base_Import_Type implements CSVM_Import_Type {
 		/**

@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <?php global $wpdb; ?>
 <div class="csvm-d-none" id="csvm-custom-table-wrap">
 	<div class="csvm-form-group">

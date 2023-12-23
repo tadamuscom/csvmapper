@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="csvm-d-none" id="csvm-batched-rows-wrap">
 	<div class="csvm-form-group">
 		<label for="csvm-batched-rows"><?php echo __( 'Batched Rows', 'csvmapper' ); ?></label>

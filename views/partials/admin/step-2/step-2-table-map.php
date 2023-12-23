@@ -1,4 +1,7 @@
 <?php
+
+    if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 	$headers = $import->get_headers();
 	$columns = $import->get_db_table_columns( $import->table );
 ?>

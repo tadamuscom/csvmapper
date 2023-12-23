@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <h2><?php echo __( 'Step 2 - Import Mapping', 'csvmapper' ); ?></h2>
 <?php
 	switch ( $import->type ){

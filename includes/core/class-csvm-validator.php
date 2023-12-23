@@ -1,6 +1,8 @@
 <?php
 
-if(!class_exists('CSVM_Validator')){
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+if( ! class_exists( 'CSVM_Validator' ) ){
 	class CSVM_Validator{
 		/**
 		 * The value passed to the constructor

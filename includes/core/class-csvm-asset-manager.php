@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if( ! class_exists( 'CSVM_Asset_Manager' ) ){
 	class CSVM_Asset_Manager{
 		public function __construct() {
