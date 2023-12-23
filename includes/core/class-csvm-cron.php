@@ -59,7 +59,7 @@ if( ! class_exists('CSVM_Cron') ){
 		{
 			$schedules['csvm_cron_interval'] = array(
 				'interval' => get_option( 'csvm_cron_interval' ),
-				'display'  => esc_html__( 'CSVMapper Custom Cron Interval' ), );
+				'display'  => esc_html__( 'CSVMapper Custom Cron Interval' ), 'csvmapper' );
 
 			return $schedules;
 		}

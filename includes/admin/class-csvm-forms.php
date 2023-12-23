@@ -395,7 +395,7 @@ if( ! class_exists( 'CSVM_Forms' ) ){
 			$validator = new CSVM_Table_Validator( $columns, $fields );
 
 			if( $validator->get_error() ){
-				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $import->id, 'error', __( $validator->get_error(), 'csvmapper' ) );
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=2&import_id=' . $import->id, 'error', printf( esc_html__( '%s', 'csvmapper' ), $validator->get_error() ) );
 			}
 		}
     }

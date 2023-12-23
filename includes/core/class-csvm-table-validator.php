@@ -203,7 +203,7 @@ if( ! class_exists('CSVM_Table_Validator') ){
 		private function error( string $error ): void
 		{
 			$this->returnable = false;
-			$this->error = __( $error, 'csvmapper' );
+			$this->error = printf( esc_html__( '%s', 'csvmapper' ), $error );
 		}
 	}
 }

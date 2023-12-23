@@ -314,7 +314,7 @@ if(!class_exists('CSVM_Validator')){
 		private function trigger_error( $contents ): void
 		{
 			$this->returnable = false;
-			$this->error = __( $this->field . ' ' . $contents, 'csvmapper' );
+            $this->error = printf( esc_html__( '%s %s', 'csvmapper' ), $this->field, $contents );
 
 		}
 	}
