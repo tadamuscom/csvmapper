@@ -1,8 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists( 'CSVM_Run' ) ){
+if ( ! class_exists( 'CSVM_Run' ) ) {
 
 	/**
 	 * @property string $id
@@ -14,6 +16,7 @@ if( ! class_exists( 'CSVM_Run' ) ){
 	 * @property numeric $last_row
 	 */
 	class CSVM_Run extends CSVM_Base_Model {
+
 		/**
 		 * The waiting status of the model
 		 *
@@ -60,10 +63,10 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		protected array $fields = array(
 			'id'        => 'string',
 			'import_id' => 'required|string',
-			'file_path'  => 'required|string',
+			'file_path' => 'required|string',
 			'type'      => 'required|string',
 			'status'    => 'required|string',
-			'last_row'  => 'numeric'
+			'last_row'  => 'numeric',
 		);
 
 		/**
@@ -75,29 +78,28 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		 *
 		 * @return array
 		 */
-		public static function get_all_by_status( string $status ): array
-		{
+		public static function get_all_by_status( string $status ): array {
 			global $wpdb;
 
 			$returnable = array();
-			$obj = new self();
-			$sql = 'SELECT * FROM ' . $wpdb->prefix . 'options WHERE option_name LIKE "' . $obj->option_prefix . '-%"';
-			$results = $wpdb->get_results( $sql );
+			$obj        = new self();
+			$sql        = 'SELECT * FROM ' . $wpdb->prefix . 'options WHERE option_name LIKE "' . $obj->option_prefix . '-%"';
+			$results    = $wpdb->get_results( $sql );
 
-			if( empty($results) ){
+			if ( empty( $results ) ) {
 				return $results;
 			}
 
-			foreach( $results as $run ){
+			foreach ( $results as $run ) {
 				$data = unserialize( $run->option_value );
 
-				if( is_string( $data ) ){
+				if ( is_string( $data ) ) {
 					$data = unserialize( $data );
 				}
 
 				$run_obj = new self( $data['id'] );
 
-				if( $run_obj->status === $status ){
+				if ( $run_obj->status === $status ) {
 					$returnable[] = $run_obj;
 				}
 			}
@@ -105,8 +107,7 @@ if( ! class_exists( 'CSVM_Run' ) ){
 			return $returnable;
 		}
 
-		public function __construct( bool|string $id = false )
-		{
+		public function __construct( bool|string $id = false ) {
 			parent::__construct( $id );
 		}
 
@@ -117,11 +118,10 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		 *
 		 * @return bool|self
 		 */
-		public function save(): bool|self
-		{
+		public function save(): bool|self {
 			$import = new CSVM_Import( $this->import_id );
 
-			if( empty( $this->id ) ){
+			if ( empty( $this->id ) ) {
 				$this->id = $this->import_id . '-' . $import->run_count() + 1;
 			}
 
@@ -138,8 +138,8 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		 *
 		 * @return void
 		 */
-		public function set_in_progress(): void{
-			$this->status = CSVM_Run::$in_progress_status;
+		public function set_in_progress(): void {
+			$this->status = self::$in_progress_status;
 			$this->save();
 		}
 
@@ -150,8 +150,8 @@ if( ! class_exists( 'CSVM_Run' ) ){
 		 *
 		 * @return void
 		 */
-		public function set_complete(): void{
-			$this->status = CSVM_Run::$complete_status;
+		public function set_complete(): void {
+			$this->status = self::$complete_status;
 			$this->save();
 		}
 	}

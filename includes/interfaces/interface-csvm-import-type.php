@@ -1,9 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! interface_exists('CSVM_Base_Import_Type' ) ){
-	interface CSVM_Import_Type{
+if ( ! interface_exists( 'CSVM_Base_Import_Type' ) ) {
+	interface CSVM_Import_Type {
+
 		/**
 		 * Execution mechanism of each import
 		 *

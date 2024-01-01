@@ -1,9 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists( 'CSVM_Validator' ) ){
-	class CSVM_Validator{
+if ( ! class_exists( 'CSVM_Validator' ) ) {
+	class CSVM_Validator {
+
 		/**
 		 * The value passed to the constructor
 		 *
@@ -49,11 +52,10 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 */
 		private string $field;
 
-		public function __construct( $field, $value, $options )
-		{
-			$this->field = $field;
-			$this->value = $value;
-			$this->options = explode( '|', $options );
+		public function __construct( $field, $value, $options ) {
+			$this->field      = $field;
+			$this->value      = $value;
+			$this->options    = explode( '|', $options );
 			$this->returnable = true;
 
 			$this->start();
@@ -66,12 +68,11 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		public function start(): void
-		{
-			foreach( $this->options as $option ){
+		public function start(): void {
+			foreach ( $this->options as $option ) {
 				$this->individual_validation( $option );
 
-				if( $this->returnable === false ){
+				if ( $this->returnable === false ) {
 					break;
 				}
 			}
@@ -84,8 +85,7 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return bool
 		 */
-		public function result(): bool
-		{
+		public function result(): bool {
 			return $this->returnable;
 		}
 
@@ -96,9 +96,8 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_error(): string
-		{
-			if( ! empty( $this->error ) ){
+		public function get_error(): string {
+			if ( ! empty( $this->error ) ) {
 				return $this->error;
 			}
 
@@ -114,9 +113,8 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function individual_validation( $option ): void
-		{
-			switch ($option){
+		private function individual_validation( $option ): void {
+			switch ( $option ) {
 				case 'required':
 					$this->required( $this->value );
 					return;
@@ -140,14 +138,14 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 					return;
 			}
 
-			if( str_contains( $option, 'min:' ) ){
-				$limit = (explode( ':', $option ))[1];
+			if ( str_contains( $option, 'min:' ) ) {
+				$limit = ( explode( ':', $option ) )[1];
 
 				$this->minimum( $this->value, $limit );
 			}
 
-			if( str_contains( $option, 'max:' ) ){
-				$limit = (explode( ':', $option ))[1];
+			if ( str_contains( $option, 'max:' ) ) {
+				$limit = ( explode( ':', $option ) )[1];
 
 				$this->maximum( $this->value, $limit );
 			}
@@ -162,14 +160,12 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function required( $value ): void
-		{
-			if( $value != 0 ){
-				if( empty( $value )  ){
+		private function required( $value ): void {
+			if ( $value != 0 ) {
+				if ( empty( $value ) ) {
 					$this->trigger_error( 'is required' );
 				}
 			}
-
 		}
 
 		/**
@@ -181,12 +177,10 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function string( $value ): void
-		{
-			if(!is_string( $value )){
+		private function string( $value ): void {
+			if ( ! is_string( $value ) ) {
 				$this->trigger_error( 'must be a string' );
 			}
-
 		}
 
 		/**
@@ -198,9 +192,8 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function integer( $value ): void
-		{
-			if( ! is_integer( $value ) ){
+		private function integer( $value ): void {
+			if ( ! is_integer( $value ) ) {
 				$this->trigger_error( 'must be an integer' );
 			}
 		}
@@ -214,9 +207,8 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function numeric( $value ): void
-		{
-			if( ! is_numeric( $value ) ){
+		private function numeric( $value ): void {
+			if ( ! is_numeric( $value ) ) {
 				$this->trigger_error( 'must be a number' );
 			}
 		}
@@ -230,9 +222,8 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function float( $value ): void
-		{
-			if( ! is_float( $value ) ){
+		private function float( $value ): void {
+			if ( ! is_float( $value ) ) {
 				$this->trigger_error( 'must be a float' );
 			}
 		}
@@ -246,9 +237,8 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function array( $value ): void
-		{
-			if( ! is_array( $value ) ){
+		private function array( $value ): void {
+			if ( ! is_array( $value ) ) {
 				$this->trigger_error( 'must be an array' );
 			}
 		}
@@ -262,12 +252,10 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function date( $value ): void
-		{
-			if( ! strtotime( $value ) ){
+		private function date( $value ): void {
+			if ( ! strtotime( $value ) ) {
 				$this->trigger_error( 'must be a date' );
 			}
-
 		}
 
 		/**
@@ -276,13 +264,12 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 * @since 1.0
 		 *
 		 * @param string $value
-		 * @param int $limit
+		 * @param int    $limit
 		 *
 		 * @return void
 		 */
-		private function minimum( string $value, int $limit ): void
-		{
-			if( strlen( $value ) < $limit ){
+		private function minimum( string $value, int $limit ): void {
+			if ( strlen( $value ) < $limit ) {
 				$this->trigger_error( 'must have a minimum of ' . $limit . ' characters' );
 			}
 		}
@@ -293,13 +280,12 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 * @since 1.0
 		 *
 		 * @param string $value
-		 * @param int $limit
+		 * @param int    $limit
 		 *
 		 * @return void
 		 */
-		private function maximum( string $value, int $limit ): void
-		{
-			if( strlen( $value ) > $limit ){
+		private function maximum( string $value, int $limit ): void {
+			if ( strlen( $value ) > $limit ) {
 				$this->trigger_error( 'must have a maximum of ' . $limit . ' characters' );
 			}
 		}
@@ -313,11 +299,9 @@ if( ! class_exists( 'CSVM_Validator' ) ){
 		 *
 		 * @return void
 		 */
-		private function trigger_error( $contents ): void
-		{
+		private function trigger_error( $contents ): void {
 			$this->returnable = false;
-            $this->error = printf( esc_html__( '%s %s', 'csvmapper' ), $this->field, $contents );
-
+			$this->error      = printf( esc_html__( '%1$s %2$s', 'csvmapper' ), $this->field, $contents );
 		}
 	}
 }

@@ -1,240 +1,240 @@
 .csvm-message-container .csvm-notice{
-    position: relative;
-    padding: .75rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: .25rem;
-    margin-right:1.25rem;
-    margin-top:1rem;
+	position: relative;
+	padding: .75rem 1.25rem;
+	margin-bottom: 1rem;
+	border: 1px solid transparent;
+	border-radius: .25rem;
+	margin-right:1.25rem;
+	margin-top:1rem;
 }
 
 .csvm-message-container .csvm-alert{
-    background-color: #fff3cd;
-    color: #856404;
-    border-color: #ffeeba;
+	background-color: #fff3cd;
+	color: #856404;
+	border-color: #ffeeba;
 }
 
 .csvm-message-container .csvm-success{
-    background-color:#d4edda;
-    color: #155724;
-    border-color:#c3e6cb;
+	background-color:#d4edda;
+	color: #155724;
+	border-color:#c3e6cb;
 }
 
 .csvm-message-container .csvm-error{
-    background-color: #f8d7da;
-    color: #721c24;
-    border-color: #f5c6cb;
+	background-color: #f8d7da;
+	color: #721c24;
+	border-color: #f5c6cb;
 }
 
 
 .csvm-form-group,
 .csvm-double-field-form-group{
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .csvm-double-field-form-group{
-    display:flex;
-    align-items: center;
+	display:flex;
+	align-items: center;
 }
 
 .csvm-form-group label{
-    display:block;
-    margin-bottom: 10px;
+	display:block;
+	margin-bottom: 10px;
 }
 
 .csvm-form-group input{
-    display:block;
+	display:block;
 }
 
 .csvm-form-group input[type='checkbox']{
-    display:inline-block;
+	display:inline-block;
 }
 
 .csvm-double-field-form-group input{
-    width:70px;
-    height:30px;
+	width:70px;
+	height:30px;
 }
 
 .csvm-double-field-form-group select{
-    height:30px;
-    width: 100px;
+	height:30px;
+	width: 100px;
 }
 
 .csvm-inline-label{
-    display:inline !important;
+	display:inline !important;
 }
 
 .csvm-button{
-    display: block;
-    margin-top:15px !important;
+	display: block;
+	margin-top:15px !important;
 }
 
 .csvm-d-none{
-    display:none !important;
+	display:none !important;
 }
 
 .csvm-table-map-wrap{
-    max-width: 600px;
+	max-width: 600px;
 }
 
 .csvm-map-group{
-    display:flex;
-    border: 1px dotted #000;
-    padding: 0 10px;
-    width:80%;
+	display:flex;
+	border: 1px dotted #000;
+	padding: 0 10px;
+	width:80%;
 }
 
 .csvm-map-cell{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 33.3;
-    width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex: 33.3;
+	width: 100%;
 }
 
 .csvm-map-cell:last-child{
-    flex: 20;
+	flex: 20;
 }
 
 .csvm-inline-form-group{
-    display:flex;
-    align-items: center;
+	display:flex;
+	align-items: center;
 }
 
 .csvm-field-list{
-    background-color: #b1e8ac;
-    padding:5px 15px;
-    width:80%
+	background-color: #b1e8ac;
+	padding:5px 15px;
+	width:80%
 }
 
 .csvm-field-list p{
-    margin: 10px 0;
-    border: 1px solid red;
-    padding: 2px 3px;
+	margin: 10px 0;
+	border: 1px solid red;
+	padding: 2px 3px;
 }
 
 .csvm-meta-map-wrap{
-    max-width: 220px;
+	max-width: 220px;
 }
 
 .csvm-meta-boxes-controls{
-    display: flex;
-    justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .csvm-meta-boxes-controls p{
-    font-size:30px;
-    margin: 0;
-    line-height: 1;
-    cursor:pointer;
+	font-size:30px;
+	margin: 0;
+	line-height: 1;
+	cursor:pointer;
 }
 
 .csvm-meta-box{
-    border: 1px solid #000;
-    padding:10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
+	border: 1px solid #000;
+	padding:10px;
+	border-radius: 5px;
+	margin-bottom: 15px;
 }
 
 .csvm-meta-box:last-child{
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .csvm-step-three-wrap{
-    width:450px;
+	width:450px;
 }
 
 .csvm-summary{
-    border: 1px solid #000;
-    padding: 10px;
-    margin-bottom: 20px;
+	border: 1px solid #000;
+	padding: 10px;
+	margin-bottom: 20px;
 }
 
 .csvm-summary-row{
-    margin-bottom: 5px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #000;
+	margin-bottom: 5px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #000;
 }
 
 .csvm-summary-row p,
 .csvm-summary-row ul{
-    margin:0;
+	margin:0;
 }
 
 .csvm-summary-subtitle{
-    margin-bottom:5px !important;
+	margin-bottom:5px !important;
 }
 
 .csvm-summary-template-row{
-    display:flex;
-    flex-direction: row;
-    justify-content: space-around;
+	display:flex;
+	flex-direction: row;
+	justify-content: space-around;
 }
 
 .csvm-summary-template-col{
-    flex: 33.3;
-    text-align: center;
+	flex: 33.3;
+	text-align: center;
 }
 
 .lds-ring {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
+	display: inline-block;
+	position: relative;
+	width: 80px;
+	height: 80px;
 }
 .csvm-loading-ring div {
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    margin: 8px;
-    border: 8px solid #00d084;
-    border-radius: 50%;
-    animation: csvm-loading-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #00d084 transparent transparent transparent;
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	margin: 8px;
+	border: 8px solid #00d084;
+	border-radius: 50%;
+	animation: csvm-loading-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: #00d084 transparent transparent transparent;
 }
 
 #csvm-loader-wrap{
-    display: flex;
-    justify-content: center;
-    width:100%;
-    margin-bottom: 55px;
-    margin-left: -30px;
+	display: flex;
+	justify-content: center;
+	width:100%;
+	margin-bottom: 55px;
+	margin-left: -30px;
 }
 
 .csvm-loading-ring div:nth-child(1) {
-    animation-delay: -0.45s;
+	animation-delay: -0.45s;
 }
 
 .csvm-loading-ring div:nth-child(2) {
-    animation-delay: -0.3s;
+	animation-delay: -0.3s;
 }
 
 .csvm-loading-ring div:nth-child(3) {
-    animation-delay: -0.15s;
+	animation-delay: -0.15s;
 }
 
 @keyframes csvm-loading-ring {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 .csvm-error-field{
-    border: 2px solid red;
-    border-color: red !important;
+	border: 2px solid red;
+	border-color: red !important;
 }
 
 .csvm-error-message{
-    color: red;
-    font-size: 12px;
-    margin-left:10px;
+	color: red;
+	font-size: 12px;
+	margin-left:10px;
 }
 
 #csvm-progress-logger{
-    text-align: center;
+	text-align: center;
 }

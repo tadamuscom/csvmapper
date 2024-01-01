@@ -1,6 +1,8 @@
 <?php
 
-    if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 	$headers = $import->get_headers();
 	$columns = $import->get_db_table_columns( $import->table );
@@ -10,13 +12,14 @@
 	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
 		<input type="hidden" name="import_id" value="<?php echo $import->id; ?>">
 		<input type="hidden" name="action" value="csvm-table-mapping">
-		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('csvm-table-mapping'); ?>">
+		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'csvm-table-mapping' ); ?>">
 
-		<?php foreach( $columns as $column ):
-		    if( $column === 'post_type' ){
-                continue;
-            }
-		?>
+		<?php
+		foreach ( $columns as $column ) :
+			if ( $column === 'post_type' ) {
+				continue;
+			}
+			?>
 			<div class="csvm-form-group">
 				<div class="csvm-map-group">
 					<div class="csvm-map-cell">
@@ -30,13 +33,13 @@
 							<div class="csvm-form-group">
 								<label for="<?php echo csvm_convert_to_slug( $column ); ?>"><?php echo __( 'Value', 'csvmapper' ); ?></label>
 								<div class="csvm-inline-form-group">
-									<input type="text" name="value-<?php echo csvm_convert_to_slug( $column ); ?>" id="<?php echo csvm_convert_to_slug( $column ); ?>" value="<?php echo CSVM_Table_Validator::get_default('posts', $column); ?>">
+									<input type="text" name="value-<?php echo csvm_convert_to_slug( $column ); ?>" id="<?php echo csvm_convert_to_slug( $column ); ?>" value="<?php echo CSVM_Table_Validator::get_default( 'posts', $column ); ?>">
 									<a href="javascript:void(0)" id="value-settings-<?php echo csvm_convert_to_slug( $column ); ?>" class="csvm-open-field-list" group="<?php echo csvm_convert_to_slug( $column ); ?>">
 										<span>{$}</span>
 									</a>
 								</div>
 								<div id="csvm-field-list-<?php echo csvm_convert_to_slug( $column ); ?>" class="csvm-field-list csvm-d-none">
-									<?php foreach( $headers as $header ): ?>
+									<?php foreach ( $headers as $header ) : ?>
 										<p>
 										<a href="javascript:void(0)" class="csvm-field-list-link" csvm-slug="<?php echo csvm_convert_to_slug( $header ); ?>" group="<?php echo csvm_convert_to_slug( $column ); ?>" mapping-value="<?php echo csvm_convert_to_slug( $header ); ?>"><?php echo $header; ?></a>
 										</p>

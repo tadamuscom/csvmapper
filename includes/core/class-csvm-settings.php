@@ -1,9 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists( 'CSVM_Settings' ) ){
-	class CSVM_Settings{
+if ( ! class_exists( 'CSVM_Settings' ) ) {
+	class CSVM_Settings {
+
 		/**
 		 * The name of the option in which the settings will be saved
 		 *
@@ -33,9 +36,10 @@ if( ! class_exists( 'CSVM_Settings' ) ){
 		 *
 		 * @return void
 		 */
-		private function load(): void
-		{
-			if( get_option( $this->option_name ) && !empty( get_option( 'csvm_settings' ) ) ) return;
+		private function load(): void {
+			if ( get_option( $this->option_name ) && ! empty( get_option( 'csvm_settings' ) ) ) {
+				return;
+			}
 
 			$this->set_defaults();
 
@@ -49,8 +53,7 @@ if( ! class_exists( 'CSVM_Settings' ) ){
 		 *
 		 * @return void
 		 */
-		private function set_defaults(): void
-		{
+		private function set_defaults(): void {
 			// Add defaults
 		}
 
@@ -61,15 +64,14 @@ if( ! class_exists( 'CSVM_Settings' ) ){
 		 *
 		 * @return string
 		 */
-		private function json(): string
-		{
+		private function json(): string {
 			$returnable = array();
 
-			foreach( $this->setting_names as $setting ){
+			foreach ( $this->setting_names as $setting ) {
 				$returnable[] = $this->{$setting};
 			}
 
-			return json_encode($returnable);
+			return json_encode( $returnable );
 		}
 	}
 }

@@ -16,11 +16,11 @@ if ( ! defined( 'CSVM_VERSION_NUMBER' ) ) {
 	define( 'CSVM_VERSION_NUMBER', 1.0 );
 }
 
-final class CSVMapper{
+final class CSVMapper {
+
 	private static $instance;
 
-	public static function instance(): CSVMapper
-	{
+	public static function instance(): CSVMapper {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CSVMapper ) ) {
 			self::$instance = new CSVMapper();
 			self::$instance->setup_constants();
@@ -62,8 +62,7 @@ final class CSVMapper{
 	 *
 	 * @return CSVM_Settings
 	 */
-	public function settings(): CSVM_Settings
-	{
+	public function settings(): CSVM_Settings {
 		return new CSVM_Settings();
 	}
 
@@ -74,8 +73,7 @@ final class CSVMapper{
 	 *
 	 * @return void
 	 */
-	private function setup_constants(): void
-	{
+	private function setup_constants(): void {
 		if ( ! defined( 'CSVM_PATH' ) ) {
 			define( 'CSVM_PATH', plugin_dir_path( __FILE__ ) );
 		}
@@ -140,17 +138,15 @@ final class CSVMapper{
 	 *
 	 * @return void
 	 */
-	private function includes(): void
-	{
-		require_once CSVM_PATH . 'includes/core/class-csvm-includer.php';
+	private function includes(): void {
+		include_once CSVM_PATH . 'includes/core/class-csvm-includer.php';
 
 		new CSVM_Includer();
 	}
 }
 
 if ( ! function_exists( 'csvmapper' ) ) {
-	function csvmapper(): CSVMapper
-	{
+	function csvmapper(): CSVMapper {
 		return CSVMapper::instance();
 	}
 

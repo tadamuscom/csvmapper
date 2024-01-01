@@ -1,9 +1,11 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly ?>
 <div class="csvm-meta-map-wrap">
 	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
 		<input type="hidden" name="import_id" value="<?php echo esc_attr( $import->id ); ?>">
 		<input type="hidden" name="action" value="csvm-meta-mapping">
-		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('csvm-meta-mapping'); ?>">
+		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'csvm-meta-mapping' ); ?>">
 		<input type="hidden" id="csvm-headers-list" name="headers" value='<?php echo $import->get_headers_json(); ?>'>
 		<input type="hidden" id="csvm-headers-slug-list" name="headers-slug" value='<?php echo $import->get_headers_slugs_json(); ?>'>
 		<div class="csvm-meta-boxes" id="csvm-meta-boxes">

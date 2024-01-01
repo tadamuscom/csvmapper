@@ -1,4 +1,6 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly ?>
 <div class="csvm-step-three-wrap">
 	<h3>Summary</h3>
 	<div class="csvm-summary">
@@ -13,7 +15,7 @@
 		<div class="csvm-summary-row">
 			<p class="csvm-summary-subtitle"><b><?php echo __( 'Headers', 'csvmapper' ); ?></b></p>
 			<ul>
-				<?php foreach( $import->headers as $header ): ?>
+				<?php foreach ( $import->headers as $header ) : ?>
 					<li><?php echo esc_html( $header ); ?></li>
 				<?php endforeach; ?>
 			</ul>
@@ -22,17 +24,17 @@
 			<p class="csvm-summary-subtitle"><b><?php echo __( 'Type', 'csvmapper' ); ?></b></p>
 			<p><?php echo esc_html( $import->type ); ?></p>
 		</div>
-		<?php if( esc_attr( $import->type ) === 'post-meta' || esc_attr( $import->type ) === 'user-meta' ): ?>
+		<?php if ( esc_attr( $import->type ) === 'post-meta' || esc_attr( $import->type ) === 'user-meta' ) : ?>
 		<div class="csvm-summary-row">
 			<p class="csvm-summary-subtitle"><b><?php echo __( 'IDs', 'csvmapper' ); ?></b></p>
 			<ul>
-			<?php foreach( $import->ids as $id ): ?>
+			<?php foreach ( $import->ids as $id ) : ?>
 				<li><?php echo esc_html( $id ); ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</div>
 		<?php endif; ?>
-		<?php if( esc_attr( $import->type ) === 'custom-table' || esc_attr( $import->type ) === 'posts' ): ?>
+		<?php if ( esc_attr( $import->type ) === 'custom-table' || esc_attr( $import->type ) === 'posts' ) : ?>
 		<div class="csvm-summary-row">
 			<p class="csvm-summary-subtitle"><b><?php echo __( 'Table', 'csvmapper' ); ?></b></p>
 			<p><?php echo esc_html( $import->table ); ?></p>
@@ -41,7 +43,7 @@
 		<div class="csvm-summary-row">
 			<p class="csvm-summary-subtitle"><b><?php echo __( 'Template', 'csvmapper' ); ?></b></p>
 			<div class="csvm-summary-template-wrap">
-				<?php foreach( $import->template as $key => $value ): ?>
+				<?php foreach ( $import->template as $key => $value ) : ?>
 						<div class="csvm-summary-template-row">
 							<div class="csvm-summary-template-col">
 								<p><?php echo esc_html( $key ); ?></p>
@@ -60,9 +62,9 @@
 	<div class="csvm-step-three-form-wrap">
 		<h3 id="csvm-step-three-heading">Last Settings</h3>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" id="csvm-step-three-form">
-            <input id="import_id" type="hidden" name="import_id" value="<?php echo esc_attr( $import->id ); ?>">
-            <input type="hidden" name="action" value="csvm-last-step">
-            <input id="form-nonce" type="hidden" name="nonce" value="<?php echo wp_create_nonce('csvm-last-step'); ?>">
+			<input id="import_id" type="hidden" name="import_id" value="<?php echo esc_attr( $import->id ); ?>">
+			<input type="hidden" name="action" value="csvm-last-step">
+			<input id="form-nonce" type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'csvm-last-step' ); ?>">
 			<div class="csvm-form-group">
 				<label for="csvm-execution-type"><?php echo __( 'Execution Type', 'csvmapper' ); ?></label>
 				<select name="csvm-execution-type" id="csvm-execution-type">
@@ -88,9 +90,9 @@
 			</div>
 		</form>
 
-        <?php new CSVM_View( 'partials/admin/loader', false, false ); ?>
+		<?php new CSVM_View( 'partials/admin/loader', false, false ); ?>
 
-        <p id="csvm-progress-logger" class="csvm-d-none"></p>
+		<p id="csvm-progress-logger" class="csvm-d-none"></p>
 
 	</div>
 </div>

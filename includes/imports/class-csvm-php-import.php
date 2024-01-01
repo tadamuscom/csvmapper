@@ -1,9 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists( 'CSVM_PHP_Import' ) ){
+if ( ! class_exists( 'CSVM_PHP_Import' ) ) {
 	class CSVM_PHP_Import extends CSVM_Base_Import_Type implements CSVM_Import_Type {
+
 		/**
 		 * The CSVM_Import instance
 		 *
@@ -25,11 +28,11 @@ if( ! class_exists( 'CSVM_PHP_Import' ) ){
 		public function __construct( CSVM_Import $import ) {
 			$this->import = $import;
 
-			$run = new CSVM_Run();
+			$run            = new CSVM_Run();
 			$run->import_id = $import->id;
 			$run->file_path = $import->file_path;
-			$run->status = CSVM_Run::$waiting_status;
-			$run->type = 'php';
+			$run->status    = CSVM_Run::$waiting_status;
+			$run->type      = 'php';
 
 			$run->save();
 
@@ -43,8 +46,7 @@ if( ! class_exists( 'CSVM_PHP_Import' ) ){
 		 *
 		 * @return void
 		 */
-		public function execute(): void
-		{
+		public function execute(): void {
 			$handler = new CSVM_CSV_Handler( $this->run );
 			$handler->start();
 		}

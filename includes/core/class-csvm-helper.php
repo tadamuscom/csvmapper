@@ -1,9 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists( 'CSVM_Helper' ) ){
-	class CSVM_Helper{
+if ( ! class_exists( 'CSVM_Helper' ) ) {
+	class CSVM_Helper {
+
 		/**
 		 * If an option exists in the WordPress API it updates it. Or creates a new one if it doesn't exist
 		 *
@@ -13,11 +16,9 @@ if( ! class_exists( 'CSVM_Helper' ) ){
 		 * @param string $value
 		 *
 		 * @return void
-		 *
 		 */
-		public static function add_or_update_option( string $tag, string $value ): void
-		{
-			if( get_option( $tag ) ){
+		public static function add_or_update_option( string $tag, string $value ): void {
+			if ( get_option( $tag ) ) {
 				update_option( $tag, $value );
 			}
 
@@ -29,15 +30,14 @@ if( ! class_exists( 'CSVM_Helper' ) ){
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $url
+		 * @param string      $url
 		 * @param string|null $type
 		 * @param string|null $message
 		 *
 		 * @return void
 		 */
-		public static function redirect( string $url, string|null $type = null, string|null $message = null ): void
-		{
-			if ( $type != null && $message != null ){
+		public static function redirect( string $url, string|null $type = null, string|null $message = null ): void {
+			if ( $type != null && $message != null ) {
 				setcookie( 'csvm_redirect_type', $type, time() + 3600, '/' );
 				setcookie( 'csvm_redirect_message', $message, time() + 3600, '/' );
 
@@ -58,8 +58,7 @@ if( ! class_exists( 'CSVM_Helper' ) ){
 		 *
 		 * @return string
 		 */
-		public static function convert_to_slug( string $string ): string
-		{
+		public static function convert_to_slug( string $string ): string {
 			$string = strtolower( $string );
 
 			return str_replace( ' ', '-', $string );
@@ -67,7 +66,7 @@ if( ! class_exists( 'CSVM_Helper' ) ){
 	}
 }
 
-if( ! function_exists( 'csvm_add_or_update_option' ) ) {
+if ( ! function_exists( 'csvm_add_or_update_option' ) ) {
 	/**
 	 * Wrapper function for CSVM_Helper::add_or_update_option
 	 *
@@ -78,13 +77,12 @@ if( ! function_exists( 'csvm_add_or_update_option' ) ) {
 	 *
 	 * @return void
 	 */
-	function csvm_add_or_update_option( string $tag, string $value ): void
-	{
+	function csvm_add_or_update_option( string $tag, string $value ): void {
 		CSVM_Helper::add_or_update_option( $tag, $value );
 	}
 }
 
-if( ! function_exists( 'csvm_redirect' ) ){
+if ( ! function_exists( 'csvm_redirect' ) ) {
 	/**
 	 * Wrapper function for CSVM_Helper::redirect
 	 *
@@ -96,13 +94,12 @@ if( ! function_exists( 'csvm_redirect' ) ){
 	 *
 	 * @return bool
 	 */
-	function csvm_redirect( string $url, string|null $type = null, string|null $message = null ): bool
-	{
+	function csvm_redirect( string $url, string|null $type = null, string|null $message = null ): bool {
 		return CSVM_Helper::redirect( $url, $type, $message );
 	}
 }
 
-if( ! function_exists('csvm_convert_to_slug') ){
+if ( ! function_exists( 'csvm_convert_to_slug' ) ) {
 	/**
 	 * Wrapper function for CSVM_Helper::convert_to_slug
 	 *
@@ -112,8 +109,7 @@ if( ! function_exists('csvm_convert_to_slug') ){
 	 *
 	 * @return string
 	 */
-	function csvm_convert_to_slug( string $string ): string
-	{
+	function csvm_convert_to_slug( string $string ): string {
 		return CSVM_Helper::convert_to_slug( $string );
 	}
 }

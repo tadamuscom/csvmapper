@@ -1,9 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists( 'CSVM_Base_Model' ) ){
-	abstract class CSVM_Base_Model{
+if ( ! class_exists( 'CSVM_Base_Model' ) ) {
+	abstract class CSVM_Base_Model {
+
 		/**
 		 * The prefix of the model option
 		 *
@@ -31,8 +34,8 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 */
 		public string $id;
 
-		public function __construct( string|bool $id = false ){
-			if( $id ){
+		public function __construct( string|bool $id = false ) {
+			if ( $id ) {
 				$this->id = $id;
 
 				$this->load( $id );
@@ -50,9 +53,8 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return $this|bool
 		 */
-		public function save(): self|bool
-		{
-			if( $this->validation() ){
+		public function save(): self|bool {
+			if ( $this->validation() ) {
 				csvm_add_or_update_option( $this->get_option_name(), $this->serialized() );
 
 				return new static( $this->id );
@@ -68,15 +70,14 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return bool
 		 */
-		private function validation(): bool
-		{
-			foreach( $this->fields as $field => $options ){
+		private function validation(): bool {
+			foreach ( $this->fields as $field => $options ) {
 				$array_options = explode( '|', $options );
 
-				if( ! empty( $this->{$field} ) && ! is_array( $this->{$field} ) && ! in_array( 'array', $array_options ) ){
+				if ( ! empty( $this->{$field} ) && ! is_array( $this->{$field} ) && ! in_array( 'array', $array_options ) ) {
 					$validator = new CSVM_Validator( $field, $this->{$field}, $options );
 
-					if( ! $validator->result() ){
+					if ( ! $validator->result() ) {
 						return false;
 					}
 				}
@@ -92,10 +93,9 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return void
 		 */
-		private function new(): void
-		{
-			foreach( $this->fields as $field => $options ){
-				$this->{$field} = (new CSVM_Generator( $options ))->return();
+		private function new(): void {
+			foreach ( $this->fields as $field => $options ) {
+				$this->{$field} = ( new CSVM_Generator( $options ) )->return();
 			}
 		}
 
@@ -108,13 +108,12 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return void
 		 */
-		private function populate( string $data ): void
-		{
+		private function populate( string $data ): void {
 			$import = unserialize( $data );
 
-			foreach( $this->get_field_names() as $field ){
-				if( ! empty( $import[$field] ) ){
-					$this->{$field} = $import[$field];
+			foreach ( $this->get_field_names() as $field ) {
+				if ( ! empty( $import[ $field ] ) ) {
+					$this->{$field} = $import[ $field ];
 				}
 			}
 		}
@@ -126,20 +125,19 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return string
 		 */
-		private function serialized(): string
-		{
+		private function serialized(): string {
 			$data = array();
 
-			foreach( $this->fields as $field => $options ){
+			foreach ( $this->fields as $field => $options ) {
 				$options = explode( '|', $options );
 
-				if( in_array( 'required', $options ) ){
-					$data[$field] = $this->{$field};
+				if ( in_array( 'required', $options ) ) {
+					$data[ $field ] = $this->{$field};
 					continue;
 				}
 
-				if( ! empty( $this->{$field} ) ){
-					$data[$field] = $this->{$field};
+				if ( ! empty( $this->{$field} ) ) {
+					$data[ $field ] = $this->{$field};
 				}
 			}
 
@@ -153,11 +151,10 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return void
 		 */
-		protected function load(): void
-		{
-			if( $import = $this->retrieve() ){
+		protected function load(): void {
+			if ( $import = $this->retrieve() ) {
 				$this->populate( $import );
-			}else{
+			} else {
 				$this->new();
 			}
 		}
@@ -169,9 +166,8 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return mixed
 		 */
-		protected function retrieve(): mixed
-		{
-			if( $this->exists() ){
+		protected function retrieve(): mixed {
+			if ( $this->exists() ) {
 				return get_option( $this->get_option_name() );
 			}
 
@@ -185,9 +181,8 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return bool
 		 */
-		protected function exists(): bool
-		{
-			if( ! empty( $this->option_prefix ) && ! empty( $this->id ) ) {
+		protected function exists(): bool {
+			if ( ! empty( $this->option_prefix ) && ! empty( $this->id ) ) {
 				if ( get_option( $this->get_option_name() ) ) {
 					return true;
 				}
@@ -203,8 +198,7 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return string
 		 */
-		protected function get_option_name(): string
-		{
+		protected function get_option_name(): string {
 			return $this->option_prefix . '-' . $this->id;
 		}
 
@@ -215,11 +209,10 @@ if( ! class_exists( 'CSVM_Base_Model' ) ){
 		 *
 		 * @return array
 		 */
-		protected function get_field_names(): array
-		{
+		protected function get_field_names(): array {
 			$returnable = array();
 
-			foreach( $this->fields as $field => $options ){
+			foreach ( $this->fields as $field => $options ) {
 				$returnable[] = $field;
 			}
 

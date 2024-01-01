@@ -1,9 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists('CSVM_Table_Validator') ){
-	class CSVM_Table_Validator{
+if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
+	class CSVM_Table_Validator {
+
 		/**
 		 * The submitted fields
 		 *
@@ -50,15 +53,14 @@ if( ! class_exists('CSVM_Table_Validator') ){
 		 *
 		 * @return string
 		 */
-		public static function get_default( string $table, string $field ): string
-		{
+		public static function get_default( string $table, string $field ): string {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . $table;
-			$columns = $wpdb->get_results('DESCRIBE ' . $table_name . ';');
+			$columns    = $wpdb->get_results( 'DESCRIBE ' . $table_name . ';' );
 
-			foreach( $columns as $column ){
-				if( $column->Field === $field && ! empty( $column->Default ) ){
+			foreach ( $columns as $column ) {
+				if ( $column->Field === $field && ! empty( $column->Default ) ) {
 					return $column->Default;
 				}
 			}
@@ -66,9 +68,8 @@ if( ! class_exists('CSVM_Table_Validator') ){
 			return '';
 		}
 
-		public function __construct( array $columns, array $fields )
-		{
-			$this->fields = $fields;
+		public function __construct( array $columns, array $fields ) {
+			$this->fields  = $fields;
 			$this->columns = $columns;
 
 			$this->start();
@@ -81,9 +82,8 @@ if( ! class_exists('CSVM_Table_Validator') ){
 		 *
 		 * @return bool
 		 */
-		public function status(): bool
-		{
-			if( ! $this->returnable ){
+		public function status(): bool {
+			if ( ! $this->returnable ) {
 				return true;
 			}
 
@@ -97,9 +97,8 @@ if( ! class_exists('CSVM_Table_Validator') ){
 		 *
 		 * @return string|bool
 		 */
-		public function get_error(): string|bool
-		{
-			if( ! $this->returnable && ! empty( $this->error ) ){
+		public function get_error(): string|bool {
+			if ( ! $this->returnable && ! empty( $this->error ) ) {
 				return $this->error;
 			}
 
@@ -113,10 +112,9 @@ if( ! class_exists('CSVM_Table_Validator') ){
 		 *
 		 * @return void
 		 */
-		private function start(): void
-		{
-			foreach( $this->columns as $column ){
-				if( $column->Field === 'ID' || $column->Field === 'id' || $column->Field === 'post_type' ){
+		private function start(): void {
+			foreach ( $this->columns as $column ) {
+				if ( $column->Field === 'ID' || $column->Field === 'id' || $column->Field === 'post_type' ) {
 					continue;
 				}
 
@@ -133,59 +131,58 @@ if( ! class_exists('CSVM_Table_Validator') ){
 		 *
 		 * @return void
 		 */
-		private function validate_column( object $column ): void
-		{
+		private function validate_column( object $column ): void {
 			$data_types = array(
-				'char'          => 'string',
-				'varchar'       => 'string',
-				'binary'        => 'string',
-				'varbinary'     => 'string',
-				'tinyblob'      => 'string',
-				'tinytext'      => 'string',
-				'text'          => 'string',
-				'blob'          => 'string',
-				'mediumtext'    => 'string',
-				'mediumblob'    => 'string',
-				'longtext'      => 'string',
-				'longblob'      => 'string',
-				'enum'          => 'string',
-				'set'           => 'string',
-				'bit'           => 'numeric',
-				'tinyint'       => 'numeric',
-				'bool'          => 'numeric',
-				'boolean'       => 'numeric',
-				'smallint'      => 'numeric',
-				'mediumint'     => 'numeric',
-				'int'           => 'numeric',
-				'integer'       => 'numeric',
-				'bigint'        => 'numeric',
-				'decimal'       => 'numeric',
-				'dec'           => 'numeric',
-				'float'          => 'float',
-				'double'        => 'float',
-				'date'          => 'date',
-				'datetime'      => 'date',
-				'timestamp'     => 'date',
-				'time'          => 'date',
-				'year'          => 'date',
+				'char'       => 'string',
+				'varchar'    => 'string',
+				'binary'     => 'string',
+				'varbinary'  => 'string',
+				'tinyblob'   => 'string',
+				'tinytext'   => 'string',
+				'text'       => 'string',
+				'blob'       => 'string',
+				'mediumtext' => 'string',
+				'mediumblob' => 'string',
+				'longtext'   => 'string',
+				'longblob'   => 'string',
+				'enum'       => 'string',
+				'set'        => 'string',
+				'bit'        => 'numeric',
+				'tinyint'    => 'numeric',
+				'bool'       => 'numeric',
+				'boolean'    => 'numeric',
+				'smallint'   => 'numeric',
+				'mediumint'  => 'numeric',
+				'int'        => 'numeric',
+				'integer'    => 'numeric',
+				'bigint'     => 'numeric',
+				'decimal'    => 'numeric',
+				'dec'        => 'numeric',
+				'float'      => 'float',
+				'double'     => 'float',
+				'date'       => 'date',
+				'datetime'   => 'date',
+				'timestamp'  => 'date',
+				'time'       => 'date',
+				'year'       => 'date',
 			);
 
-			foreach( $data_types as $type => $rules ){
+			foreach ( $data_types as $type => $rules ) {
 				$column_type = strtolower( $column->Type );
 
-				if( str_starts_with( $column_type, $type ) ){
-					if( $column->Null === 'NO' ){
+				if ( str_starts_with( $column_type, $type ) ) {
+					if ( $column->Null === 'NO' ) {
 						$rules = $rules . '|required';
 					}
 
-					if( str_contains( '(', $column->Type ) && str_contains( ')', $column->Type ) ){
-						$limit = ( explode( ')' ,( explode( '(' ,$column->Type ) )[1] ) )[0];
+					if ( str_contains( '(', $column->Type ) && str_contains( ')', $column->Type ) ) {
+						$limit = ( explode( ')', ( explode( '(', $column->Type ) )[1] ) )[0];
 						$rules = $rules . '|min:' . $limit;
 					}
 
-					$validator = new CSVM_Validator( $column->Field, $this->fields[$column->Field], $rules );
+					$validator = new CSVM_Validator( $column->Field, $this->fields[ $column->Field ], $rules );
 
-					if( ! $validator->result() ){
+					if ( ! $validator->result() ) {
 						$this->error( $validator->get_error() );
 						break;
 					}
@@ -202,10 +199,9 @@ if( ! class_exists('CSVM_Table_Validator') ){
 		 *
 		 * @return void
 		 */
-		private function error( string $error ): void
-		{
+		private function error( string $error ): void {
 			$this->returnable = false;
-			$this->error = printf( esc_html__( '%s', 'csvmapper' ), $error );
+			$this->error      = printf( esc_html__( '%s', 'csvmapper' ), $error );
 		}
 	}
 }

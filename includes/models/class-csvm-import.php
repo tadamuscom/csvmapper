@@ -1,8 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists( 'CSVM_Import' ) ){
+if ( ! class_exists( 'CSVM_Import' ) ) {
 
 	/**
 	 * @property mixed|string           $file_path      required
@@ -14,11 +16,12 @@ if( ! class_exists( 'CSVM_Import' ) ){
 	 * @property array                  $ids
 	 * @property string                 $table
 	 * @property string                 $post_type
-     * @property integer                $total_rows
+	 * @property integer                $total_rows
 	 * @property integer                $number_of_rows
 	 * @property array                  $runs
 	 */
-	class CSVM_Import extends CSVM_Base_Model{
+	class CSVM_Import extends CSVM_Base_Model {
+
 		/**
 		 * The prefix of the model option
 		 *
@@ -36,18 +39,18 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 * @var array|string[]
 		 */
 		protected array $fields = array(
-			'id'                => 'required|string',
-			'file_path'          => 'required|string',
-			'file_url'           => 'required|string',
-			'headers'           => 'required|array',
-			'type'              => 'required|string',
-			'template'          => 'string',
-			'ids'               => 'array',
-			'table'             => 'string',
-			'post_type'         => 'string',
-            'total_rows'        => 'numeric',
-			'number_of_rows'    => 'integer',
-			'runs'              => 'array'
+			'id'             => 'required|string',
+			'file_path'      => 'required|string',
+			'file_url'       => 'required|string',
+			'headers'        => 'required|array',
+			'type'           => 'required|string',
+			'template'       => 'string',
+			'ids'            => 'array',
+			'table'          => 'string',
+			'post_type'      => 'string',
+			'total_rows'     => 'numeric',
+			'number_of_rows' => 'integer',
+			'runs'           => 'array',
 		);
 		/**
 		 * Holds the allowed types of import
@@ -60,7 +63,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 			'Post Meta',
 			'User Meta',
 			'Custom Table',
-			'Posts'
+			'Posts',
 		);
 
 		/**
@@ -72,8 +75,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return void
 		 */
-		public function __construct( string|bool $id = false )
-		{
+		public function __construct( string|bool $id = false ) {
 			parent::__construct( $id );
 		}
 
@@ -86,15 +88,14 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return void
 		 */
-		public function process( array $file ): void
-		{
-			$this->id          = $this->generate_id();
-			$this->file_path    = $file['file'];
-			$this->file_url     = $file['url'];
+		public function process( array $file ): void {
+			$this->id        = $this->generate_id();
+			$this->file_path = $file['file'];
+			$this->file_url  = $file['url'];
 
 			$file = fopen( $this->file_path, 'r' );
-			$csv = fgetcsv ( $file );
-			fclose($file);
+			$csv  = fgetcsv( $file );
+			fclose( $file );
 
 			$this->headers = $csv;
 		}
@@ -108,8 +109,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return void
 		 */
-		public function set_ids( string $ids ): void
-		{
+		public function set_ids( string $ids ): void {
 			$this->ids = array_unique( explode( ',', trim( $ids ) ) );
 		}
 
@@ -120,8 +120,7 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return array
 		 */
-		public function get_headers(): array
-		{
+		public function get_headers(): array {
 			return $this->headers;
 		}
 
@@ -132,12 +131,11 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_headers_slugs_json(): string
-		{
+		public function get_headers_slugs_json(): string {
 			$returnable = array();
 
-			foreach( $this->headers as $header ){
-				$returnable[] = csvm_convert_to_slug($header);
+			foreach ( $this->headers as $header ) {
+				$returnable[] = csvm_convert_to_slug( $header );
 			}
 
 			return json_encode( $returnable );
@@ -150,26 +148,24 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_headers_json(): string
-		{
+		public function get_headers_json(): string {
 			$returnable = array();
 
-			foreach( $this->headers as $header ){
+			foreach ( $this->headers as $header ) {
 				$returnable[] = $header;
 			}
 
 			return json_encode( $returnable );
 		}
 
-		public function get_db_table_columns( string $table_name ): array
-		{
+		public function get_db_table_columns( string $table_name ): array {
 			global $wpdb;
 
-			$result = $wpdb->get_results( 'DESCRIBE ' . $wpdb->prefix . $table_name );
+			$result  = $wpdb->get_results( 'DESCRIBE ' . $wpdb->prefix . $table_name );
 			$columns = array();
 
-			foreach( $result as $column ){
-				if( $column->Field === 'ID' ){
+			foreach ( $result as $column ) {
+				if ( $column->Field === 'ID' ) {
 					continue;
 				}
 
@@ -186,9 +182,8 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return int
 		 */
-		public function run_count(): int
-		{
-			if( ! empty( $this->runs ) && is_array( $this->runs ) ){
+		public function run_count(): int {
+			if ( ! empty( $this->runs ) && is_array( $this->runs ) ) {
 				return count( $this->runs );
 			}
 
@@ -204,15 +199,14 @@ if( ! class_exists( 'CSVM_Import' ) ){
 		 *
 		 * @return string
 		 */
-		private function generate_id( string|bool $prefix = false ): string
-		{
+		private function generate_id( string|bool $prefix = false ): string {
 			$id = uniqid();
 
-			if( $prefix ) {
+			if ( $prefix ) {
 				$id = uniqid( $prefix );
 			}
 
-			if( self::exists( $id ) ){
+			if ( self::exists( $id ) ) {
 				$this->generate_id( $prefix );
 			}
 

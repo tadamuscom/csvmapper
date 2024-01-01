@@ -1,41 +1,43 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-if( ! class_exists('CSVM_View' ) ){
-	class CSVM_View{
+if ( ! class_exists( 'CSVM_View' ) ) {
+	class CSVM_View {
+
 		/**
-         * The view name
-         *
-         * @since 1.0
-         *
+		 * The view name
+		 *
+		 * @since 1.0
+		 *
 		 * @var string
 		 */
 		private string $view;
 
 		/**
-         * The attached values
-         *
-         * @since 1.0
-         *
+		 * The attached values
+		 *
+		 * @since 1.0
+		 *
 		 * @var mixed
 		 */
 		private mixed $with;
 
 		/**
-         * Notifications toggle
-         *
-         * @since 1.0
-         *
+		 * Notifications toggle
+		 *
+		 * @since 1.0
+		 *
 		 * @var bool|mixed
 		 */
 		private bool $notifications;
 
-		public function __construct( string $view, $with = false, $notifications = true )
-		{
+		public function __construct( string $view, $with = false, $notifications = true ) {
 			$this->view = $view;
 
-			if( $with ){
+			if ( $with ) {
 				$this->with = $with;
 			}
 
@@ -51,9 +53,8 @@ if( ! class_exists('CSVM_View' ) ){
 		 *
 		 * @return void
 		 */
-		private function add_notifications(): void
-		{
-			if( $this->notifications ) {
+		private function add_notifications(): void {
+			if ( $this->notifications ) {
 				if ( isset( $_COOKIE['csvm_redirect_type'] ) && isset( $_COOKIE['csvm_redirect_message'] ) ) {
 					$type    = $this->generate_message_class( $_COOKIE['csvm_redirect_type'] );
 					$message = $_COOKIE['csvm_redirect_message'];
@@ -73,8 +74,7 @@ if( ! class_exists('CSVM_View' ) ){
 		 *
 		 * @return void
 		 */
-		private function show_redirect_message( string $type, string $message ): void
-		{
+		private function show_redirect_message( string $type, string $message ): void {
 			?>
 			<div class="csvm-message-container">
 				<div class="csvm-notice <?php echo $type; ?>">
@@ -83,8 +83,8 @@ if( ! class_exists('CSVM_View' ) ){
 			</div>
 
 			<script>
-                document.cookie = "csvm_redirect_type=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                document.cookie = "csvm_redirect_message=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				document.cookie = "csvm_redirect_type=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				document.cookie = "csvm_redirect_message=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 			</script>
 			<?php
 		}
@@ -98,15 +98,13 @@ if( ! class_exists('CSVM_View' ) ){
 		 *
 		 * @return string
 		 */
-		private function generate_message_class( string $type ): string
-		{
+		private function generate_message_class( string $type ): string {
 			return match ( $type ) {
 				'success' => 'csvm-success',
 				'alert' => 'csvm-alert',
 				'error' => 'csvm-error',
 				default => '',
 			};
-
 		}
 
 		/**
@@ -114,17 +112,16 @@ if( ! class_exists('CSVM_View' ) ){
 		 *
 		 * @since 1.0
 		 */
-		private function render(): void
-		{
+		private function render(): void {
 			$this->add_notifications();
 
-			if( ! empty( $this->with ) ){
-				foreach( $this->with as $key => $value ){
+			if ( ! empty( $this->with ) ) {
+				foreach ( $this->with as $key => $value ) {
 					${$key} = $value;
 				}
 			}
 
-			require_once CSVM_VIEW . '/' . $this->view . '.php';
+			include_once CSVM_VIEW . '/' . $this->view . '.php';
 		}
 	}
 }
