@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Add and manage admin pages
  *
@@ -8,12 +7,21 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Menu' ) ) {
+	/**
+	 * Add and manage admin pages
+	 */
 	class CSVM_Menu {
-
+		/**
+		 * Add the pages through the admin_menu hook
+		 *
+		 * @since 1.0
+		 *
+		 * @return void
+		 */
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'pages' ) );
 		}
@@ -38,7 +46,7 @@ if ( ! class_exists( 'CSVM_Menu' ) ) {
 		 * @return void
 		 */
 		public function main_callback(): void {
-			new CSVM_View( 'admin/main_page', false, false );
+			new CSVM_View( 'admin/main-page', false, false );
 		}
 
 		/**

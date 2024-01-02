@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Validate the table columns from the MySQL database
  *
@@ -8,12 +7,14 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
+	/**
+	 * Validate the table columns from the MySQL database
+	 */
 	class CSVM_Table_Validator {
-
 		/**
 		 * The submitted fields
 		 *
@@ -55,8 +56,8 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $table
-		 * @param string $field
+		 * @param string $table The name of the database table.
+		 * @param string $field The name of the field.
 		 *
 		 * @return string
 		 */
@@ -64,17 +65,26 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . $table;
-			$columns    = $wpdb->get_results( 'DESCRIBE ' . $table_name . ';' );
+			$columns    = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %s;', $table_name ), 'ARRAY_A' );
 
 			foreach ( $columns as $column ) {
-				if ( $column->Field === $field && ! empty( $column->Default ) ) {
-					return $column->Default;
+				if ( $column['Field'] === $field && ! empty( $column['Default'] ) ) {
+					return $column['Default'];
 				}
 			}
 
 			return '';
 		}
 
+		/**
+		 * Validate the table
+		 *
+		 * @since 1.0
+		 *
+		 * @param array $columns The columns of the table.
+		 * @param array $fields The fields.
+		 * @return void
+		 */
 		public function __construct( array $columns, array $fields ) {
 			$this->fields  = $fields;
 			$this->columns = $columns;
@@ -121,7 +131,7 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 		 */
 		private function start(): void {
 			foreach ( $this->columns as $column ) {
-				if ( $column->Field === 'ID' || $column->Field === 'id' || $column->Field === 'post_type' ) {
+				if ( 'ID' === $column['Field'] || 'id' === $column['Field'] || 'post_type' === $column['Field'] ) {
 					continue;
 				}
 
@@ -134,7 +144,7 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param object $column
+		 * @param object $column The column name.
 		 *
 		 * @return void
 		 */
@@ -175,19 +185,19 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 			);
 
 			foreach ( $data_types as $type => $rules ) {
-				$column_type = strtolower( $column->Type );
+				$column_type = strtolower( $column['Type'] );
 
 				if ( str_starts_with( $column_type, $type ) ) {
-					if ( $column->Null === 'NO' ) {
+					if ( 'NO' === $column['Null'] ) {
 						$rules = $rules . '|required';
 					}
 
-					if ( str_contains( '(', $column->Type ) && str_contains( ')', $column->Type ) ) {
-						$limit = ( explode( ')', ( explode( '(', $column->Type ) )[1] ) )[0];
+					if ( str_contains( '(', $column['Type'] ) && str_contains( ')', $column['Type'] ) ) {
+						$limit = ( explode( ')', ( explode( '(', $column['Type'] ) )[1] ) )[0];
 						$rules = $rules . '|min:' . $limit;
 					}
 
-					$validator = new CSVM_Validator( $column->Field, $this->fields[ $column->Field ], $rules );
+					$validator = new CSVM_Validator( $column['Field'], $this->fields[ $column['Field'] ], $rules );
 
 					if ( ! $validator->result() ) {
 						$this->error( $validator->get_error() );
@@ -202,13 +212,14 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $error
+		 * @param string $error The error name.
 		 *
 		 * @return void
 		 */
 		private function error( string $error ): void {
 			$this->returnable = false;
-			$this->error      = printf( esc_html__( '%s', 'csvmapper' ), $error );
+			// translators: The error name.
+			$this->error = printf( esc_html__( 'Error: %s', 'csvmapper' ), esc_html( $error ) );
 		}
 	}
 }

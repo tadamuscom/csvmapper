@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Loader element for form actions
  *
@@ -9,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly
+} // Exit if accessed directly.
 
 ?>
 <div id="csvm-loader-wrap" class="csvm-d-none">

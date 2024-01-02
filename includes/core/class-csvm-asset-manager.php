@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Enqueue all the scripts and styles
  *
@@ -8,12 +7,17 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Asset_Manager' ) ) {
+	/**
+	 * Enqueue all the scripts and styles
+	 */
 	class CSVM_Asset_Manager {
-
+		/**
+		 * Add the scripts through their hooks
+		 */
 		public function __construct() {
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		}
@@ -27,10 +31,10 @@ if ( ! class_exists( 'CSVM_Asset_Manager' ) ) {
 		 */
 		public function admin_scripts(): void {
 			if ( is_admin() ) {
-				// Styles
+				// Styles.
 				wp_enqueue_style( 'csvmapper-admin-stylesheet', CSVM_CSS . '/admin/style.css', array(), CSVM_VERSION_NUMBER );
 
-				// Scripts
+				// Scripts.
 				wp_register_script( 'csvmapper-settings', CSVM_JS . '/admin/settings.js', array(), CSVM_VERSION_NUMBER, true );
 				wp_register_script( 'csvmapper-first-step', CSVM_JS . '/admin/first-step.js', array(), CSVM_VERSION_NUMBER, true );
 				wp_register_script( 'csvmapper-mapping', CSVM_JS . '/admin/mapping.js', array(), CSVM_VERSION_NUMBER, true );

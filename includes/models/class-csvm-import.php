@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Import model
  *
@@ -8,12 +7,14 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Import' ) ) {
 
 	/**
+	 * Import model
+	 *
 	 * @property mixed|string           $file_path      required
 	 * @property integer|mixed|string   $id             required
 	 * @property mixed|string           $file_url       required
@@ -78,7 +79,7 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string|bool $id
+		 * @param string|bool $id The ID of the import.
 		 *
 		 * @return void
 		 */
@@ -91,7 +92,7 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param array $file
+		 * @param array $file The CSV file.
 		 *
 		 * @return void
 		 */
@@ -112,7 +113,7 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $ids
+		 * @param string $ids The IDs.
 		 *
 		 * @return void
 		 */
@@ -165,18 +166,27 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 			return json_encode( $returnable );
 		}
 
+		/**
+		 * Ge the columns of the database table
+		 *
+		 * @since 1.0
+		 *
+		 * @param string $table_name The name of the table.
+		 *
+		 * @return array
+		 */
 		public function get_db_table_columns( string $table_name ): array {
 			global $wpdb;
 
-			$result  = $wpdb->get_results( 'DESCRIBE ' . $wpdb->prefix . $table_name );
+			$result  = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %s;', $wpdb->prefix ) );
 			$columns = array();
 
 			foreach ( $result as $column ) {
-				if ( $column->Field === 'ID' ) {
+				if ( 'ID' === $column['Field'] ) {
 					continue;
 				}
 
-				$columns[] = $column->Field;
+				$columns[] = $column['Field'];
 			}
 
 			return $columns;
@@ -202,7 +212,7 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string|bool $prefix
+		 * @param string|bool $prefix The prefix for the ids.
 		 *
 		 * @return string
 		 */

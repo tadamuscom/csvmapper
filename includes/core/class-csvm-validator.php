@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Validate the provided data
  *
@@ -8,12 +7,14 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Validator' ) ) {
+	/**
+	 * Validate the provided data
+	 */
 	class CSVM_Validator {
-
 		/**
 		 * The value passed to the constructor
 		 *
@@ -59,7 +60,17 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 */
 		private string $field;
 
-		public function __construct( $field, $value, $options ) {
+		/**
+		 * Begin validation
+		 *
+		 * @since 1.0
+		 *
+		 * @param string $field The name of the field.
+		 * @param mixed  $value The value for the field.
+		 * @param mixed  $options The options.
+		 * @return void
+		 */
+		public function __construct( string $field, mixed $value, mixed $options ) {
 			$this->field      = $field;
 			$this->value      = $value;
 			$this->options    = explode( '|', $options );
@@ -79,7 +90,7 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 			foreach ( $this->options as $option ) {
 				$this->individual_validation( $option );
 
-				if ( $this->returnable === false ) {
+				if ( false === $this->returnable ) {
 					break;
 				}
 			}
@@ -116,11 +127,11 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $option
+		 * @param string $option The rule name.
 		 *
 		 * @return void
 		 */
-		private function individual_validation( $option ): void {
+		private function individual_validation( string $option ): void {
 			switch ( $option ) {
 				case 'required':
 					$this->required( $this->value );
@@ -163,12 +174,12 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $value
+		 * @param mixed $value The value of the field.
 		 *
 		 * @return void
 		 */
-		private function required( $value ): void {
-			if ( $value != 0 ) {
+		private function required( mixed $value ): void {
+			if ( 0 !== $value ) {
 				if ( empty( $value ) ) {
 					$this->trigger_error( 'is required' );
 				}
@@ -180,11 +191,11 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $value
+		 * @param mixed $value The value of the field.
 		 *
 		 * @return void
 		 */
-		private function string( $value ): void {
+		private function string( mixed $value ): void {
 			if ( ! is_string( $value ) ) {
 				$this->trigger_error( 'must be a string' );
 			}
@@ -195,11 +206,11 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $value
+		 * @param mixed $value The value of the field.
 		 *
 		 * @return void
 		 */
-		private function integer( $value ): void {
+		private function integer( mixed $value ): void {
 			if ( ! is_integer( $value ) ) {
 				$this->trigger_error( 'must be an integer' );
 			}
@@ -210,11 +221,11 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $value
+		 * @param mixed $value The value of the field.
 		 *
 		 * @return void
 		 */
-		private function numeric( $value ): void {
+		private function numeric( mixed $value ): void {
 			if ( ! is_numeric( $value ) ) {
 				$this->trigger_error( 'must be a number' );
 			}
@@ -225,11 +236,11 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $value
+		 * @param mixed $value The value of the field.
 		 *
 		 * @return void
 		 */
-		private function float( $value ): void {
+		private function float( mixed $value ): void {
 			if ( ! is_float( $value ) ) {
 				$this->trigger_error( 'must be a float' );
 			}
@@ -240,11 +251,11 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $value
+		 * @param mixed $value The value of the field.
 		 *
 		 * @return void
 		 */
-		private function array( $value ): void {
+		private function array( mixed $value ): void {
 			if ( ! is_array( $value ) ) {
 				$this->trigger_error( 'must be an array' );
 			}
@@ -255,11 +266,11 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $value
+		 * @param mixed $value The value of the field.
 		 *
 		 * @return void
 		 */
-		private function date( $value ): void {
+		private function date( mixed $value ): void {
 			if ( ! strtotime( $value ) ) {
 				$this->trigger_error( 'must be a date' );
 			}
@@ -270,8 +281,8 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $value
-		 * @param int    $limit
+		 * @param string $value The value of the field.
+		 * @param int    $limit The minimum limit.
 		 *
 		 * @return void
 		 */
@@ -286,8 +297,8 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $value
-		 * @param int    $limit
+		 * @param string $value The value of the field.
+		 * @param int    $limit The maximum limit.
 		 *
 		 * @return void
 		 */
@@ -302,13 +313,14 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $contents
+		 * @param string $contents The error message.
 		 *
 		 * @return void
 		 */
-		private function trigger_error( $contents ): void {
+		private function trigger_error( string $contents ): void {
 			$this->returnable = false;
-			$this->error      = printf( esc_html__( '%1$s %2$s', 'csvmapper' ), $this->field, $contents );
+			// translators: The field and the error message.
+			$this->error = printf( esc_html__( 'Error: %1$s %2$s', 'csvmapper' ), esc_html( $this->field ), esc_html( $contents ) );
 		}
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * General settings class
  *
@@ -8,12 +7,14 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Settings' ) ) {
+	/**
+	 * General settings class
+	 */
 	class CSVM_Settings {
-
 		/**
 		 * The name of the option in which the settings will be saved
 		 *
@@ -32,6 +33,13 @@ if ( ! class_exists( 'CSVM_Settings' ) ) {
 		 */
 		private array $setting_names = array();
 
+		/**
+		 * Load the settings
+		 *
+		 * @since 1.0
+		 *
+		 * @return void
+		 */
 		public function __construct() {
 			$this->load();
 		}
@@ -61,7 +69,7 @@ if ( ! class_exists( 'CSVM_Settings' ) ) {
 		 * @return void
 		 */
 		private function set_defaults(): void {
-			// Add defaults
+			// Add defaults.
 		}
 
 		/**
@@ -78,7 +86,7 @@ if ( ! class_exists( 'CSVM_Settings' ) ) {
 				$returnable[] = $this->{$setting};
 			}
 
-			return json_encode( $returnable );
+			return wp_json_encode( $returnable );
 		}
 	}
 }

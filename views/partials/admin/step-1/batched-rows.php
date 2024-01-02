@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Partial for the batched rows option
  *
@@ -9,12 +8,12 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly
+} // Exit if accessed directly.
 
 ?>
 <div class="csvm-d-none" id="csvm-batched-rows-wrap">
 	<div class="csvm-form-group">
-		<label for="csvm-batched-rows"><?php echo __( 'Batched Rows', 'csvmapper' ); ?></label>
+		<label for="csvm-batched-rows"><?php echo esc_html__( 'Batched Rows', 'csvmapper' ); ?></label>
 		<select name="csvm-batched-rows" id="csvm-batched-rows">
 			<option value="10">10</option>
 			<option value="20">20</option>

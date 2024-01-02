@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Add and configure WP Cron tasks
  *
@@ -8,14 +7,19 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Cron' ) ) {
+	/**
+	 * Add and configure WP Cron tasks
+	 */
 	class CSVM_Cron {
-
+		/**
+		 * Add the code through hooks and schedule the cron event
+		 */
 		public function __construct() {
-			if ( get_option( 'csvm_enable_cron_task' ) === 'true' ) {
+			if ( 'true' === get_option( 'csvm_enable_cron_task' ) ) {
 				add_action( 'csvm_import_lookout', array( $this, 'lookout_callback' ) );
 				add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
@@ -49,7 +53,7 @@ if ( ! class_exists( 'CSVM_Cron' ) ) {
 
 					$this->run_batch( $run, $import, $last_row );
 
-					if ( $run->status === CSVM_Run::$waiting_status ) {
+					if ( CSVM_Run::$waiting_status === $run->status ) {
 						$run->set_in_progress();
 					}
 				}
@@ -61,7 +65,7 @@ if ( ! class_exists( 'CSVM_Cron' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param array $schedules
+		 * @param array $schedules The schedule types from WordPress.
 		 *
 		 * @return array
 		 */
@@ -80,13 +84,13 @@ if ( ! class_exists( 'CSVM_Cron' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param CSVM_Run    $run
-		 * @param CSVM_Import $import
-		 * @param $last_row
+		 * @param CSVM_Run    $run The CSVM_Run object.
+		 * @param CSVM_Import $import The CSVM_Import object.
+		 * @param mixed       $last_row The last row from the file.
 		 *
 		 * @return void
 		 */
-		private function run_batch( CSVM_Run $run, CSVM_Import $import, $last_row ): void {
+		private function run_batch( CSVM_Run $run, CSVM_Import $import, mixed $last_row ): void {
 			if ( $last_row < $import->total_rows ) {
 				$first_row = $run->last_row + 1;
 				$last_row  = $first_row + $import->number_of_rows;

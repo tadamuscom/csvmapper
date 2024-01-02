@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Process CSV files
  *
@@ -8,10 +7,13 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
+	/**
+	 * Process CSV files
+	 */
 	class CSVM_CSV_Handler {
 
 		/**
@@ -55,10 +57,18 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @var
+		 * @var $file
 		 */
 		private $file;
 
+		/**
+		 * Initiate the CSVM_Run model
+		 *
+		 * @since 1.0
+		 *
+		 * @param CSVM_Run $run The CSVM_Run object.
+		 * @return void
+		 */
 		public function __construct( CSVM_Run $run ) {
 			$this->run    = $run;
 			$this->import = new CSVM_Import( $run->import_id );
@@ -69,8 +79,8 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string|bool $start
-		 * @param string|bool $limit
+		 * @param string|bool $start The start row.
+		 * @param string|bool $limit The limit of rows per batch.
 		 *
 		 * @return void
 		 */
@@ -78,7 +88,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 			$this->file = fopen( $this->import->file_path, 'r' );
 
 			if ( ! $this->file ) {
-				wp_die( __( 'CSV File couldn\'t be open', 'csvmapper' ) );
+				wp_die( esc_html__( 'CSV File couldn\'t be open', 'csvmapper' ) );
 			}
 
 			if ( ! $start && ! $limit ) {
@@ -104,21 +114,36 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 			$this->run();
 		}
 
+		/**
+		 * Run on part of the file
+		 *
+		 * @param int $start The start row.
+		 * @param int $end The end row.
+		 *
+		 * @return void
+		 */
 		private function partial_run( int $start, int $end ): void {
 			$this->partial_process_file( $start, $end );
 			$this->run( false );
 		}
 
-		private function run( $complete = true ): void {
+		/**
+		 * Start working on the CSV file
+		 *
+		 * @param bool $complete Set to true if the run should be run completely.
+		 *
+		 * @return void
+		 */
+		private function run( bool $complete = true ): void {
 			$this->run->set_in_progress();
 
-			if ( $this->import->type === 'post-meta' || $this->import->type === 'user-meta' ) {
+			if ( 'post-meta' === $this->import->type || 'user-meta' === $this->import->type ) {
 				foreach ( $this->import->ids as $id ) {
 					$this->meta_template( $id );
 				}
 			}
 
-			if ( $this->import->type === 'posts' ) {
+			if ( 'posts' === $this->import->type ) {
 				$this->table_template();
 			}
 
@@ -138,7 +163,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 			$index = 0;
 
 			while ( ( $row = fgetcsv( $this->file ) ) !== false ) {
-				if ( $index === 0 ) {
+				if ( 0 === $index ) {
 					$this->buffer['headers'] = $row;
 					++$index;
 					continue;
@@ -150,6 +175,14 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 			}
 		}
 
+		/**
+		 * Process a file partially
+		 *
+		 * @param int $start The start row.
+		 * @param int $limit How many rows should be processed.
+		 *
+		 * @return void
+		 */
 		private function partial_process_file( int $start, int $limit ): void {
 			$file_obj = new SplFileObject( $this->import->file_path, 'r' );
 			$file_obj->seek( $start );
@@ -162,7 +195,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 					break;
 				}
 
-				if ( $index === 0 ) {
+				if ( 0 === $index ) {
 					$this->buffer['headers'] = $row;
 					++$index;
 					continue;
@@ -179,7 +212,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param int $id
+		 * @param int $id The ID of the item.
 		 *
 		 * @return void
 		 */
@@ -194,9 +227,9 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param int    $id
-		 * @param string $key
-		 * @param string $value
+		 * @param int    $id The ID of the item.
+		 * @param string $key The key of the item.
+		 * @param string $value The value of the item.
 		 *
 		 * @return void
 		 */
@@ -204,11 +237,11 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 			foreach ( $this->buffer['rows'] as $row ) {
 				$this->row = $row;
 
-				if ( $this->import->type === 'post-meta' ) {
+				if ( 'post-meta' === $this->import->type ) {
 					add_post_meta( $id, $this->format_headers( $key ), $this->format_headers( $value ) );
 				}
 
-				if ( $this->import->type === 'user-meta' ) {
+				if ( 'user-meta' === $this->import->type ) {
 					add_user_meta( $id, $this->format_headers( $key ), $this->format_headers( $value ) );
 				}
 			}
@@ -243,7 +276,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $string
+		 * @param string $string The string that should be formatted.
 		 *
 		 * @return string
 		 */

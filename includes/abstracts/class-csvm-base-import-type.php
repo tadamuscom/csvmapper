@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Parent of all imports
  *
@@ -8,9 +7,12 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
+/**
+ * Parent of all imports
+ */
 abstract class CSVM_Base_Import_Type {
 
 	/**
@@ -21,7 +23,7 @@ abstract class CSVM_Base_Import_Type {
 	 * @return bool
 	 */
 	public function is_complete(): bool {
-		if ( $this->run->status === CSVM_Run::$complete_status ) {
+		if ( CSVM_Run::$complete_status === $this->run->status ) {
 			return true;
 		}
 

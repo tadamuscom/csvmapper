@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Partial for the table map
  *
@@ -8,7 +7,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 $headers = $import->get_headers();
@@ -19,18 +18,18 @@ $columns = $import->get_db_table_columns( $import->table );
 	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
 		<input type="hidden" name="import_id" value="<?php echo esc_attr( $import->id ); ?>">
 		<input type="hidden" name="action" value="csvm-table-mapping">
-		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'csvm-table-mapping' ); ?>">
+		<input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'csvm-table-mapping' ) ); ?>">
 
 		<?php
 		foreach ( $columns as $column ) :
-			if ( $column === 'post_type' ) {
+			if ( 'post_type' === $column ) {
 				continue;
 			}
 			?>
 			<div class="csvm-form-group">
 				<div class="csvm-map-group">
 					<div class="csvm-map-cell">
-						<p for="csv-header-<?php echo  esc_attr( csvm_convert_to_slug( $column ) ); ?>"><?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?></p>
+						<p for="csv-header-<?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?>"><?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?></p>
 					</div>
 					<div class="csvm-map-cell">
 						<p>-></p>
@@ -38,7 +37,7 @@ $columns = $import->get_db_table_columns( $import->table );
 					<div class="csvm-map-cell">
 						<div class="csvm-meta-group">
 							<div class="csvm-form-group">
-								<label for="<?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?>"><?php echo __( 'Value', 'csvmapper' ); ?></label>
+								<label for="<?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?>"><?php echo esc_html__( 'Value', 'csvmapper' ); ?></label>
 								<div class="csvm-inline-form-group">
 									<input type="text" name="value-<?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?>" id="<?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?>" value="<?php echo esc_attr( CSVM_Table_Validator::get_default( 'posts', $column ) ); ?>">
 									<a href="javascript:void(0)" id="value-settings-<?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?>" class="csvm-open-field-list" group="<?php echo esc_attr( csvm_convert_to_slug( $column ) ); ?>">

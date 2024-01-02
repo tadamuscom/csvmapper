@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Render a view
  *
@@ -8,10 +7,13 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_View' ) ) {
+	/**
+	 * Render a view
+	 */
 	class CSVM_View {
 
 		/**
@@ -41,7 +43,16 @@ if ( ! class_exists( 'CSVM_View' ) ) {
 		 */
 		private bool $notifications;
 
-		public function __construct( string $view, $with = false, $notifications = true ) {
+		/**
+		 * Initiate the view
+		 *
+		 * @param string $view The name of the view.
+		 * @param mixed  $with The data attached.
+		 * @param bool   $notifications Activate or deactivate the notifications partial.
+		 *
+		 * @return void
+		 */
+		public function __construct( string $view, mixed $with = false, bool $notifications = true ) {
 			$this->view = $view;
 
 			if ( $with ) {
@@ -63,8 +74,8 @@ if ( ! class_exists( 'CSVM_View' ) ) {
 		private function add_notifications(): void {
 			if ( $this->notifications ) {
 				if ( isset( $_COOKIE['csvm_redirect_type'] ) && isset( $_COOKIE['csvm_redirect_message'] ) ) {
-					$type    = $this->generate_message_class( $_COOKIE['csvm_redirect_type'] );
-					$message = $_COOKIE['csvm_redirect_message'];
+					$type    = $this->generate_message_class( sanitize_text_field( wp_unslash( $_COOKIE['csvm_redirect_type'] ) ) );
+					$message = sanitize_text_field( wp_unslash( $_COOKIE['csvm_redirect_message'] ) );
 
 					$this->show_redirect_message( $type, $message );
 				}
@@ -76,16 +87,16 @@ if ( ! class_exists( 'CSVM_View' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $type
-		 * @param string $message
+		 * @param string $type The type of the message.
+		 * @param string $message The message.
 		 *
 		 * @return void
 		 */
 		private function show_redirect_message( string $type, string $message ): void {
 			?>
 			<div class="csvm-message-container">
-				<div class="csvm-notice <?php echo $type; ?>">
-					<p><?php echo $message; ?></p>
+				<div class="csvm-notice <?php echo esc_attr( $type ); ?>">
+					<p><?php echo esc_html( $message ); ?></p>
 				</div>
 			</div>
 
@@ -101,7 +112,7 @@ if ( ! class_exists( 'CSVM_View' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $type
+		 * @param string $type The type of message.
 		 *
 		 * @return string
 		 */

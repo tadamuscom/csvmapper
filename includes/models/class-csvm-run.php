@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Run model
  *
@@ -8,12 +7,13 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Run' ) ) {
-
 	/**
+	 * Run model
+	 *
 	 * @property string $id
 	 * @property string $import_id
 	 * @property CSVM_Import $import
@@ -23,7 +23,6 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 	 * @property numeric $last_row
 	 */
 	class CSVM_Run extends CSVM_Base_Model {
-
 		/**
 		 * The waiting status of the model
 		 *
@@ -81,7 +80,7 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $status
+		 * @param string $status The status name.
 		 *
 		 * @return array
 		 */
@@ -90,8 +89,7 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 
 			$returnable = array();
 			$obj        = new self();
-			$sql        = 'SELECT * FROM ' . $wpdb->prefix . 'options WHERE option_name LIKE "' . $obj->option_prefix . '-%"';
-			$results    = $wpdb->get_results( $sql );
+			$results    = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s WHERE option_name LIKE %s', $wpdb->prefix . 'options', $obj->option_prefix . '-%' ) );
 
 			if ( empty( $results ) ) {
 				return $results;
@@ -106,7 +104,7 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 
 				$run_obj = new self( $data['id'] );
 
-				if ( $run_obj->status === $status ) {
+				if ( $status === $run_obj->status ) {
 					$returnable[] = $run_obj;
 				}
 			}
@@ -114,6 +112,14 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 			return $returnable;
 		}
 
+		/**
+		 * Create the model
+		 *
+		 * @since 1.0
+		 *
+		 * @param bool|string $id The id of the database row.
+		 * @return void
+		 */
 		public function __construct( bool|string $id = false ) {
 			parent::__construct( $id );
 		}

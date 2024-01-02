@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Partial for the layout
  *
@@ -9,10 +8,10 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly
+} // Exit if accessed directly.
 
 ?>
-<h2><?php echo __( 'Step 2 - Import Mapping', 'csvmapper' ); ?></h2>
+<h2><?php echo esc_html__( 'Step 2 - Import Mapping', 'csvmapper' ); ?></h2>
 <?php
 switch ( $import->type ) {
 	case 'posts':

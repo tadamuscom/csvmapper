@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The settings component of the main settings view
  *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Automatically include all the required files of the plugin
  *
@@ -8,10 +7,13 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Includer' ) ) {
+	/**
+	 * Automatically include all the required files of the plugin
+	 */
 	class CSVM_Includer {
 
 		/**
@@ -39,11 +41,11 @@ if ( ! class_exists( 'CSVM_Includer' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param $dir
+		 * @param string $dir The path of the directory.
 		 *
 		 * @return void
 		 */
-		private function require_child_files_once( $dir ): void {
+		private function require_child_files_once( string $dir ): void {
 			foreach ( $this->get_files( $dir ) as $file ) {
 				include_once $file;
 			}
@@ -54,11 +56,11 @@ if ( ! class_exists( 'CSVM_Includer' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param $dir
+		 * @param string $dir The path of the directory.
 		 *
 		 * @return array
 		 */
-		private function get_files( $dir ): array {
+		private function get_files( string $dir ): array {
 			$dir_object = new \DirectoryIterator( $dir );
 			$returnable = array();
 
@@ -71,7 +73,7 @@ if ( ! class_exists( 'CSVM_Includer' ) ) {
 					$returnable = array_merge( $returnable, $this->get_files( $dir . '/' . $file ) );
 				}
 
-				if ( $file->getExtension() != 'php' ) {
+				if ( $file->getExtension() !== 'php' ) {
 					continue;
 				}
 

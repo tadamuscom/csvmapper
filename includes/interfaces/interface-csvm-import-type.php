@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Blueprint of the imports
  *
@@ -8,7 +7,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! interface_exists( 'CSVM_Base_Import_Type' ) ) {

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHP Import
  *
@@ -8,10 +7,13 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_PHP_Import' ) ) {
+	/**
+	 * PHP Import
+	 */
 	class CSVM_PHP_Import extends CSVM_Base_Import_Type implements CSVM_Import_Type {
 
 		/**
@@ -32,6 +34,11 @@ if ( ! class_exists( 'CSVM_PHP_Import' ) ) {
 		 */
 		public CSVM_Run $run;
 
+		/**
+		 * Construct the import object
+		 *
+		 * @param CSVM_Import $import The CSVM_Import object.
+		 */
 		public function __construct( CSVM_Import $import ) {
 			$this->import = $import;
 

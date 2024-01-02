@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Parent of all models
  *
@@ -8,10 +7,13 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'CSVM_Base_Model' ) ) {
+	/**
+	 * Parent of all models
+	 */
 	abstract class CSVM_Base_Model {
 
 		/**
@@ -41,6 +43,13 @@ if ( ! class_exists( 'CSVM_Base_Model' ) ) {
 		 */
 		public string $id;
 
+		/**
+		 * Construct the model class either based on ID or create a blank model if no id was provided
+		 *
+		 * @since 1.0
+		 *
+		 * @param string|bool $id The id of the database row.
+		 */
 		public function __construct( string|bool $id = false ) {
 			if ( $id ) {
 				$this->id = $id;
@@ -81,7 +90,7 @@ if ( ! class_exists( 'CSVM_Base_Model' ) ) {
 			foreach ( $this->fields as $field => $options ) {
 				$array_options = explode( '|', $options );
 
-				if ( ! empty( $this->{$field} ) && ! is_array( $this->{$field} ) && ! in_array( 'array', $array_options ) ) {
+				if ( ! empty( $this->{$field} ) && ! is_array( $this->{$field} ) && ! in_array( 'array', $array_options, true ) ) {
 					$validator = new CSVM_Validator( $field, $this->{$field}, $options );
 
 					if ( ! $validator->result() ) {
@@ -111,7 +120,7 @@ if ( ! class_exists( 'CSVM_Base_Model' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $data
+		 * @param string $data The data that will be populated to the model.
 		 *
 		 * @return void
 		 */
@@ -138,7 +147,7 @@ if ( ! class_exists( 'CSVM_Base_Model' ) ) {
 			foreach ( $this->fields as $field => $options ) {
 				$options = explode( '|', $options );
 
-				if ( in_array( 'required', $options ) ) {
+				if ( in_array( 'required', $options, true ) ) {
 					$data[ $field ] = $this->{$field};
 					continue;
 				}
@@ -159,7 +168,9 @@ if ( ! class_exists( 'CSVM_Base_Model' ) ) {
 		 * @return void
 		 */
 		protected function load(): void {
-			if ( $import = $this->retrieve() ) {
+			$import = $this->retrieve();
+
+			if ( $import ) {
 				$this->populate( $import );
 			} else {
 				$this->new();

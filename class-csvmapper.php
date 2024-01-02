@@ -1,25 +1,41 @@
 <?php
-/*
-Plugin Name: CSV Mapper
-Description: Allows you to add posts, WooCommerce Products, Pages, and all kinds of data from CSV files to your website.
-Plugin URI: https://csvmapper.io
-Version: 1.0
-Requires at least: 5.2
-Author: Tadamus
-Author URI: https://tadamus.com/
-License: GPLv2
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: csvmapper
+/**
+ * Plugin Name: CSV Mapper
+ * Description: Allows you to add posts, WooCommerce Products, Pages, and all kinds of data from CSV files to your website.
+ * Plugin URI: https://csvmapper.io
+ * Version: 1.0
+ * Requires at least: 5.2
+ * Author: Tadamus
+ * Author URI: https://tadamus.com/
+ * License: GPLv2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: csvmapper
+ *
+ * @package csvmapper
  */
 
 if ( ! defined( 'CSVM_VERSION_NUMBER' ) ) {
 	define( 'CSVM_VERSION_NUMBER', 1.0 );
 }
 
+/**
+ * Initiate the plugin
+ */
 final class CSVMapper {
-
+	/**
+	 * The only instance of the plugin class
+	 *
+	 * @var $instance
+	 */
 	private static $instance;
 
+	/**
+	 * Generate the plugin instance
+	 *
+	 * @since 1.0
+	 *
+	 * @return CSVMapper
+	 */
 	public static function instance(): CSVMapper {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CSVMapper ) ) {
 			self::$instance = new CSVMapper();
@@ -39,8 +55,8 @@ final class CSVMapper {
 	 * @return void
 	 */
 	public function __clone() {
-		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheating huh?', 'csvmapper' ), '1.6' );
+		// Cloning instances of the class is forbidden.
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheating huh?', 'csvmapper' ), '1.0' );
 	}
 
 	/**
@@ -51,8 +67,8 @@ final class CSVMapper {
 	 * @return void
 	 */
 	public function __wakeup() {
-		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheating huh?', 'csvmapper' ), '1.6' );
+		// Unserializing instances of the class is forbidden.
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheating huh?', 'csvmapper' ), '1.0' );
 	}
 
 	/**
@@ -145,11 +161,4 @@ final class CSVMapper {
 	}
 }
 
-if ( ! function_exists( 'csvmapper' ) ) {
-	function csvmapper(): CSVMapper {
-		return CSVMapper::instance();
-	}
-
-	// Turn on the plugin
-	csvmapper();
-}
+CSVMapper::instance();
