@@ -4,7 +4,7 @@
  * Description: Allows you to add posts, WooCommerce Products, Pages, and all kinds of data from CSV files to your website.
  * Plugin URI: https://csvmapper.io
  * Version: 1.0
- * Requires at least: 5.2
+ * Requires at least: 6.2
  * Author: Tadamus
  * Author URI: https://tadamus.com/
  * License: GPLv2

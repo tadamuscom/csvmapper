@@ -14,19 +14,6 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 
 	/**
 	 * Import model
-	 *
-	 * @property mixed|string           $file_path      required
-	 * @property integer|mixed|string   $id             required
-	 * @property mixed|string           $file_url       required
-	 * @property array|false            $headers        required
-	 * @property string                 $type           required
-	 * @property array                  $template
-	 * @property array                  $ids
-	 * @property string                 $table
-	 * @property string                 $post_type
-	 * @property integer                $total_rows
-	 * @property integer                $number_of_rows
-	 * @property array                  $runs
 	 */
 	class CSVM_Import extends CSVM_Base_Model {
 
@@ -60,6 +47,91 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 			'number_of_rows' => 'integer',
 			'runs'           => 'array',
 		);
+
+		/**
+		 * ID
+		 *
+		 * @var string
+		 */
+		public string $id;
+
+		/**
+		 * File Path
+		 *
+		 * @var string
+		 */
+		public string $file_path;
+
+		/**
+		 * File URL
+		 *
+		 * @var string
+		 */
+		public string $file_url;
+
+		/**
+		 * Headers
+		 *
+		 * @var array
+		 */
+		public array $headers;
+
+		/**
+		 * Type
+		 *
+		 * @var string
+		 */
+		public string $type;
+
+		/**
+		 * Target IDs
+		 *
+		 * @var array
+		 */
+		public array $ids;
+
+		/**
+		 * Table
+		 *
+		 * @var string
+		 */
+		public string $table;
+
+		/**
+		 * Post Type
+		 *
+		 * @var string
+		 */
+		public string $post_type;
+
+		/**
+		 * Total Rows
+		 *
+		 * @var int|string
+		 */
+		public int|string $total_rows;
+
+		/**
+		 * Number of Rows
+		 *
+		 * @var int
+		 */
+		public int $number_of_rows;
+
+		/**
+		 * Runs
+		 *
+		 * @var array
+		 */
+		public array $runs;
+
+		/**
+		 * Template
+		 *
+		 * @var array|string
+		 */
+		public array|string $template;
+
 		/**
 		 * Holds the allowed types of import
 		 *
@@ -178,7 +250,7 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		public function get_db_table_columns( string $table_name ): array {
 			global $wpdb;
 
-			$result  = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %s;', $wpdb->prefix ) );
+			$result  = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %i;', $wpdb->prefix . $table_name ), 'ARRAY_A' );
 			$columns = array();
 
 			foreach ( $result as $column ) {

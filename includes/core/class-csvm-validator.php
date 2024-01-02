@@ -179,7 +179,7 @@ if ( ! class_exists( 'CSVM_Validator' ) ) {
 		 * @return void
 		 */
 		private function required( mixed $value ): void {
-			if ( 0 !== $value ) {
+			if ( 0 != $value ) {
 				if ( empty( $value ) ) {
 					$this->trigger_error( 'is required' );
 				}

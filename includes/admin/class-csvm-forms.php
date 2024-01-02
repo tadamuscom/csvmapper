@@ -151,7 +151,7 @@ if ( ! class_exists( 'CSVM_Forms' ) ) {
 					if ( str_contains( $key, 'value-' ) ) {
 						$new_key = substr( $key, 6 );
 
-						if ( empty( $post ) && 0 !== $post ) {
+						if ( empty( $post ) && 0 != $post ) {
 								$post = ' ';
 						}
 
@@ -496,7 +496,7 @@ if ( ! class_exists( 'CSVM_Forms' ) ) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . $import->table;
-			$columns    = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %s;', $table_name ), 'ARRAY_A' );
+			$columns    = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %i;', $table_name ), 'ARRAY_A' );
 
 			$validator = new CSVM_Table_Validator( $columns, $fields );
 

@@ -76,6 +76,48 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 		);
 
 		/**
+		 * ID
+		 *
+		 * @var string
+		 */
+		public string $id;
+
+		/**
+		 * Import ID
+		 *
+		 * @var string
+		 */
+		public string $import_id;
+
+		/**
+		 * File Path
+		 *
+		 * @var string
+		 */
+		public string $file_path;
+
+		/**
+		 * Type
+		 *
+		 * @var string
+		 */
+		public string $type;
+
+		/**
+		 * Status
+		 *
+		 * @var string
+		 */
+		public string $status;
+
+		/**
+		 * Last Row
+		 *
+		 * @var int|string
+		 */
+		public int|string $last_row;
+
+		/**
 		 * Retrieve all objects based on status
 		 *
 		 * @since 1.0

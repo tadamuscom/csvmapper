@@ -65,7 +65,7 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . $table;
-			$columns    = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %s;', $table_name ), 'ARRAY_A' );
+			$columns    = $wpdb->get_results( $wpdb->prepare( 'DESCRIBE %i;', $table_name ), 'ARRAY_A' );
 
 			foreach ( $columns as $column ) {
 				if ( $column['Field'] === $field && ! empty( $column['Default'] ) ) {
@@ -144,11 +144,11 @@ if ( ! class_exists( 'CSVM_Table_Validator' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param object $column The column name.
+		 * @param array $column The column name.
 		 *
 		 * @return void
 		 */
-		private function validate_column( object $column ): void {
+		private function validate_column( array $column ): void {
 			$data_types = array(
 				'char'       => 'string',
 				'varchar'    => 'string',

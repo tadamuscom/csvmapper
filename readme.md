@@ -1,7 +1,7 @@
 === CSVMapper ===
 Contributors: tadamuscom
 Tags: csvmapper, csv mapping, create posts with csv, add data to custom tables from csv
-Requires at least: 5.2
+Requires at least: 6.2
 Tested up to: 6.4
 Requires PHP: 8.0
 License: GPLv2
