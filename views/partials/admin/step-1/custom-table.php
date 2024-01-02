@@ -1,7 +1,18 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+
+/**
+ * Partial for the custom table option
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly ?>
-<?php global $wpdb; ?>
+} // Exit if accessed directly
+
+global $wpdb;
+?>
 <div class="csvm-d-none" id="csvm-custom-table-wrap">
 	<div class="csvm-form-group">
 		<label for="csvm-custom-table"><?php echo __( 'Database Table', 'csvmapper' ); ?></label>

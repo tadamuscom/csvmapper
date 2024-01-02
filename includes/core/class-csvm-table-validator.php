@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Validate the table columns from the MySQL database
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

@@ -1,11 +1,18 @@
 <?php
 
+/**
+ * Partial for the table map
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-	$headers = $import->get_headers();
-	$columns = $import->get_db_table_columns( $import->table );
+$headers = $import->get_headers();
+$columns = $import->get_db_table_columns( $import->table );
 ?>
 
 <div class="csvm-table-map-wrap">

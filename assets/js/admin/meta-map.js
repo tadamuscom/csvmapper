@@ -1,11 +1,11 @@
 document.addEventListener( 'DOMContentLoaded', () => {
-    const boxesWrap = document.getElementById( 'csvm-meta-boxes' );
-    const plusSign = document.getElementById( 'csvm-controls-plus' );
-    const minusSign = document.getElementById( 'csvm-controls-minus' );
-    const headersElement = document.getElementById( 'csvm-headers-list' );
-    const headersSlugElement = document.getElementById( 'csvm-headers-slug-list' );
-    const headers = JSON.parse( headersElement.value );
-    const headersSlug = JSON.parse( headersSlugElement.value );
+    const boxesWrap             = document.getElementById( 'csvm-meta-boxes' );
+    const plusSign              = document.getElementById( 'csvm-controls-plus' );
+    const minusSign             = document.getElementById( 'csvm-controls-minus' );
+    const headersElement        = document.getElementById( 'csvm-headers-list' );
+    const headersSlugElement    = document.getElementById( 'csvm-headers-slug-list' );
+    const headers               = JSON.parse( headersElement.value );
+    const headersSlug           = JSON.parse( headersSlugElement.value );
 
     let boxesCount = 0;
 

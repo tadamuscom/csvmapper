@@ -1,6 +1,17 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+
+/**
+ * Partial for the layout
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly ?>
+} // Exit if accessed directly
+
+?>
 <h2><?php echo __( 'Step 2 - Import Mapping', 'csvmapper' ); ?></h2>
 <?php
 switch ( $import->type ) {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Validate the provided data
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

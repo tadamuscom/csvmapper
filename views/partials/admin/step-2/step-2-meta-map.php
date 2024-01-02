@@ -1,6 +1,17 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+
+/**
+ * Partial for the meta map
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly ?>
+} // Exit if accessed directly
+
+?>
 <div class="csvm-meta-map-wrap">
 	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
 		<input type="hidden" name="import_id" value="<?php echo esc_attr( $import->id ); ?>">

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * PHP Import
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

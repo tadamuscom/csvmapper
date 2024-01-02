@@ -1,6 +1,17 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+
+/**
+ * Partial for the layout
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly ?>
+} // Exit if accessed directly
+
+?>
 <h2><?php __( 'Step 1 - Import Selection', 'csvmapper' ); ?></h2>
 <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="action" value="csvm-file-upload">

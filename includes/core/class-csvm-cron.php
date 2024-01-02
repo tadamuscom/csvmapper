@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Add and configure WP Cron tasks
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

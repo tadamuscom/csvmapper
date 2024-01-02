@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Small functionalities that could not have their own classes
+ *
+ * @package csvmapper
+ * @author Tadamus <hello@tadamus.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

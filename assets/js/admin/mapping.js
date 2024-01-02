@@ -1,10 +1,10 @@
 document.addEventListener( 'DOMContentLoaded', () => {
     const listSelectors = document.querySelectorAll( '.csvm-open-field-list' );
-    const listItems = document.querySelectorAll( '.csvm-field-list-link' );
+    const listItems     = document.querySelectorAll( '.csvm-field-list-link' );
 
     const handleNewBoxes = () => {
-        const newSelectors = document.querySelectorAll( '.csvm-open-field-list' );
-        const newLists = document.querySelectorAll( '.csvm-field-list-link' );
+        const newSelectors  = document.querySelectorAll( '.csvm-open-field-list' );
+        const newLists      = document.querySelectorAll( '.csvm-field-list-link' );
 
         newSelectors.forEach( (element) => {
             const newElement = element.cloneNode( true );
@@ -17,8 +17,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
         newLists.forEach( ( element ) => {
             element.addEventListener( 'click', () => {
-                const group = element.getAttribute( 'group' );
-                const mappingValue = element.getAttribute( 'mapping-value' );
+                const group         = element.getAttribute( 'group' );
+                const mappingValue  = element.getAttribute( 'mapping-value' );
 
                 const field = document.getElementById( group );
 
@@ -30,14 +30,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
     }
 
     const handleSelectors = ( element ) => {
-            const group = element.getAttribute( 'group' );
-            const list = document.querySelector( '#csvm-field-list-' + group );
+        const group = element.getAttribute( 'group' );
+        const list = document.querySelector( '#csvm-field-list-' + group );
 
-            list.classList.toggle( 'csvm-d-none' );
+        list.classList.toggle( 'csvm-d-none' );
     }
 
     window.addEventListener( 'csvm-box-created', handleNewBoxes );
-
     window.addEventListener( 'csvm-box-removed', handleNewBoxes);
 
     if( listSelectors || listItems ){
