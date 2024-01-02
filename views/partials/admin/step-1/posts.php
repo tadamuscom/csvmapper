@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<label for="csvm-post-type"><?php echo __( 'Post Type', 'csvmapper' ); ?></label>
 		<select name="csvm-post-type" id="csvm-post-type">
 			<?php foreach ( get_post_types() as $post_type ) : ?>
-				<option value="<?php echo $post_type; ?>"><?php echo $post_type; ?></option>
+				<option value="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $post_type ); ?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>

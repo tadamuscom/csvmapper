@@ -18,7 +18,7 @@ global $wpdb;
 		<label for="csvm-custom-table"><?php echo __( 'Database Table', 'csvmapper' ); ?></label>
 		<select name="csvm-custom-table" id="csvm-custom-table">
 			<?php foreach ( $wpdb->tables as $table ) : ?>
-				<option value="<?php echo $table; ?>"><?php echo $table; ?></option>
+				<option value="<?php echo esc_attr( $table ); ?>"><?php echo esc_html( $table ); ?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>

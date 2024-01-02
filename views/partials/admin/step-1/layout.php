@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			foreach ( CSVM_Import::$allowed_types as $type ) :
 				?>
-				<option value="<?php echo csvm_convert_to_slug( $type ); ?>"><?php echo $type; ?></option>
+				<option value="<?php echo esc_attr( csvm_convert_to_slug( $type ) ); ?>"><?php echo esc_html( $type ); ?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>
