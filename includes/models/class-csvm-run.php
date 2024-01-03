@@ -113,9 +113,9 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 		/**
 		 * Last Row
 		 *
-		 * @var int|string
+		 * @var mixed
 		 */
-		public int|string $last_row;
+		public mixed $last_row;
 
 		/**
 		 * Retrieve all objects based on status

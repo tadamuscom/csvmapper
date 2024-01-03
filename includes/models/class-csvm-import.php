@@ -107,9 +107,9 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		/**
 		 * Total Rows
 		 *
-		 * @var int|string
+		 * @var mixed
 		 */
-		public int|string $total_rows;
+		public mixed $total_rows;
 
 		/**
 		 * Number of Rows
@@ -128,9 +128,9 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		/**
 		 * Template
 		 *
-		 * @var array|string
+		 * @var mixed
 		 */
-		public array|string $template;
+		public mixed $template;
 
 		/**
 		 * Holds the allowed types of import
