@@ -1,5 +1,5 @@
 === CSVMapper ===
-Contributors: tadamuscom
+Contributors: tadamuscom, sorinmarta
 Tags: csvmapper, csv mapping, create posts with csv, add data to custom tables from csv
 Requires at least: 6.2
 Tested up to: 6.4
