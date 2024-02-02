@@ -18,8 +18,8 @@ You can add data through the upload wizard which doesn't require any programming
 You can simply map the fields to their CSV columns and press submit.
 
 == Installation ==
-1 - Install the plugin from the WordPress repository
+1 - Install the plugin from the WordPress repository.
 
-2 - Click on CSVMapper in the left sidebar of your site
+2 - Click on CSVMapper in the left sidebar of your site.
 
 3 - Start your import :)
