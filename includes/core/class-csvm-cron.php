@@ -21,6 +21,8 @@ if ( ! class_exists( 'CSVM_Cron' ) ) {
 		public function __construct() {
 			if ( 'true' === get_option( 'csvm_enable_cron_task' ) ) {
 				add_action( 'csvm_import_lookout', array( $this, 'lookout_callback' ) );
+
+				// phpcs:ignore
 				add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
 				if ( ! wp_next_scheduled( 'csvm_import_lookout' ) ) {
@@ -72,7 +74,7 @@ if ( ! class_exists( 'CSVM_Cron' ) ) {
 		public function cron_schedules( array $schedules ): array {
 			$schedules['csvm_cron_interval'] = array(
 				'interval' => get_option( 'csvm_cron_interval' ),
-				'display'  => esc_html__( 'CSVMapper Custom Cron Interval' ),
+				'display'  => esc_html__( 'CSVMapper Custom Cron Interval', 'csvmapper' ),
 				'csvmapper',
 			);
 

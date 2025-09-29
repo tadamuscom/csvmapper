@@ -57,6 +57,8 @@ if ( ! class_exists( 'CSVM_Generator' ) ) {
 			if ( in_array( 'numeric', $this->options, true ) ) {
 				return 0;
 			}
+
+			return '';
 		}
 	}
 }

@@ -138,10 +138,10 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 			}
 
 			foreach ( $results as $run ) {
-				$data = unserialize( $run->option_value );
+				$data = unserialize( $run->option_value ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
 
 				if ( is_string( $data ) ) {
-					$data = unserialize( $data );
+					$data = unserialize( $data ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
 				}
 
 				$run_obj = new self( $data['id'] );
@@ -155,18 +155,6 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 		}
 
 		/**
-		 * Create the model
-		 *
-		 * @since 1.0
-		 *
-		 * @param bool|string $id The id of the database row.
-		 * @return void
-		 */
-		public function __construct( bool|string $id = false ) {
-			parent::__construct( $id );
-		}
-
-		/**
 		 * Adds the run ID if it isn't set already
 		 *
 		 * @since 1.0
@@ -177,7 +165,7 @@ if ( ! class_exists( 'CSVM_Run' ) ) {
 			$import = new CSVM_Import( $this->import_id );
 
 			if ( empty( $this->id ) ) {
-				$this->id = $this->import_id . '-' . $import->run_count() + 1;
+				$this->id = $this->import_id . '-' . ( $import->run_count() + 1 );
 			}
 
 			$import->runs[] = $this->id;

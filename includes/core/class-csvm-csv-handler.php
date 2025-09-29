@@ -85,6 +85,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		 * @return void
 		 */
 		public function start( string|bool $start = false, string|bool $limit = false ): void {
+			// phpcs:ignore
 			$this->file = fopen( $this->import->file_path, 'r' );
 
 			if ( ! $this->file ) {
@@ -99,6 +100,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 				$this->partial_run( $start, $limit );
 			}
 
+			// phpcs:ignore
 			fclose( $this->file );
 		}
 
@@ -162,6 +164,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		private function process_file(): void {
 			$index = 0;
 
+			// phpcs:ignore
 			while ( ( $row = fgetcsv( $this->file ) ) !== false ) {
 				if ( 0 === $index ) {
 					$this->buffer['headers'] = $row;
@@ -190,6 +193,7 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 			$index      = 0;
 			$file_index = $start;
 
+			// phpcs:ignore
 			while ( ( $row = $file_obj->fgetcsv() ) !== false ) {
 				if ( $index > $limit ) {
 					break;
@@ -276,22 +280,22 @@ if ( ! class_exists( 'CSVM_CSV_Handler' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $string The string that should be formatted.
+		 * @param string $value The string that should be formatted.
 		 *
 		 * @return string
 		 */
-		private function format_headers( string $string ): string {
-			$string = strtolower( $string );
+		private function format_headers( string $value ): string {
+			$value = strtolower( $value );
 
 			foreach ( $this->buffer['headers'] as $key => $header ) {
 				$formatted_header = csvm_convert_to_slug( strtolower( '{' . $header . '}' ) );
 
-				if ( str_contains( $string, $formatted_header ) ) {
-					$string = str_replace( $formatted_header, $this->row[ $key ], $string );
+				if ( str_contains( $value, $formatted_header ) ) {
+					$value = str_replace( $formatted_header, $this->row[ $key ], $value );
 				}
 			}
 
-			return $string;
+			return $value;
 		}
 	}
 }

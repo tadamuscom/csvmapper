@@ -125,7 +125,7 @@ if ( ! class_exists( 'CSVM_Base_Model' ) ) {
 		 * @return void
 		 */
 		private function populate( string $data ): void {
-			$import = unserialize( $data );
+			$import = unserialize( $data ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
 
 			foreach ( $this->get_field_names() as $field ) {
 				if ( ! empty( $import[ $field ] ) ) {
@@ -157,7 +157,7 @@ if ( ! class_exists( 'CSVM_Base_Model' ) ) {
 				}
 			}
 
-			return serialize( $data );
+			return serialize( $data ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 		}
 
 		/**

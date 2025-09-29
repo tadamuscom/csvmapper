@@ -53,6 +53,7 @@ if ( ! class_exists( 'CSVM_Helper' ) ) {
 				die();
 			}
 
+			// phpcs:ignore
 			wp_redirect( $url );
 			die();
 		}
@@ -62,14 +63,14 @@ if ( ! class_exists( 'CSVM_Helper' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $string The string that should be converted to slug.
+		 * @param string $value The string that should be converted to slug.
 		 *
 		 * @return string
 		 */
-		public static function convert_to_slug( string $string ): string {
-			$string = strtolower( $string );
+		public static function convert_to_slug( string $value ): string {
+			$value = strtolower( $value );
 
-			return str_replace( ' ', '-', $string );
+			return str_replace( ' ', '-', $value );
 		}
 	}
 }

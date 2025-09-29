@@ -1,0 +1,30 @@
+{
+	"name": "sorinmarta/csvmapper",
+	"description": "CSVMapper allows you to insert data from CSV files into your WordPress site. You can create posts, add user meta, add post meta, or even add data to database tables directly.",
+	"type": "project",
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.11",
+		"wp-coding-standards/wpcs": "^3.1",
+		"digitalrevolution/php-codesniffer-baseline": "^1.1",
+		"php-stubs/wordpress-stubs": "^6.6",
+		"phpcompatibility/phpcompatibility-wp": "*",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+	},
+	"scripts": {
+		"phpcs": "./vendor/bin/phpcs --standard=phpcs.xml",
+		"phpcbf": "./vendor/bin/phpcbf --standard=phpcs.xml"
+	},
+	"license": "GPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Sorin Marta",
+			"email": "me@sorin.xyz"
+		}
+	],
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"digitalrevolution/php-codesniffer-baseline": true
+		}
+	}
+}

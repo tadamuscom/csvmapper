@@ -45,11 +45,11 @@ if ( ! function_exists( 'csvm_convert_to_slug' ) ) {
 	 *
 	 * @since 1.0
 	 *
-	 * @param string $string The string that should be converted to slug.
+	 * @param string $value The string that should be converted to slug.
 	 *
 	 * @return string
 	 */
-	function csvm_convert_to_slug( string $string ): string {
-		return CSVM_Helper::convert_to_slug( $string );
+	function csvm_convert_to_slug( string $value ): string {
+		return CSVM_Helper::convert_to_slug( $value );
 	}
 }

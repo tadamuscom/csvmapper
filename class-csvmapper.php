@@ -18,9 +18,7 @@ if ( ! defined( 'CSVM_VERSION_NUMBER' ) ) {
 	define( 'CSVM_VERSION_NUMBER', 1.0 );
 }
 
-/**
- * Initiate the plugin
- */
+// phpcs:ignore
 final class CSVMapper {
 	/**
 	 * The only instance of the plugin class

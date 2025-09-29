@@ -151,7 +151,7 @@ if ( ! class_exists( 'CSVM_Forms' ) ) {
 					if ( str_contains( $key, 'value-' ) ) {
 						$new_key = substr( $key, 6 );
 
-						if ( empty( $post ) && 0 != $post ) {
+						if ( empty( $post ) && 0 !== $post ) {
 								$post = ' ';
 						}
 
@@ -237,7 +237,7 @@ if ( ! class_exists( 'CSVM_Forms' ) ) {
 				$import = new CSVM_Import( $import_id );
 
 				if ( empty( $_POST['csvm-execution-type'] ) ) {
-					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select execution type' ) );
+					csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'Please select execution type', 'csvmapper' ) );
 				}
 
 				match ( $_POST['csvm-execution-type'] ) {
@@ -463,7 +463,7 @@ if ( ! class_exists( 'CSVM_Forms' ) ) {
 			$run->execute();
 
 			if ( $run->is_complete() ) {
-				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'success', __( 'The import has been completed' ) );
+				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ), 'success', __( 'The import has been completed', 'csvmapper' ) );
 			} else {
 				csvm_redirect( admin_url( 'admin.php?page=csvmapper' ) . '&step=3&import_id=' . $import->id, 'error', __( 'There was a problem with the import', 'csvmapper' ) );
 			}

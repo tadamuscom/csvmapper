@@ -147,19 +147,6 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 		);
 
 		/**
-		 * Constructs a new Import object if the there isn't one already with the same ID
-		 *
-		 * @since 1.0
-		 *
-		 * @param string|bool $id The ID of the import.
-		 *
-		 * @return void
-		 */
-		public function __construct( string|bool $id = false ) {
-			parent::__construct( $id );
-		}
-
-		/**
 		 * Generates a new Import object based on the given file parameters
 		 *
 		 * @since 1.0
@@ -173,8 +160,11 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 			$this->file_path = $file['file'];
 			$this->file_url  = $file['url'];
 
+			// phpcs:ignore
 			$file = fopen( $this->file_path, 'r' );
 			$csv  = fgetcsv( $file );
+
+			// phpcs:ignore
 			fclose( $file );
 
 			$this->headers = $csv;
@@ -218,7 +208,7 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 				$returnable[] = csvm_convert_to_slug( $header );
 			}
 
-			return json_encode( $returnable );
+			return wp_json_encode( $returnable );
 		}
 
 		/**
@@ -235,7 +225,7 @@ if ( ! class_exists( 'CSVM_Import' ) ) {
 				$returnable[] = $header;
 			}
 
-			return json_encode( $returnable );
+			return wp_json_encode( $returnable );
 		}
 
 		/**

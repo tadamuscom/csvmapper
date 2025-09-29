@@ -14,6 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Parent of all imports
  */
 abstract class CSVM_Base_Import_Type {
+	/**
+	 * The CSVM_Run instance
+	 *
+	 * @since 1.0
+	 *
+	 * @var CSVM_Run
+	 */
+	private CSVM_Run $run;
 
 	/**
 	 * Checks if the import has been completed
